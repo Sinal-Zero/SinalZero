@@ -61,10 +61,7 @@ const SERVICES = [
 
 export function Services() {
   return (
-    <section
-      id="servicos"
-      className="relative border-y border-border bg-surface/40 py-24 sm:py-28"
-    >
+    <section id="servicos" className="relative border-y border-border bg-surface/40 py-24 sm:py-28">
       <div className="mx-auto max-w-6xl px-5 sm:px-8">
         <SectionTitle eyebrow="Serviços" title="O que a SinalZero entrega." />
 
@@ -112,10 +109,7 @@ const STEPS = [
 export function Process() {
   return (
     <section id="processo" className="mx-auto max-w-6xl px-5 py-24 sm:px-8 sm:py-28">
-      <SectionTitle
-        eyebrow="Processo"
-        title="Da descoberta ao contato, em quatro passos."
-      />
+      <SectionTitle eyebrow="Processo" title="Da descoberta ao contato, em quatro passos." />
 
       <ol className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
         {STEPS.map((item, i) => (

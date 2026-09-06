@@ -15,7 +15,7 @@ import { ScrollReveal } from "./ScrollReveal";
 
 function SectionTitle({ title, description }: { title: string; description?: string }) {
   return (
-    <div className="max-w-2xl">
+    <div className="mx-auto max-w-2xl text-center">
       <h2 className="text-balance font-display text-3xl font-semibold sm:text-4xl">
         <BlurText as="span" text={title} delay={45} stepDuration={0.325} />
       </h2>
@@ -62,17 +62,17 @@ const CLIENT_PAINS = [
 export function ClientPains() {
   return (
     <section className="relative border-y border-border bg-surface/40 py-20 sm:py-24">
-      <div className="mx-auto max-w-6xl px-5 sm:px-8">
+      <div className="mx-auto max-w-6xl px-5 text-center sm:px-8">
         <SectionTitle
           title="O problema não é falta de clientes. É excesso de ruído."
           description="A SinalZero existe para encurtar a distância entre quem precisa do que você vende e o momento certo de iniciar uma conversa."
         />
 
-        <ul className="grid-rise mt-12 grid gap-5 md:grid-cols-3">
+        <ul className="grid-rise mx-auto mt-12 grid max-w-5xl gap-5 md:grid-cols-3">
           {CLIENT_PAINS.map((item, i) => (
             <Reveal as="li" key={item.title} delay={i * 70}>
-              <article className="interactive-panel h-full rounded-lg border border-border bg-card/70 p-7">
-                <item.icon className="h-6 w-6 text-ember" aria-hidden="true" />
+              <article className="interactive-panel h-full rounded-lg border border-border bg-card/70 p-7 text-center">
+                <item.icon className="mx-auto h-6 w-6 text-ember" aria-hidden="true" />
                 <BlurText
                   as="h3"
                   text={item.title}
@@ -113,14 +113,14 @@ const SERVICES = [
 export function Services() {
   return (
     <section id="servicos" className="relative border-y border-border bg-surface/40 py-20 sm:py-24">
-      <div className="mx-auto max-w-6xl px-5 sm:px-8">
+      <div className="mx-auto max-w-6xl px-5 text-center sm:px-8">
         <SectionTitle title="O que a SinalZero entrega." />
 
-        <ul className="grid-rise mt-12 grid gap-5 md:grid-cols-3">
+        <ul className="grid-rise mx-auto mt-12 grid max-w-5xl gap-5 md:grid-cols-3">
           {SERVICES.map((service, i) => (
             <Reveal as="li" key={service.title} delay={i * 70}>
-              <article className="interactive-panel group h-full rounded-lg border border-border bg-card/70 p-7">
-                <span className="inline-flex h-11 w-11 items-center justify-center rounded-md bg-primary/15 text-accent transition-colors duration-300 group-hover:bg-primary/25">
+              <article className="interactive-panel group h-full rounded-lg border border-border bg-card/70 p-7 text-center">
+                <span className="mx-auto inline-flex h-11 w-11 items-center justify-center rounded-md bg-primary/15 text-accent transition-colors duration-300 group-hover:bg-primary/25">
                   <service.icon className="h-5 w-5" aria-hidden="true" />
                 </span>
                 <BlurText
@@ -170,10 +170,10 @@ export function Process() {
     <section id="processo" className="mx-auto max-w-6xl px-5 py-20 sm:px-8 sm:py-24">
       <SectionTitle title="Da descoberta ao contato, em quatro passos." />
 
-      <ol className="grid-rise mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+      <ol className="grid-rise mx-auto mt-12 grid max-w-5xl gap-5 text-center sm:grid-cols-2 lg:grid-cols-4">
         {STEPS.map((item, i) => (
           <Reveal as="li" key={item.step} delay={i * 60}>
-            <div className="interactive-panel relative h-full rounded-lg border border-border bg-card/50 p-6">
+            <div className="interactive-panel relative h-full rounded-lg border border-border bg-card/50 p-6 text-center">
               <span
                 className="font-display text-4xl font-semibold text-primary/35"
                 aria-hidden="true"
@@ -219,14 +219,14 @@ const DIFFERENTIALS = [
 export function Differentials() {
   return (
     <section className="relative border-y border-border bg-surface/40 py-20 sm:py-24">
-      <div className="mx-auto max-w-6xl px-5 sm:px-8">
+      <div className="mx-auto max-w-6xl px-5 text-center sm:px-8">
         <SectionTitle title="Por que a SinalZero." />
 
-        <div className="grid-rise mt-12 grid gap-10 md:grid-cols-3">
+        <div className="grid-rise mx-auto mt-12 grid max-w-5xl gap-10 md:grid-cols-3">
           {DIFFERENTIALS.map((item, i) => (
             <Reveal key={item.title} delay={i * 70}>
-              <div className="group">
-                <span className="inline-flex h-11 w-11 items-center justify-center rounded-md bg-gold/12 text-gold transition-transform duration-300 group-hover:-translate-y-0.5 motion-reduce:transition-none">
+              <div className="group text-center">
+                <span className="mx-auto inline-flex h-11 w-11 items-center justify-center rounded-md bg-gold/12 text-gold transition-transform duration-300 group-hover:-translate-y-0.5 motion-reduce:transition-none">
                   <item.icon className="h-5 w-5" aria-hidden="true" />
                 </span>
                 <BlurText
@@ -271,10 +271,10 @@ export function Solutions() {
         description="A SinalZero é uma operação nova: em vez de vitrine de cases, mostramos exatamente o que entregamos hoje."
       />
 
-      <div className="grid-rise mt-12 grid gap-5 md:grid-cols-3">
+      <div className="grid-rise mx-auto mt-12 grid max-w-5xl gap-5 text-center md:grid-cols-3">
         {SOLUTIONS.map((item, i) => (
           <Reveal key={item.title} delay={i * 70}>
-            <article className="interactive-panel group relative h-full overflow-hidden rounded-lg border border-border bg-card/60 p-7">
+            <article className="interactive-panel group relative h-full overflow-hidden rounded-lg border border-border bg-card/60 p-7 text-center">
               <span
                 aria-hidden="true"
                 className="absolute -right-16 -top-16 h-40 w-40 rounded-full bg-[radial-gradient(circle,color-mix(in_oklab,var(--color-primary)_30%,transparent),transparent_70%)] opacity-0 transition-opacity duration-500 group-hover:opacity-100"

@@ -43,7 +43,12 @@ export function Header() {
 
   return (
     <header
-      className={cn("fixed inset-x-0 top-0 z-50 border-b transition-[background-color,border-color] duration-300", scrolled || menuOpen ? "border-border bg-background/92 backdrop-blur-md" : "border-transparent bg-transparent")}
+      className={cn(
+        "fixed inset-x-0 top-0 z-50 border-b transition-[background-color,border-color] duration-300",
+        scrolled || menuOpen
+          ? "border-border bg-background/92 backdrop-blur-md"
+          : "border-transparent bg-transparent",
+      )}
     >
       <div className="mx-auto flex h-20 max-w-6xl items-center justify-between px-5 sm:px-8">
         <a href="#topo" className="group flex items-center gap-3" aria-label="SinalZero, início">
@@ -93,13 +98,19 @@ export function Header() {
         aria-label="Seções do site no celular"
         className={cn(
           "grid overflow-hidden border-t transition-[grid-template-rows,opacity,border-color] duration-300 ease-out md:hidden motion-reduce:transition-none",
-          menuOpen ? "grid-rows-[1fr] border-border opacity-100" : "pointer-events-none grid-rows-[0fr] border-transparent opacity-0",
+          menuOpen
+            ? "grid-rows-[1fr] border-border opacity-100"
+            : "pointer-events-none grid-rows-[0fr] border-transparent opacity-0",
         )}
       >
         <ul className="mx-auto flex min-h-0 w-full max-w-6xl flex-col px-5">
           {NAV.map((item) => (
             <li key={item.href} className="border-b border-border last:border-0">
-              <a href={item.href} onClick={() => setMenuOpen(false)} className="block py-4 text-sm font-medium text-foreground transition-colors hover:text-accent">
+              <a
+                href={item.href}
+                onClick={() => setMenuOpen(false)}
+                className="block py-4 text-sm font-medium text-foreground transition-colors hover:text-accent"
+              >
                 {item.label}
               </a>
             </li>

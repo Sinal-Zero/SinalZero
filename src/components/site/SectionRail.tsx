@@ -1,19 +1,93 @@
-import { useEffect, useState } from "react";
+import { AnimatePresence, motion, useMotionValue, useSpring, useTransform } from "motion/react";
+import { useEffect, useRef, useState } from "react";
+import { CircleDot, Compass, Crosshair, Radar, Send, Workflow } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useLoading } from "./LoadingWave";
 
 const SECTIONS = [
-  { href: "#topo", label: "Início" },
-  { href: "#sobre", label: "Sobre" },
-  { href: "#servicos", label: "Serviços" },
-  { href: "#processo", label: "Processo" },
-  { href: "#solucoes", label: "Soluções" },
-  { href: "#contato", label: "Contato" },
+  { href: "#topo", label: "Início", icon: Radar },
+  { href: "#sobre", label: "Sobre", icon: CircleDot },
+  { href: "#servicos", label: "Serviços", icon: Compass },
+  { href: "#processo", label: "Processo", icon: Workflow },
+  { href: "#solucoes", label: "Soluções", icon: Crosshair },
+  { href: "#contato", label: "Contato", icon: Send },
 ];
+
+type DockItemProps = {
+  href: string;
+  label: string;
+  active: boolean;
+  icon: typeof Radar;
+  mouseY: ReturnType<typeof useMotionValue<number>>;
+  showLoading: (duration?: number) => void;
+};
+
+function DockItem({ href, label, active, icon: Icon, mouseY, showLoading }: DockItemProps) {
+  const ref = useRef<HTMLAnchorElement | null>(null);
+  const hovered = useMotionValue(0);
+  const distance = 150;
+  const baseSize = 44;
+  const magnification = 64;
+
+  const mouseDistance = useTransform(mouseY, (value) => {
+    const rect = ref.current?.getBoundingClientRect() ?? { y: 0, height: baseSize };
+    return value - rect.y - baseSize / 2;
+  });
+  const targetSize = useTransform(
+    mouseDistance,
+    [-distance, 0, distance],
+    [baseSize, magnification, baseSize],
+  );
+  const size = useSpring(targetSize, { mass: 0.12, stiffness: 180, damping: 14 });
+
+  return (
+    <motion.a
+      ref={ref}
+      href={href}
+      style={{ width: size, height: size }}
+      className={cn("dock-item", active && "dock-item-active")}
+      aria-label={label}
+      aria-current={active ? "location" : undefined}
+      onMouseEnter={() => hovered.set(1)}
+      onMouseLeave={() => hovered.set(0)}
+      onFocus={() => hovered.set(1)}
+      onBlur={() => hovered.set(0)}
+      onClick={() => showLoading(700)}
+    >
+      <Icon className="dock-icon" aria-hidden="true" />
+      <AnimatePresence>
+        {active ? (
+          <motion.span
+            key="active-label"
+            initial={{ opacity: 0, x: -8 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: -8 }}
+            transition={{ duration: 0.25 }}
+            className="dock-active-label"
+          >
+            {label}
+          </motion.span>
+        ) : (
+          <motion.span
+            key="hover-label"
+            initial={{ opacity: 0, x: -8 }}
+            animate={{ opacity: hovered.get(), x: hovered.get() ? 0 : -8 }}
+            transition={{ duration: 0.2 }}
+            className="dock-label"
+            role="tooltip"
+          >
+            {label}
+          </motion.span>
+        )}
+      </AnimatePresence>
+    </motion.a>
+  );
+}
 
 export function SectionRail() {
   const [active, setActive] = useState("#topo");
   const { showLoading } = useLoading();
+  const mouseY = useMotionValue(Number.POSITIVE_INFINITY);
 
   useEffect(() => {
     const nodes = SECTIONS.map(({ href }) => document.querySelector(href)).filter(
@@ -25,14 +99,12 @@ export function SectionRail() {
     const updateActive = () => {
       const marker = window.scrollY + window.innerHeight * 0.38;
       let nextActive = "#topo";
-
       nodes.forEach((node, index) => {
         const href = SECTIONS[index]?.href;
         if (href && node.getBoundingClientRect().top + window.scrollY <= marker) {
           nextActive = href;
         }
       });
-
       setActive((current) => (current === nextActive ? current : nextActive));
     };
     const onScroll = () => {
@@ -58,32 +130,23 @@ export function SectionRail() {
       aria-label="Navegação rápida"
       className="section-rail fixed left-4 top-1/2 z-40 hidden -translate-y-1/2 lg:block xl:left-7"
     >
-      <ul className="flex flex-col gap-3">
-        {SECTIONS.map((item) => {
-          const isActive = item.href === active;
-          return (
-            <li key={item.href}>
-              <a
-                href={item.href}
-                aria-label={item.label}
-                aria-current={isActive ? "location" : undefined}
-                data-active={isActive}
-                onClick={() => showLoading(700)}
-                className={cn(
-                  "group flex items-center gap-2 rounded-md px-2 py-1 text-[10px] uppercase tracking-[0.18em] text-muted-foreground transition-[color,background-color,box-shadow,transform] duration-300 hover:-translate-y-0.5 hover:bg-surface/80 hover:text-foreground hover:shadow-[0_10px_26px_-16px_color-mix(in_oklab,var(--color-accent)_80%,transparent)]",
-                  isActive && "text-accent",
-                )}
-              >
-                <span
-                  aria-hidden="true"
-                  className="section-rail-dot h-1.5 w-1.5 rounded-full bg-current"
-                />
-                <span className="section-rail-label">{item.label}</span>
-              </a>
-            </li>
-          );
-        })}
-      </ul>
+      <motion.div
+        className="dock-outer"
+        onMouseMove={(event) => mouseY.set(event.pageY)}
+        onMouseLeave={() => mouseY.set(Number.POSITIVE_INFINITY)}
+      >
+        <motion.div className="dock-panel" role="toolbar" aria-label="Navegação do site">
+          {SECTIONS.map((item) => (
+            <DockItem
+              key={item.href}
+              {...item}
+              active={item.href === active}
+              mouseY={mouseY}
+              showLoading={showLoading}
+            />
+          ))}
+        </motion.div>
+      </motion.div>
     </nav>
   );
 }

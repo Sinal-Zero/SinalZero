@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, type ElementType, type ReactNode } from "react";
+import { useEffect, useRef, useState, type CSSProperties, type ElementType, type ReactNode } from "react";
 import { cn } from "@/lib/utils";
 
 /**
@@ -31,29 +31,36 @@ export function Reveal({
       return;
     }
 
+    let fallback = window.setTimeout(() => setVisible(true), 1400);
     const observer = new IntersectionObserver(
       (entries) => {
         for (const entry of entries) {
           if (entry.isIntersecting) {
+            window.clearTimeout(fallback);
             setVisible(true);
             observer.disconnect();
           }
         }
       },
-      { threshold: 0.15, rootMargin: "0px 0px -8% 0px" },
+      { threshold: 0.08, rootMargin: "0px 0px 6% 0px" },
     );
 
     observer.observe(node);
-    return () => observer.disconnect();
+    return () => {
+      window.clearTimeout(fallback);
+      observer.disconnect();
+    };
   }, []);
+
+  const revealStyle = { "--reveal-delay": `${Math.min(delay, 180)}ms` } as CSSProperties;
 
   return (
     <Tag
       ref={ref}
-      style={{ transitionDelay: `${delay}ms` }}
+      style={revealStyle}
+      data-reveal-state={visible ? "visible" : "pending"}
       className={cn(
-        "transition-[opacity,transform] duration-700 ease-out will-change-[opacity,transform] motion-reduce:transition-none",
-        visible ? "translate-y-0 opacity-100" : "translate-y-6 opacity-0",
+        "reveal-item",
         className,
       )}
     >

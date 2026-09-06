@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef } from "react";
 import { cn } from "@/lib/utils";
 
 /**
@@ -7,24 +7,43 @@ import { cn } from "@/lib/utils";
  * pequenas e quando o usuário prefere menos movimento.
  */
 export function RadarBackdrop({ className }: { className?: string }) {
-  const [offset, setOffset] = useState(0);
+  const rootRef = useRef<HTMLDivElement | null>(null);
+  const fieldRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
+    const root = rootRef.current;
+    const field = fieldRef.current;
+    if (!root || !field) return;
+
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const small = window.matchMedia("(max-width: 767px)").matches;
-    if (reduced || small) return;
+    if (reduced) {
+      root.dataset.active = "false";
+      return;
+    }
+
+    const visibilityObserver = new IntersectionObserver(
+      ([entry]) => {
+        root.dataset.active = entry?.isIntersecting ? "true" : "false";
+      },
+      { rootMargin: "12% 0px" },
+    );
+    visibilityObserver.observe(root);
+
+    if (small) return () => visibilityObserver.disconnect();
 
     let frame = 0;
     const onScroll = () => {
       if (frame) return;
       frame = window.requestAnimationFrame(() => {
-        setOffset(window.scrollY * 0.06);
+        field.style.setProperty("--radar-offset", `${window.scrollY * 0.035}px`);
         frame = 0;
       });
     };
 
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => {
+      visibilityObserver.disconnect();
       window.removeEventListener("scroll", onScroll);
       if (frame) window.cancelAnimationFrame(frame);
     };
@@ -32,12 +51,14 @@ export function RadarBackdrop({ className }: { className?: string }) {
 
   return (
     <div
+      ref={rootRef}
       aria-hidden="true"
+      data-active="true"
       className={cn("pointer-events-none absolute inset-0 overflow-hidden", className)}
     >
       <div
-        className="absolute left-1/2 top-1/2 aspect-square w-[min(140vw,1100px)] -translate-x-1/2 -translate-y-1/2"
-        style={{ transform: `translate(-50%, calc(-50% + ${offset}px))` }}
+        ref={fieldRef}
+        className="radar-field absolute left-1/2 top-1/2 aspect-square w-[min(140vw,1100px)]"
       >
         <div className="absolute inset-[18%] rounded-full bg-[radial-gradient(circle_at_45%_40%,color-mix(in_oklab,var(--color-gold)_38%,transparent),transparent_62%)] blur-3xl" />
 

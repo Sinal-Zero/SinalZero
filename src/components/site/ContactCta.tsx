@@ -1,11 +1,12 @@
 import { ArrowUpRight } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import { Reveal } from "./Reveal";
 import { RadarBackdrop } from "./RadarBackdrop";
 import { LINKTREE_URL } from "./constants";
 
 export function ContactCta() {
   return (
-    <section id="contato" className="relative overflow-hidden border-t border-border py-28">
+    <section id="contato" className="relative overflow-hidden border-t border-border py-24 sm:py-28">
       <RadarBackdrop className="opacity-60" />
 
       <div className="relative mx-auto max-w-3xl px-5 text-center sm:px-8">
@@ -21,18 +22,12 @@ export function ContactCta() {
           </p>
         </Reveal>
         <Reveal delay={170}>
-          <a
-            href={LINKTREE_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="group mt-10 inline-flex items-center gap-2 rounded-full bg-primary px-8 py-4 text-sm font-semibold text-primary-foreground transition-all duration-300 hover:-translate-y-0.5 hover:bg-accent hover:shadow-[0_16px_40px_-16px_color-mix(in_oklab,var(--color-accent)_75%,transparent)]"
-          >
-            Falar com a SinalZero
-            <ArrowUpRight
-              className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
-              aria-hidden="true"
-            />
-          </a>
+          <Button asChild variant="signal" size="signal" className="mt-9">
+            <a href={LINKTREE_URL} target="_blank" rel="noopener noreferrer" className="group">
+              Falar com a SinalZero
+              <ArrowUpRight className="transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 motion-reduce:transition-none" aria-hidden="true" />
+            </a>
+          </Button>
         </Reveal>
       </div>
     </section>

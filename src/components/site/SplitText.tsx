@@ -81,17 +81,23 @@ export function SplitText({
     <Tag ref={ref} data-split-state={visible ? "visible" : "pending"} className={cn("inline", className)}>
       {list.map((segment, si) => {
         const tokens = segment.text.split(/(\s+)/);
+        const isAtomic = segment.atomic || unit === "word";
+
         return (
-          <span key={si} className={segment.className}>
+          <span key={si} className={isAtomic ? undefined : segment.className}>
             {tokens.map((token, ti) => {
               if (token === "") return null;
               if (/^\s+$/.test(token)) return token;
 
-              if (segment.atomic || unit === "word") {
+              if (isAtomic) {
                 const i = unitIndex++;
                 const style = { "--split-delay": `${delay + step(i)}ms` } as CSSProperties;
                 return (
-                  <span key={ti} style={style} className="split-unit inline-block">
+                  <span
+                    key={ti}
+                    style={style}
+                    className={cn("split-unit inline-block", segment.className)}
+                  >
                     {token}
                   </span>
                 );

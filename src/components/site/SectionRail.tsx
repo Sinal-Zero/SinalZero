@@ -34,7 +34,7 @@ function DockItem({ href, label, active, icon: Icon, mouseY, showLoading }: Dock
   const [isHovered, setIsHovered] = useState(false);
   const distance = 150;
   const baseSize = 44;
-  const magnification = 64;
+  const magnification = 54;
 
   const mouseDistance = useTransform(mouseY, (value) => {
     const rect = ref.current?.getBoundingClientRect() ?? { y: 0, height: baseSize };
@@ -45,7 +45,7 @@ function DockItem({ href, label, active, icon: Icon, mouseY, showLoading }: Dock
     [-distance, 0, distance],
     [baseSize, magnification, baseSize],
   );
-  const size = useSpring(targetSize, { mass: 0.12, stiffness: 180, damping: 14 });
+  const size = useSpring(targetSize, { mass: 0.15, stiffness: 210, damping: 22 });
 
   useMotionValueEvent(hovered, "change", (value) => setIsHovered(value === 1));
 
@@ -67,7 +67,7 @@ function DockItem({ href, label, active, icon: Icon, mouseY, showLoading }: Dock
         <motion.span
           layoutId="section-rail-indicator"
           className="dock-indicator"
-          transition={{ type: "spring", stiffness: 420, damping: 30, mass: 0.7 }}
+          transition={{ type: "spring", stiffness: 380, damping: 34, mass: 0.6 }}
           aria-hidden="true"
         />
       ) : null}

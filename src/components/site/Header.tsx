@@ -62,7 +62,7 @@ export function Header() {
   return (
     <header
       className={cn(
-        "fixed inset-x-0 top-0 z-50 border-b transition-[background-color,border-color,box-shadow,transform] duration-500 [transition-timing-function:cubic-bezier(.22,1.35,.36,1)] motion-reduce:transition-none",
+        "fixed inset-x-0 top-0 z-50 border-b transition-[background-color,border-color,box-shadow,transform] duration-500 [transition-timing-function:cubic-bezier(.16,1,.3,1)] motion-reduce:transition-none",
         hiddenOnScroll && "-translate-y-full",
         scrolled || menuOpen
           ? "border-border bg-background/92 shadow-[0_12px_32px_-24px_rgba(0,0,0,0.6)] backdrop-blur-md"
@@ -73,7 +73,7 @@ export function Header() {
         className="mx-auto flex h-20 max-w-6xl items-center justify-between px-5 transition-[height] duration-300 sm:px-8 lg:data-[scrolled=true]:h-[4.5rem]"
         data-scrolled={scrolled}
       >
-        <div className="flex items-center gap-3">
+        <div className="ml-auto flex items-center gap-3">
           <OccultMenu open={occultMenuOpen} onOpenChange={setOccultMenuOpen} />
           <MobileNav open={menuOpen} onOpenChange={setMenuOpen} />
         </div>

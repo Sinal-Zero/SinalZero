@@ -26,14 +26,14 @@ export function OccultMenu({
         >
           <Menu
             className={cn(
-              "absolute h-4 w-4 transition-all duration-500 [transition-timing-function:cubic-bezier(.22,1.35,.36,1)] motion-reduce:transition-none",
+              "absolute h-4 w-4 transition-all duration-500 [transition-timing-function:cubic-bezier(.16,1,.3,1)] motion-reduce:transition-none",
               open ? "rotate-90 scale-0 opacity-0" : "rotate-0 scale-100 opacity-100",
             )}
             aria-hidden="true"
           />
           <PanelRightClose
             className={cn(
-              "absolute h-4 w-4 transition-all duration-500 [transition-timing-function:cubic-bezier(.22,1.35,.36,1)] motion-reduce:transition-none",
+              "absolute h-4 w-4 transition-all duration-500 [transition-timing-function:cubic-bezier(.16,1,.3,1)] motion-reduce:transition-none",
               open ? "rotate-0 scale-100 opacity-100" : "-rotate-90 scale-0 opacity-0",
             )}
             aria-hidden="true"
@@ -43,7 +43,7 @@ export function OccultMenu({
 
       <DialogPrimitive.Portal>
         <DialogPrimitive.Overlay className="fixed inset-0 z-[60] bg-background/65 backdrop-blur-md data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=open]:fade-in-0 data-[state=closed]:fade-out-0 duration-500 motion-reduce:transition-none" />
-        <DialogPrimitive.Content className="fixed inset-y-0 right-0 z-[70] flex w-[min(86vw,390px)] origin-right flex-col border-l border-border bg-surface/95 p-8 shadow-[-32px_0_80px_-38px_rgba(0,0,0,0.9)] outline-none data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=open]:fade-in-0 data-[state=closed]:fade-out-0 data-[state=open]:zoom-in-95 data-[state=closed]:zoom-out-95 data-[state=open]:slide-in-from-right-8 duration-500 [transition-timing-function:cubic-bezier(.22,1.35,.36,1)] motion-reduce:transition-none">
+        <DialogPrimitive.Content className="fixed inset-y-0 right-0 z-[70] flex w-[min(86vw,390px)] origin-right flex-col border-l border-border bg-surface/95 p-8 shadow-[-32px_0_80px_-38px_rgba(0,0,0,0.9)] outline-none data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=open]:fade-in-0 data-[state=closed]:fade-out-0 data-[state=open]:zoom-in-95 data-[state=closed]:zoom-out-95 data-[state=open]:slide-in-from-right-8 duration-500 [transition-timing-function:cubic-bezier(.16,1,.3,1)] motion-reduce:transition-none">
           <DialogPrimitive.Title className="flex items-center gap-3 font-display text-lg font-semibold">
             <PanelRightOpen className="h-5 w-5 text-accent" aria-hidden="true" />
             Menu oculto

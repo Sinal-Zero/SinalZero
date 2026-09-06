@@ -251,12 +251,24 @@
 }
 
 .section-rail {
-  width: 1.25rem;
-  transition: width 400ms cubic-bezier(0.22, 1.35, 0.36, 1);
+  width: 7.75rem;
 }
 
-.section-rail:hover {
-  width: 5.5rem;
+.section-rail li {
+  transform: translateX(0);
+  transition: transform 450ms cubic-bezier(0.22, 1.35, 0.36, 1);
+}
+
+.section-rail li:hover {
+  transform: translateX(0.2rem);
+}
+
+.section-rail-label {
+  opacity: 0.7;
+  transform: translateX(0);
+  transition:
+    opacity 350ms ease,
+    transform 450ms cubic-bezier(0.22, 1.35, 0.36, 1);
 }
 
 .section-rail-dot {
@@ -269,6 +281,11 @@
 .section-rail a[data-active="true"] .section-rail-dot {
   transform: scale(1.8);
   box-shadow: 0 0 0 5px color-mix(in oklab, var(--color-accent) 18%, transparent);
+}
+
+.section-rail a[data-active="true"] .section-rail-label {
+  opacity: 1;
+  transform: translateX(0.15rem);
 }
 
 .grid-rise > .reveal-item {

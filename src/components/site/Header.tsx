@@ -5,13 +5,6 @@ import { OccultMenu } from "./OccultMenu";
 
 const RADAR_LOGO_SRC = "/radar-logo.svg";
 
-const NAV = [
-  { href: "#sobre", label: "Sobre" },
-  { href: "#servicos", label: "Serviços" },
-  { href: "#processo", label: "Processo" },
-  { href: "#solucoes", label: "Soluções" },
-];
-
 export function Header() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
@@ -94,21 +87,6 @@ export function Header() {
             Sinal<span className="text-accent">Zero</span>
           </span>
         </a>
-
-        <nav aria-label="Seções do site" className="hidden md:block">
-          <ul className="flex items-center gap-8 text-sm">
-            {NAV.map((item) => (
-              <li key={item.href}>
-                <a
-                  href={item.href}
-                  className="relative text-muted-foreground transition-colors hover:text-foreground after:absolute after:-bottom-1.5 after:left-0 after:h-px after:w-full after:origin-right after:scale-x-0 after:bg-accent after:transition-transform after:duration-300 hover:after:origin-left hover:after:scale-x-100"
-                >
-                  {item.label}
-                </a>
-              </li>
-            ))}
-          </ul>
-        </nav>
 
         <div className="flex items-center gap-3">
           <OccultMenu open={occultMenuOpen} onOpenChange={setOccultMenuOpen} />

@@ -17,26 +17,44 @@ export function SectionRail() {
     const nodes = SECTIONS.map(({ href }) => document.querySelector(href)).filter(
       (node): node is Element => Boolean(node),
     );
-    if (!nodes.length || typeof IntersectionObserver === "undefined") return;
+    if (!nodes.length) return;
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const visible = entries
-          .filter((entry) => entry.isIntersecting)
-          .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
-        if (visible?.target.id) setActive(`#${visible.target.id}`);
-      },
-      { rootMargin: "-42% 0px -48% 0px", threshold: [0, 0.2, 0.5, 0.8] },
-    );
+    let frame = 0;
+    const updateActive = () => {
+      const marker = window.scrollY + window.innerHeight * 0.38;
+      let nextActive = "#topo";
 
-    nodes.forEach((node) => observer.observe(node));
-    return () => observer.disconnect();
+      nodes.forEach((node, index) => {
+        const href = SECTIONS[index]?.href;
+        if (href && node.getBoundingClientRect().top + window.scrollY <= marker) {
+          nextActive = href;
+        }
+      });
+
+      setActive((current) => (current === nextActive ? current : nextActive));
+    };
+    const onScroll = () => {
+      if (frame) return;
+      frame = window.requestAnimationFrame(() => {
+        updateActive();
+        frame = 0;
+      });
+    };
+
+    updateActive();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll, { passive: true });
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+      if (frame) window.cancelAnimationFrame(frame);
+    };
   }, []);
 
   return (
     <nav
       aria-label="Navegação rápida"
-      className="section-rail fixed left-5 top-1/2 z-40 hidden -translate-y-1/2 lg:block"
+      className="section-rail fixed left-4 top-1/2 z-40 hidden -translate-y-1/2 lg:block xl:left-7"
     >
       <ul className="flex flex-col gap-3">
         {SECTIONS.map((item) => {
@@ -57,12 +75,7 @@ export function SectionRail() {
                   aria-hidden="true"
                   className="section-rail-dot h-1.5 w-1.5 rounded-full bg-current"
                 />
-                <span
-                  className="opacity-0 transition-opacity duration-300 group-hover:opacity-100"
-                  data-rail-label="true"
-                >
-                  {item.label}
-                </span>
+                <span className="section-rail-label">{item.label}</span>
               </a>
             </li>
           );

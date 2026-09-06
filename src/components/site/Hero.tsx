@@ -3,7 +3,8 @@ import { Button } from "@/components/ui/button";
 import { Reveal } from "./Reveal";
 import { RadarBackdrop } from "./RadarBackdrop";
 import { LINKTREE_URL } from "./constants";
-import radarLogo from "@/assets/sinalzero-radar.svg.asset.json";
+
+const RADAR_LOGO_SRC = "/radar-logo.svg";
 
 export function Hero() {
   return (
@@ -50,7 +51,7 @@ export function Hero() {
 
         <Reveal delay={200} className="hidden justify-self-center lg:block">
           <img
-            src={radarLogo.url}
+            src={RADAR_LOGO_SRC}
             alt="Logo da SinalZero: um radar em azul-marinho com brilho laranja"
             width={340}
             height={340}

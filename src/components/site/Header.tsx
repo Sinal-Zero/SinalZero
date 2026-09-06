@@ -2,7 +2,8 @@ import { useEffect, useState } from "react";
 import { Menu, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
-import radarLogo from "@/assets/sinalzero-radar.svg.asset.json";
+
+const RADAR_LOGO_SRC = "/radar-logo.svg";
 
 const NAV = [
   { href: "#sobre", label: "Sobre" },
@@ -47,7 +48,7 @@ export function Header() {
       <div className="mx-auto flex h-20 max-w-6xl items-center justify-between px-5 sm:px-8">
         <a href="#topo" className="group flex items-center gap-3" aria-label="SinalZero, início">
           <img
-            src={radarLogo.url}
+            src={RADAR_LOGO_SRC}
             alt=""
             width={40}
             height={40}

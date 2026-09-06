@@ -136,3 +136,51 @@ cd SinalZero
 bun install
 bun run dev
 ```
+
+## Deployment
+
+O projeto utiliza TanStack Start + Nitro e é hospedado no Vercel.
+
+Build:
+
+```bash
+bun install
+bun run build
+```
+
+Framework Vercel: **TanStack Start** (`vercel.json` declara isso explicitamente).
+
+O plugin `nitro/vite` em `vite.config.ts` é obrigatório: sem ele, `vite build`
+produz um bundle SSR genérico sem o payload da Build Output API do Vercel
+(`.vercel/output/functions/...`), e toda rota responde `404: NOT_FOUND` mesmo
+com o deployment marcado `READY`.
+
+### Incidente: 404 em produção (2026-09-06)
+
+- **Problema:** `sinalzero.vercel.app` (e todo domínio do projeto) retornava
+  `404: NOT_FOUND` em produção, embora o deployment aparecesse `READY`.
+- **Causa raiz (código):** `vite.config.ts` não incluía o plugin `nitro/vite`.
+  Sem ele, o build gerava apenas `dist/client` + `dist/server/server.js` (um
+  bundle Node genérico), nunca o `.vercel/output` que o Vercel precisa para
+  rotear requisições até a função serverless.
+- **Correção aplicada:** adicionado `nitro()` ao array de `plugins` (depois de
+  `tanstackStart()`, antes de `viteReact()`), com `nitro` movido de
+  `devDependencies` para `dependencies`. Verificado localmente com
+  `VERCEL=1 bun run build`: o build passou a gerar
+  `.vercel/output/functions/__server.func` e `.vercel/output/config.json`
+  com rota catch-all para `/__server`.
+- **Causa adicional (infraestrutura):** também havia proteção "Vercel
+  Authentication" (SSO) ativa no projeto sem domínio customizado, bloqueando
+  acesso público a qualquer URL — desativada nas configurações do projeto.
+- **Problema residual observado:** mesmo após a correção de código, deploys
+  subsequentes (via push, redeploy manual e até redeploy sem cache pelo
+  dashboard) mostraram `vercel build` concluindo em ~40ms sem executar
+  `bun install`/`bun run build`, produzindo `NOT_FOUND` sem nenhum log de
+  runtime — indício de um problema no lado da plataforma Vercel (não no
+  código deste repositório). Confirmado que `src/server.ts` existe e que
+  `tanstackStart({ server: { entry: "server" } })` é uma configuração válida.
+  Se `/` continuar retornando 404 após um novo push, abra um ticket com o
+  suporte da Vercel citando o log de build de ~40ms sem etapas de
+  install/build.
+- **Arquivos alterados:** `vite.config.ts`, `package.json`, `bun.lock`,
+  `vercel.json` (novo).

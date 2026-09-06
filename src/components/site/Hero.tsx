@@ -6,6 +6,7 @@ import { ContactConfirm } from "./ContactConfirm";
 import { LoadingWave } from "./LoadingWave";
 import { InfiniteSpiral } from "./InfiniteSpiral";
 import { GradientText } from "./GradientText";
+import { ScrollReveal } from "./ScrollReveal";
 
 const Radar3D = lazy(() => import("./Radar3D").then((m) => ({ default: m.Radar3D })));
 
@@ -50,12 +51,11 @@ export function Hero() {
         </h1>
 
         <Reveal delay={170}>
-          <BlurText
-            text="Enquanto você perde tempo com listas frias e uma presença digital que não converte, a SinalZero encontra quem já demonstra interesse, qualifica o sinal e transforma atenção em conversa."
-            delay={18}
-            stepDuration={1}
-            className="mx-auto mt-6 max-w-xl text-pretty text-base leading-relaxed text-muted-foreground sm:text-lg"
-          />
+          <ScrollReveal className="mx-auto mt-6 max-w-xl text-pretty text-base leading-relaxed text-muted-foreground sm:text-lg">
+            Enquanto você perde tempo com listas frias e uma presença digital que não converte, a
+            SinalZero encontra quem já demonstra interesse, qualifica o sinal e transforma atenção
+            em conversa.
+          </ScrollReveal>
         </Reveal>
 
         <Reveal delay={250}>

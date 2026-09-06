@@ -267,6 +267,11 @@
   flex-wrap: wrap;
 }
 
+.scroll-reveal-word {
+  display: inline-block;
+  will-change: opacity, filter;
+}
+
 .animated-gradient-text {
   position: relative;
   display: inline-block;

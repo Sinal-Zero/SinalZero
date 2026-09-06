@@ -52,7 +52,7 @@ function DockItem({ href, label, active, icon: Icon, mouseY, showLoading }: Dock
       onMouseLeave={() => hovered.set(0)}
       onFocus={() => hovered.set(1)}
       onBlur={() => hovered.set(0)}
-      onClick={() => showLoading(700)}
+      onClick={() => showLoading(400)}
     >
       <Icon className="dock-icon" aria-hidden="true" />
       <AnimatePresence>

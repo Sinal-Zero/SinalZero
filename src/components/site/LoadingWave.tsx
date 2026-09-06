@@ -30,7 +30,7 @@ export function LoadingProvider({ children }: { children: ReactNode }) {
   const demandTimer = useRef<number | null>(null);
 
   useEffect(() => {
-    const landingTimer = window.setTimeout(() => setLandingLoading(false), 2000);
+    const landingTimer = window.setTimeout(() => setLandingLoading(false), 1000);
     return () => window.clearTimeout(landingTimer);
   }, []);
 

@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
-import { Menu, X } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { Button } from "@/components/ui/button";
+import { MobileNav } from "./MobileNav";
 
 const RADAR_LOGO_SRC = "/radar-logo.svg";
 
@@ -56,7 +55,10 @@ export function Header() {
           : "border-transparent bg-transparent shadow-none",
       )}
     >
-      <div className="mx-auto flex h-20 max-w-6xl items-center justify-between px-5 transition-[height] duration-300 sm:px-8 lg:data-[scrolled=true]:h-[4.5rem]" data-scrolled={scrolled}>
+      <div
+        className="mx-auto flex h-20 max-w-6xl items-center justify-between px-5 transition-[height] duration-300 sm:px-8 lg:data-[scrolled=true]:h-[4.5rem]"
+        data-scrolled={scrolled}
+      >
         <a href="#topo" className="group flex items-center gap-3" aria-label="SinalZero, início">
           <img
             src={RADAR_LOGO_SRC}
@@ -85,49 +87,8 @@ export function Header() {
           </ul>
         </nav>
 
-        <Button
-          type="button"
-          variant="ghost"
-          size="icon"
-          className="md:hidden"
-          aria-expanded={menuOpen}
-          aria-controls="mobile-navigation"
-          aria-label={menuOpen ? "Fechar menu" : "Abrir menu"}
-          onClick={() => setMenuOpen((open) => !open)}
-        >
-          {menuOpen ? <X aria-hidden="true" /> : <Menu aria-hidden="true" />}
-        </Button>
+        <MobileNav open={menuOpen} onOpenChange={setMenuOpen} />
       </div>
-
-      <nav
-        id="mobile-navigation"
-        data-open={menuOpen}
-        aria-label="Seções do site no celular"
-        className={cn(
-          "grid overflow-hidden border-t transition-[grid-template-rows,opacity,border-color] duration-300 ease-out md:hidden motion-reduce:transition-none",
-          menuOpen
-            ? "grid-rows-[1fr] border-border opacity-100"
-            : "pointer-events-none grid-rows-[0fr] border-transparent opacity-0",
-        )}
-      >
-        <ul className="mx-auto flex min-h-0 w-full max-w-6xl flex-col px-5">
-          {NAV.map((item, i) => (
-            <li
-              key={item.href}
-              className="mobile-nav-item border-b border-border last:border-0"
-              style={{ transitionDelay: menuOpen ? `${80 + i * 40}ms` : "0ms" }}
-            >
-              <a
-                href={item.href}
-                onClick={() => setMenuOpen(false)}
-                className="block py-4 text-sm font-medium text-foreground transition-colors hover:text-accent"
-              >
-                {item.label}
-              </a>
-            </li>
-          ))}
-        </ul>
-      </nav>
 
       <div
         aria-hidden="true"

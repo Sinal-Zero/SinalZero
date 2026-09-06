@@ -1,9 +1,10 @@
-import { ArrowUpRight, Radar, Sparkles, Target } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { lazy, Suspense } from "react";
+import { Radar, Sparkles, Target } from "lucide-react";
 import { Reveal } from "./Reveal";
 import { SplitText } from "./SplitText";
-import { RadarBackdrop } from "./RadarBackdrop";
-import { LINKTREE_URL } from "./constants";
+import { ContactConfirm } from "./ContactConfirm";
+
+const Radar3D = lazy(() => import("./Radar3D").then((m) => ({ default: m.Radar3D })));
 
 const SIGNALS = [
   { icon: Radar, label: "Prospecção ativa e contínua" },
@@ -17,7 +18,18 @@ export function Hero() {
       id="topo"
       className="relative flex min-h-[88svh] items-center overflow-hidden pb-20 pt-28 lg:min-h-[92svh]"
     >
-      <RadarBackdrop />
+      <Suspense
+        fallback={
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-0 overflow-hidden"
+          >
+            <div className="absolute inset-[12%] rounded-full bg-[radial-gradient(circle_at_50%_45%,color-mix(in_oklab,var(--color-gold)_28%,transparent),transparent_62%)] blur-3xl" />
+          </div>
+        }
+      >
+        <Radar3D />
+      </Suspense>
 
       <div className="relative mx-auto w-full max-w-3xl px-5 text-center sm:px-8">
         <Reveal>
@@ -48,15 +60,7 @@ export function Hero() {
 
         <Reveal delay={250}>
           <div className="mt-9 flex justify-center">
-            <Button asChild variant="signal" size="signal">
-              <a href={LINKTREE_URL} target="_blank" rel="noopener noreferrer" className="group">
-                Falar com a SinalZero
-                <ArrowUpRight
-                  className="transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 motion-reduce:transition-none"
-                  aria-hidden="true"
-                />
-              </a>
-            </Button>
+            <ContactConfirm />
           </div>
         </Reveal>
 

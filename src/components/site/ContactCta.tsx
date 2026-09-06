@@ -1,9 +1,7 @@
-import { ArrowUpRight } from "lucide-react";
-import { Button } from "@/components/ui/button";
 import { Reveal } from "./Reveal";
 import { SplitText } from "./SplitText";
 import { RadarBackdrop } from "./RadarBackdrop";
-import { LINKTREE_URL } from "./constants";
+import { ContactConfirm } from "./ContactConfirm";
 
 export function ContactCta() {
   return (
@@ -24,15 +22,9 @@ export function ContactCta() {
           </p>
         </Reveal>
         <Reveal delay={170}>
-          <Button asChild variant="signal" size="signal" className="mt-9">
-            <a href={LINKTREE_URL} target="_blank" rel="noopener noreferrer" className="group">
-              Falar com a SinalZero
-              <ArrowUpRight
-                className="transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 motion-reduce:transition-none"
-                aria-hidden="true"
-              />
-            </a>
-          </Button>
+          <div className="mt-9 flex justify-center">
+            <ContactConfirm />
+          </div>
         </Reveal>
       </div>
     </section>

@@ -42,7 +42,7 @@ function Index() {
     <div id="page-shell" className="page-shell min-h-screen bg-background">
       <Header />
       <SectionRail />
-      <main className="lg:pl-24">
+      <main>
         <Hero />
         <About />
         <Services />

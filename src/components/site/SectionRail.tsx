@@ -67,7 +67,7 @@ export function SectionRail() {
                 aria-current={isActive ? "location" : undefined}
                 data-active={isActive}
                 className={cn(
-                  "group flex items-center gap-2 py-1 text-[10px] uppercase tracking-[0.18em] text-muted-foreground transition-colors duration-300 hover:text-foreground",
+                  "group flex items-center gap-2 rounded-md px-2 py-1 text-[10px] uppercase tracking-[0.18em] text-muted-foreground transition-[color,background-color,box-shadow,transform] duration-300 hover:-translate-y-0.5 hover:bg-surface/80 hover:text-foreground hover:shadow-[0_10px_26px_-16px_color-mix(in_oklab,var(--color-accent)_80%,transparent)]",
                   isActive && "text-accent",
                 )}
               >

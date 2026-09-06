@@ -288,6 +288,11 @@
   transform: translateX(0.15rem);
 }
 
+.section-rail a[data-active="true"] {
+  background: color-mix(in oklab, var(--color-surface) 82%, transparent);
+  box-shadow: 0 10px 26px -18px color-mix(in oklab, var(--color-accent) 80%, transparent);
+}
+
 .grid-rise > .reveal-item {
   transform: translateY(26px) scale(0.97);
   transition-duration: 700ms;

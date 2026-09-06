@@ -3,6 +3,7 @@ import { Radar, Sparkles, Target } from "lucide-react";
 import { Reveal } from "./Reveal";
 import { SplitText } from "./SplitText";
 import { ContactConfirm } from "./ContactConfirm";
+import { LoadingWave } from "./LoadingWave";
 
 const Radar3D = lazy(() => import("./Radar3D").then((m) => ({ default: m.Radar3D })));
 
@@ -20,11 +21,8 @@ export function Hero() {
     >
       <Suspense
         fallback={
-          <div
-            aria-hidden="true"
-            className="pointer-events-none absolute inset-0 overflow-hidden"
-          >
-            <div className="absolute inset-[12%] rounded-full bg-[radial-gradient(circle_at_50%_45%,color-mix(in_oklab,var(--color-gold)_28%,transparent),transparent_62%)] blur-3xl" />
+          <div className="pointer-events-none absolute inset-0 flex items-center justify-center overflow-hidden">
+            <LoadingWave />
           </div>
         }
       >

@@ -1,16 +1,21 @@
 import { Radar, MonitorSmartphone, Target, LineChart, ShieldCheck, Gauge } from "lucide-react";
 import { Reveal } from "./Reveal";
-import { SplitText } from "./SplitText";
+import { BlurText } from "./BlurText";
 
 function SectionTitle({ title, description }: { title: string; description?: string }) {
   return (
     <div className="max-w-2xl">
       <h2 className="text-balance font-display text-3xl font-semibold sm:text-4xl">
-        <SplitText segments={title} unit="word" stagger={45} />
+        <BlurText as="span" text={title} delay={45} stepDuration={1} />
       </h2>
       {description ? (
         <Reveal delay={90}>
-          <p className="mt-5 text-pretty leading-relaxed text-muted-foreground">{description}</p>
+          <BlurText
+            text={description}
+            delay={18}
+            stepDuration={1}
+            className="mt-5 text-pretty leading-relaxed text-muted-foreground"
+          />
         </Reveal>
       ) : null}
     </div>
@@ -59,8 +64,18 @@ export function Services() {
                 <span className="inline-flex h-11 w-11 items-center justify-center rounded-md bg-primary/15 text-accent transition-colors duration-300 group-hover:bg-primary/25">
                   <service.icon className="h-5 w-5" aria-hidden="true" />
                 </span>
-                <h3 className="mt-6 font-display text-lg font-semibold">{service.title}</h3>
-                <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{service.text}</p>
+                <BlurText
+                  as="h3"
+                  text={service.title}
+                  delay={35}
+                  stepDuration={1}
+                  className="mt-6 font-display text-lg font-semibold"
+                />
+                <BlurText
+                  text={service.text}
+                  delay={14}
+                  className="mt-3 text-sm leading-relaxed text-muted-foreground"
+                />
               </article>
             </Reveal>
           ))}
@@ -108,8 +123,18 @@ export function Process() {
               >
                 {item.step}
               </span>
-              <h3 className="mt-4 font-display text-base font-semibold">{item.title}</h3>
-              <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{item.text}</p>
+              <BlurText
+                as="h3"
+                text={item.title}
+                delay={35}
+                stepDuration={1}
+                className="mt-4 font-display text-base font-semibold"
+              />
+              <BlurText
+                text={item.text}
+                delay={14}
+                className="mt-2 text-sm leading-relaxed text-muted-foreground"
+              />
             </div>
           </Reveal>
         ))}
@@ -149,8 +174,18 @@ export function Differentials() {
                 <span className="inline-flex h-11 w-11 items-center justify-center rounded-md bg-gold/12 text-gold transition-transform duration-300 group-hover:-translate-y-0.5 motion-reduce:transition-none">
                   <item.icon className="h-5 w-5" aria-hidden="true" />
                 </span>
-                <h3 className="mt-5 font-display text-lg font-semibold">{item.title}</h3>
-                <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{item.text}</p>
+                <BlurText
+                  as="h3"
+                  text={item.title}
+                  delay={35}
+                  stepDuration={1}
+                  className="mt-5 font-display text-lg font-semibold"
+                />
+                <BlurText
+                  text={item.text}
+                  delay={14}
+                  className="mt-2 text-sm leading-relaxed text-muted-foreground"
+                />
               </div>
             </Reveal>
           ))}
@@ -191,10 +226,18 @@ export function Solutions() {
                 aria-hidden="true"
                 className="absolute -right-16 -top-16 h-40 w-40 rounded-full bg-[radial-gradient(circle,color-mix(in_oklab,var(--color-primary)_30%,transparent),transparent_70%)] opacity-0 transition-opacity duration-500 group-hover:opacity-100"
               />
-              <h3 className="relative font-display text-lg font-semibold">{item.title}</h3>
-              <p className="relative mt-3 text-sm leading-relaxed text-muted-foreground">
-                {item.text}
-              </p>
+              <BlurText
+                as="h3"
+                text={item.title}
+                delay={35}
+                stepDuration={1}
+                className="relative font-display text-lg font-semibold"
+              />
+              <BlurText
+                text={item.text}
+                delay={14}
+                className="relative mt-3 text-sm leading-relaxed text-muted-foreground"
+              />
             </article>
           </Reveal>
         ))}

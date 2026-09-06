@@ -1,9 +1,10 @@
 import { lazy, Suspense } from "react";
 import { Radar, Sparkles, Target } from "lucide-react";
 import { Reveal } from "./Reveal";
-import { SplitText } from "./SplitText";
+import { BlurText } from "./BlurText";
 import { ContactConfirm } from "./ContactConfirm";
 import { LoadingWave } from "./LoadingWave";
+import { InfiniteSpiral } from "./InfiniteSpiral";
 
 const Radar3D = lazy(() => import("./Radar3D").then((m) => ({ default: m.Radar3D })));
 
@@ -29,31 +30,32 @@ export function Hero() {
         <Radar3D />
       </Suspense>
 
-      <div className="relative mx-auto w-full max-w-3xl px-5 text-center sm:px-8">
+      <InfiniteSpiral />
+
+      <div className="relative z-10 mx-auto w-full max-w-3xl px-5 text-center sm:px-8">
         <Reveal>
-          <p className="mx-auto inline-flex items-center gap-2 rounded-full border border-accent/30 bg-surface/60 px-4 py-1.5 text-xs uppercase tracking-[0.22em] text-gold">
-            Prospecção inteligente de leads
-          </p>
+          <BlurText
+            text="Seu próximo cliente já deixou um sinal"
+            stepDuration={1}
+            className="mx-auto inline-flex items-center gap-2 rounded-full border border-accent/30 bg-surface/60 px-4 py-1.5 text-xs uppercase tracking-[0.22em] text-gold"
+          />
         </Reveal>
 
-        <h1 className="mt-7 text-balance font-display text-4xl leading-[1.05] font-semibold sm:text-5xl lg:text-6xl">
-          <SplitText
-            delay={90}
-            stagger={18}
-            segments={[
-              { text: "Captamos o " },
-              { text: "sinal", className: "text-gradient-gold", atomic: true },
-              { text: " dos seus próximos clientes." },
-            ]}
-          />
-        </h1>
+        <BlurText
+          as="h1"
+          text="Pare de perseguir o cliente errado."
+          delay={90}
+          stepDuration={1}
+          className="mt-7 text-balance font-display text-4xl leading-[1.05] font-semibold sm:text-5xl lg:text-6xl"
+        />
 
         <Reveal delay={170}>
-          <p className="mx-auto mt-6 max-w-xl text-pretty text-base leading-relaxed text-muted-foreground sm:text-lg">
-            A SinalZero encontra e qualifica oportunidades reais para empresas que querem vender
-            mais — e constrói os sites e produtos digitais que transformam esse interesse em
-            conversa.
-          </p>
+          <BlurText
+            text="Enquanto você perde tempo com listas frias e uma presença digital que não converte, a SinalZero encontra quem já demonstra interesse, qualifica o sinal e transforma atenção em conversa."
+            delay={18}
+            stepDuration={1}
+            className="mx-auto mt-6 max-w-xl text-pretty text-base leading-relaxed text-muted-foreground sm:text-lg"
+          />
         </Reveal>
 
         <Reveal delay={250}>
@@ -70,7 +72,7 @@ export function Hero() {
                 className="flex items-center gap-2 text-xs text-muted-foreground sm:text-sm"
               >
                 <signal.icon className="h-4 w-4 text-accent" aria-hidden="true" />
-                {signal.label}
+                <BlurText text={signal.label} delay={25} />
               </li>
             ))}
           </ul>

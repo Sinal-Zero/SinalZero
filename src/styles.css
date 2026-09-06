@@ -420,6 +420,16 @@
   background: color-mix(in oklab, var(--color-surface) 78%, transparent);
   box-shadow: 0 20px 48px -30px color-mix(in oklab, var(--color-primary) 90%, transparent);
   backdrop-filter: blur(14px);
+  transition:
+    border-color 350ms ease,
+    background-color 350ms ease,
+    box-shadow 450ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.dock-panel:hover {
+  border-color: color-mix(in oklab, var(--color-accent) 42%, var(--color-border));
+  background: color-mix(in oklab, var(--color-surface) 86%, transparent);
+  box-shadow: 0 24px 56px -30px color-mix(in oklab, var(--color-accent) 72%, transparent);
 }
 
 .dock-item {
@@ -438,6 +448,20 @@
     box-shadow 350ms cubic-bezier(0.22, 1.35, 0.36, 1);
 }
 
+.dock-indicator {
+  position: absolute;
+  inset: 0.15rem;
+  z-index: 0;
+  border: 1px solid color-mix(in oklab, var(--color-gold) 52%, transparent);
+  border-radius: 0.72rem;
+  background: linear-gradient(
+    145deg,
+    color-mix(in oklab, var(--color-accent) 22%, transparent),
+    color-mix(in oklab, var(--color-gold) 12%, transparent)
+  );
+  box-shadow: 0 10px 26px -16px color-mix(in oklab, var(--color-accent) 92%, transparent);
+}
+
 .dock-item:hover,
 .dock-item:focus-visible,
 .dock-item-active {
@@ -448,6 +472,8 @@
 }
 
 .dock-icon {
+  position: relative;
+  z-index: 1;
   width: 1.05rem;
   height: 1.05rem;
 }
@@ -468,6 +494,7 @@
   text-transform: uppercase;
   box-shadow: 0 12px 30px -18px color-mix(in oklab, var(--color-primary) 90%, transparent);
   pointer-events: none;
+  z-index: 2;
 }
 
 .dock-active-label {

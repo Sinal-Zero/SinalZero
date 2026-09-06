@@ -63,6 +63,14 @@ function DockItem({ href, label, active, icon: Icon, mouseY, showLoading }: Dock
       onBlur={() => hovered.set(0)}
       onClick={() => showLoading(400)}
     >
+      {active ? (
+        <motion.span
+          layoutId="section-rail-indicator"
+          className="dock-indicator"
+          transition={{ type: "spring", stiffness: 420, damping: 30, mass: 0.7 }}
+          aria-hidden="true"
+        />
+      ) : null}
       <Icon className="dock-icon" aria-hidden="true" />
       <AnimatePresence>
         {active ? (

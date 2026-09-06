@@ -48,8 +48,14 @@ export function ScrollReveal({
       );
       gsap.fromTo(
         wordElements,
-        { opacity: baseOpacity, filter: enableBlur ? `blur(${blurStrength}px)` : "none" },
         {
+          y: -22,
+          opacity: baseOpacity,
+          filter: enableBlur ? `blur(${blurStrength}px)` : "none",
+          willChange: "transform, opacity, filter",
+        },
+        {
+          y: 0,
           opacity: 1,
           filter: "blur(0px)",
           ease: "none",

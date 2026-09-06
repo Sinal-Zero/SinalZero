@@ -18,7 +18,7 @@ export function BlurText({
   className,
   as: Tag = "p",
   animateBy = "words",
-  direction = "bottom",
+  direction = "top",
   stepDuration = 0.325,
 }: {
   text?: string;
@@ -66,10 +66,7 @@ export function BlurText({
     }
     const observer = new IntersectionObserver(
       ([entry]) => {
-        if (entry?.isIntersecting) {
-          setInView(true);
-          observer.unobserve(node);
-        }
+        setInView(Boolean(entry?.isIntersecting));
       },
       { threshold: 0.1 },
     );

@@ -267,6 +267,36 @@
   flex-wrap: wrap;
 }
 
+.animated-gradient-text {
+  position: relative;
+  display: inline-block;
+  color: transparent;
+}
+
+.animated-gradient-text .text-content,
+.animated-gradient-text .gradient-overlay {
+  display: inline-block;
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+}
+
+.animated-gradient-text .gradient-overlay {
+  position: absolute;
+  inset: -0.25rem -0.5rem;
+  z-index: -1;
+  border: 1px solid color-mix(in oklab, var(--color-accent) 40%, transparent);
+  border-radius: 0.75rem;
+  background-clip: border-box;
+  -webkit-background-clip: border-box;
+  opacity: 0.25;
+  filter: blur(10px);
+}
+
+.animated-gradient-text.with-border {
+  padding: 0.1rem 0.25rem;
+}
+
 .infinite-spiral {
   position: absolute;
   left: 50%;

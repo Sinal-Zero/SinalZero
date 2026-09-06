@@ -5,6 +5,7 @@ import { BlurText } from "./BlurText";
 import { ContactConfirm } from "./ContactConfirm";
 import { LoadingWave } from "./LoadingWave";
 import { InfiniteSpiral } from "./InfiniteSpiral";
+import { GradientText } from "./GradientText";
 
 const Radar3D = lazy(() => import("./Radar3D").then((m) => ({ default: m.Radar3D })));
 
@@ -41,13 +42,12 @@ export function Hero() {
           />
         </Reveal>
 
-        <BlurText
-          as="h1"
-          text="Pare de perseguir o cliente errado."
-          delay={90}
-          stepDuration={1}
-          className="mt-7 text-balance font-display text-4xl leading-[1.05] font-semibold sm:text-5xl lg:text-6xl"
-        />
+        <h1 className="mt-7 text-balance font-display text-4xl leading-[1.05] font-semibold sm:text-5xl lg:text-6xl">
+          <BlurText as="span" text="Pare de perseguir o" delay={90} stepDuration={1} />{" "}
+          <GradientText className="inline-block" animationSpeed={7}>
+            cliente errado.
+          </GradientText>
+        </h1>
 
         <Reveal delay={170}>
           <BlurText

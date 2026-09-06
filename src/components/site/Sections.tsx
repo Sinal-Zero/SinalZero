@@ -17,7 +17,7 @@ function SectionTitle({ title, description }: { title: string; description?: str
   return (
     <div className="max-w-2xl">
       <h2 className="text-balance font-display text-3xl font-semibold sm:text-4xl">
-        <BlurText as="span" text={title} delay={45} stepDuration={1} />
+        <BlurText as="span" text={title} delay={45} stepDuration={0.325} />
       </h2>
       {description ? (
         <Reveal delay={90}>
@@ -77,7 +77,7 @@ export function ClientPains() {
                   as="h3"
                   text={item.title}
                   delay={35}
-                  stepDuration={1}
+                  stepDuration={0.325}
                   className="mt-6 font-display text-lg font-semibold"
                 />
                 <ScrollReveal className="mt-3 text-sm leading-relaxed text-muted-foreground">
@@ -127,7 +127,7 @@ export function Services() {
                   as="h3"
                   text={service.title}
                   delay={35}
-                  stepDuration={1}
+                  stepDuration={0.325}
                   className="mt-6 font-display text-lg font-semibold"
                 />
                 <ScrollReveal className="mt-3 text-sm leading-relaxed text-muted-foreground">
@@ -184,7 +184,7 @@ export function Process() {
                 as="h3"
                 text={item.title}
                 delay={35}
-                stepDuration={1}
+                stepDuration={0.325}
                 className="mt-4 font-display text-base font-semibold"
               />
               <ScrollReveal className="mt-2 text-sm leading-relaxed text-muted-foreground">
@@ -233,7 +233,7 @@ export function Differentials() {
                   as="h3"
                   text={item.title}
                   delay={35}
-                  stepDuration={1}
+                  stepDuration={0.325}
                   className="mt-5 font-display text-lg font-semibold"
                 />
                 <ScrollReveal className="mt-2 text-sm leading-relaxed text-muted-foreground">
@@ -283,7 +283,7 @@ export function Solutions() {
                 as="h3"
                 text={item.title}
                 delay={35}
-                stepDuration={1}
+                stepDuration={0.325}
                 className="relative font-display text-lg font-semibold"
               />
               <ScrollReveal className="relative mt-3 text-sm leading-relaxed text-muted-foreground">

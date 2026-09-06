@@ -7,7 +7,7 @@ import {
   useTransform,
 } from "motion/react";
 import { useEffect, useRef, useState } from "react";
-import { CircleDot, Compass, Crosshair, Radar, Send, Workflow } from "lucide-react";
+import { CircleDot, Compass, Crosshair, Radar, Workflow } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useLoading } from "./LoadingWave";
 
@@ -17,7 +17,6 @@ const SECTIONS = [
   { href: "#servicos", label: "Serviços", icon: Compass },
   { href: "#processo", label: "Processo", icon: Workflow },
   { href: "#solucoes", label: "Soluções", icon: Crosshair },
-  { href: "#contato", label: "Contato", icon: Send },
 ];
 
 type DockItemProps = {

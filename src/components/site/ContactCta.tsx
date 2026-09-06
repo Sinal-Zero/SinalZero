@@ -18,7 +18,7 @@ export function ContactCta() {
             as="span"
             text="Vamos ligar o radar no seu negócio?"
             delay={50}
-            stepDuration={1}
+            stepDuration={0.325}
           />
         </h2>
         <Reveal delay={90}>

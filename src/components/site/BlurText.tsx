@@ -19,7 +19,7 @@ export function BlurText({
   as: Tag = "p",
   animateBy = "words",
   direction = "bottom",
-  stepDuration = 0.5,
+  stepDuration = 0.325,
 }: {
   text?: string;
   delay?: number;
@@ -27,7 +27,7 @@ export function BlurText({
   as?: ElementType;
   animateBy?: "words" | "letters";
   direction?: "top" | "bottom";
-  /** Two steps at 0.5s = 1s for normal copy; use 1 for titles/subtitles = 2s. */
+  /** Two steps at 0.325s = 0.65s total for a quick blur/fade reveal. */
   stepDuration?: number;
 }) {
   const ref = useRef<HTMLElement | null>(null);

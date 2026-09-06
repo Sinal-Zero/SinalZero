@@ -3,8 +3,6 @@ import { cn } from "@/lib/utils";
 import { MobileNav } from "./MobileNav";
 import { OccultMenu } from "./OccultMenu";
 
-const RADAR_LOGO_SRC = "/radar-logo.svg";
-
 export function Header() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
@@ -75,19 +73,6 @@ export function Header() {
         className="mx-auto flex h-20 max-w-6xl items-center justify-between px-5 transition-[height] duration-300 sm:px-8 lg:data-[scrolled=true]:h-[4.5rem]"
         data-scrolled={scrolled}
       >
-        <div className="group flex items-center gap-3" aria-label="SinalZero">
-          <img
-            src={RADAR_LOGO_SRC}
-            alt=""
-            width={40}
-            height={40}
-            className="h-10 w-10 transition-transform duration-500 ease-out group-hover:rotate-[18deg] group-hover:scale-105 motion-reduce:transition-none motion-reduce:group-hover:rotate-0"
-          />
-          <span className="font-display text-lg font-semibold tracking-tight">
-            Sinal<span className="text-accent">Zero</span>
-          </span>
-        </div>
-
         <div className="flex items-center gap-3">
           <OccultMenu open={occultMenuOpen} onOpenChange={setOccultMenuOpen} />
           <MobileNav open={menuOpen} onOpenChange={setMenuOpen} />

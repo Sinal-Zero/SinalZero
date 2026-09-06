@@ -2,13 +2,7 @@ import { Radar, MonitorSmartphone, Target, LineChart, ShieldCheck, Gauge } from 
 import { Reveal } from "./Reveal";
 import { SplitText } from "./SplitText";
 
-function SectionTitle({
-  title,
-  description,
-}: {
-  title: string;
-  description?: string;
-}) {
+function SectionTitle({ title, description }: { title: string; description?: string }) {
   return (
     <div className="max-w-2xl">
       <h2 className="text-balance font-display text-3xl font-semibold sm:text-4xl">
@@ -58,7 +52,7 @@ export function Services() {
       <div className="mx-auto max-w-6xl px-5 sm:px-8">
         <SectionTitle title="O que a SinalZero entrega." />
 
-        <ul className="mt-12 grid gap-5 md:grid-cols-3">
+        <ul className="grid-rise mt-12 grid gap-5 md:grid-cols-3">
           {SERVICES.map((service, i) => (
             <Reveal as="li" key={service.title} delay={i * 70}>
               <article className="interactive-panel group h-full rounded-lg border border-border bg-card/70 p-7">
@@ -104,7 +98,7 @@ export function Process() {
     <section id="processo" className="mx-auto max-w-6xl px-5 py-20 sm:px-8 sm:py-24">
       <SectionTitle title="Da descoberta ao contato, em quatro passos." />
 
-      <ol className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+      <ol className="grid-rise mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
         {STEPS.map((item, i) => (
           <Reveal as="li" key={item.step} delay={i * 60}>
             <div className="interactive-panel relative h-full rounded-lg border border-border bg-card/50 p-6">
@@ -148,7 +142,7 @@ export function Differentials() {
       <div className="mx-auto max-w-6xl px-5 sm:px-8">
         <SectionTitle title="Por que a SinalZero." />
 
-        <div className="mt-12 grid gap-10 md:grid-cols-3">
+        <div className="grid-rise mt-12 grid gap-10 md:grid-cols-3">
           {DIFFERENTIALS.map((item, i) => (
             <Reveal key={item.title} delay={i * 70}>
               <div className="group">
@@ -189,7 +183,7 @@ export function Solutions() {
         description="A SinalZero é uma operação nova: em vez de vitrine de cases, mostramos exatamente o que entregamos hoje."
       />
 
-      <div className="mt-12 grid gap-5 md:grid-cols-3">
+      <div className="grid-rise mt-12 grid gap-5 md:grid-cols-3">
         {SOLUTIONS.map((item, i) => (
           <Reveal key={item.title} delay={i * 70}>
             <article className="interactive-panel group relative h-full overflow-hidden rounded-lg border border-border bg-card/60 p-7">

@@ -1,6 +1,7 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { cn } from "@/lib/utils";
 import { MobileNav } from "./MobileNav";
+import { OccultMenu } from "./OccultMenu";
 
 const RADAR_LOGO_SRC = "/radar-logo.svg";
 
@@ -14,14 +15,35 @@ const NAV = [
 export function Header() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [occultMenuOpen, setOccultMenuOpen] = useState(false);
+  const [hiddenOnScroll, setHiddenOnScroll] = useState(false);
   const [progress, setProgress] = useState(0);
+  const lastScrollY = useRef(0);
+  const menuState = useRef({ menuOpen: false, occultMenuOpen: false });
+
+  useEffect(() => {
+    menuState.current = { menuOpen, occultMenuOpen };
+    if (menuOpen || occultMenuOpen) setHiddenOnScroll(false);
+  }, [menuOpen, occultMenuOpen]);
 
   useEffect(() => {
     let frame = 0;
     const onScroll = () => {
       if (frame) return;
       frame = window.requestAnimationFrame(() => {
-        setScrolled(window.scrollY > 24);
+        const currentY = window.scrollY;
+        setScrolled(currentY > 24);
+        const scrollingDown = currentY > lastScrollY.current + 8;
+        const scrollingUp = currentY < lastScrollY.current - 8;
+        if (scrollingDown || scrollingUp || currentY <= 120) {
+          setHiddenOnScroll(
+            currentY > 120 &&
+              scrollingDown &&
+              !menuState.current.menuOpen &&
+              !menuState.current.occultMenuOpen,
+          );
+        }
+        lastScrollY.current = currentY;
         const doc = document.documentElement;
         const max = doc.scrollHeight - doc.clientHeight;
         setProgress(max > 0 ? Math.min(1, Math.max(0, window.scrollY / max)) : 0);
@@ -49,7 +71,8 @@ export function Header() {
   return (
     <header
       className={cn(
-        "fixed inset-x-0 top-0 z-50 border-b transition-[background-color,border-color,box-shadow] duration-300",
+        "fixed inset-x-0 top-0 z-50 border-b transition-[background-color,border-color,box-shadow,transform] duration-500 [transition-timing-function:cubic-bezier(.22,1.35,.36,1)] motion-reduce:transition-none",
+        hiddenOnScroll && "-translate-y-full",
         scrolled || menuOpen
           ? "border-border bg-background/92 shadow-[0_12px_32px_-24px_rgba(0,0,0,0.6)] backdrop-blur-md"
           : "border-transparent bg-transparent shadow-none",
@@ -87,7 +110,10 @@ export function Header() {
           </ul>
         </nav>
 
-        <MobileNav open={menuOpen} onOpenChange={setMenuOpen} />
+        <div className="flex items-center gap-3">
+          <OccultMenu open={occultMenuOpen} onOpenChange={setOccultMenuOpen} />
+          <MobileNav open={menuOpen} onOpenChange={setMenuOpen} />
+        </div>
       </div>
 
       <div

@@ -48,10 +48,13 @@ export function ContactConfirm({ className }: { className?: string }) {
             href={LINKTREE_URL}
             target="_blank"
             rel="noopener noreferrer"
-            className={cn(buttonVariants({ variant: "signal", size: "signal" }), "w-full sm:w-auto")}
+            className={cn(
+              buttonVariants({ variant: "signal", size: "signal" }),
+              "group w-full sm:w-auto",
+            )}
           >
             Continuar
-            <ArrowUpRight aria-hidden="true" />
+            <ArrowUpRight className="contact-arrow-fly" aria-hidden="true" />
           </a>
           <DialogClose asChild>
             <button

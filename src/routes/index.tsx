@@ -5,6 +5,7 @@ import { Hero } from "@/components/site/Hero";
 import { About, Services, Process, Differentials, Solutions } from "@/components/site/Sections";
 import { ContactCta } from "@/components/site/ContactCta";
 import { Footer } from "@/components/site/Footer";
+import { SectionRail } from "@/components/site/SectionRail";
 
 const TITLE = "SinalZero — Prospecção inteligente de leads e produtos digitais";
 const DESCRIPTION =
@@ -40,6 +41,7 @@ function Index() {
   return (
     <div id="page-shell" className="page-shell min-h-screen bg-background">
       <Header />
+      <SectionRail />
       <main>
         <Hero />
         <About />

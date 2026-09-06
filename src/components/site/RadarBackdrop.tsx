@@ -18,13 +18,13 @@ export function RadarBackdrop({ className }: { className?: string }) {
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const small = window.matchMedia("(max-width: 767px)").matches;
     if (reduced) {
-      root.dataset.active = "false";
+      root.dataset["active"] = "false";
       return;
     }
 
     const visibilityObserver = new IntersectionObserver(
       ([entry]) => {
-        root.dataset.active = entry?.isIntersecting ? "true" : "false";
+        root.dataset["active"] = entry?.isIntersecting ? "true" : "false";
       },
       { rootMargin: "12% 0px" },
     );

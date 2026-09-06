@@ -2,26 +2,19 @@ import { Radar, MonitorSmartphone, Target, LineChart, ShieldCheck, Gauge } from 
 import { Reveal } from "./Reveal";
 
 function SectionTitle({
-  eyebrow,
   title,
   description,
 }: {
-  eyebrow: string;
   title: string;
   description?: string;
 }) {
   return (
     <div className="max-w-2xl">
       <Reveal>
-        <p className="text-xs uppercase tracking-[0.22em] text-accent">{eyebrow}</p>
-      </Reveal>
-      <Reveal delay={80}>
-        <h2 className="mt-4 text-balance font-display text-3xl font-semibold sm:text-4xl">
-          {title}
-        </h2>
+        <h2 className="text-balance font-display text-3xl font-semibold sm:text-4xl">{title}</h2>
       </Reveal>
       {description ? (
-        <Reveal delay={150}>
+        <Reveal delay={90}>
           <p className="mt-5 text-pretty leading-relaxed text-muted-foreground">{description}</p>
         </Reveal>
       ) : null}
@@ -33,7 +26,6 @@ export function About() {
   return (
     <section id="sobre" className="mx-auto max-w-6xl px-5 py-20 sm:px-8 sm:py-24">
       <SectionTitle
-        eyebrow="Quem somos"
         title="Sinal claro no meio do ruído."
         description="A SinalZero é uma startup de prospecção inteligente de leads e construção de produtos digitais. Trabalhamos como um radar: varremos o mercado, identificamos quem realmente tem interesse no seu serviço e entregamos essas oportunidades prontas para o contato — junto com o site ou produto que sustenta a conversa."
       />
@@ -63,7 +55,7 @@ export function Services() {
   return (
     <section id="servicos" className="relative border-y border-border bg-surface/40 py-20 sm:py-24">
       <div className="mx-auto max-w-6xl px-5 sm:px-8">
-        <SectionTitle eyebrow="Serviços" title="O que a SinalZero entrega." />
+        <SectionTitle title="O que a SinalZero entrega." />
 
         <ul className="mt-12 grid gap-5 md:grid-cols-3">
           {SERVICES.map((service, i) => (
@@ -109,7 +101,7 @@ const STEPS = [
 export function Process() {
   return (
     <section id="processo" className="mx-auto max-w-6xl px-5 py-20 sm:px-8 sm:py-24">
-      <SectionTitle eyebrow="Processo" title="Da descoberta ao contato, em quatro passos." />
+      <SectionTitle title="Da descoberta ao contato, em quatro passos." />
 
       <ol className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
         {STEPS.map((item, i) => (
@@ -153,14 +145,16 @@ export function Differentials() {
   return (
     <section className="relative border-y border-border bg-surface/40 py-20 sm:py-24">
       <div className="mx-auto max-w-6xl px-5 sm:px-8">
-        <SectionTitle eyebrow="Diferenciais" title="Por que a SinalZero." />
+        <SectionTitle title="Por que a SinalZero." />
 
-        <div className="mt-12 grid gap-9 md:grid-cols-3">
+        <div className="mt-12 grid gap-10 md:grid-cols-3">
           {DIFFERENTIALS.map((item, i) => (
             <Reveal key={item.title} delay={i * 70}>
-              <div className="group border-l-2 border-primary/40 pl-5 transition-[border-color,transform] duration-300 hover:translate-x-1 hover:border-accent motion-reduce:transition-none">
-                <item.icon className="h-5 w-5 text-gold" aria-hidden="true" />
-                <h3 className="mt-4 font-display text-lg font-semibold">{item.title}</h3>
+              <div className="group">
+                <span className="inline-flex h-11 w-11 items-center justify-center rounded-md bg-gold/12 text-gold transition-transform duration-300 group-hover:-translate-y-0.5 motion-reduce:transition-none">
+                  <item.icon className="h-5 w-5" aria-hidden="true" />
+                </span>
+                <h3 className="mt-5 font-display text-lg font-semibold">{item.title}</h3>
                 <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{item.text}</p>
               </div>
             </Reveal>
@@ -190,7 +184,6 @@ export function Solutions() {
   return (
     <section id="solucoes" className="mx-auto max-w-6xl px-5 py-20 sm:px-8 sm:py-24">
       <SectionTitle
-        eyebrow="Soluções"
         title="Formatos de entrega."
         description="A SinalZero é uma operação nova: em vez de vitrine de cases, mostramos exatamente o que entregamos hoje."
       />

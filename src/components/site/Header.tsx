@@ -43,16 +43,21 @@ export function Header() {
 
   return (
     <header
-      className={cn("fixed inset-x-0 top-0 z-50 border-b transition-[background-color,border-color] duration-300", scrolled || menuOpen ? "border-border bg-background/92 backdrop-blur-md" : "border-transparent bg-transparent")}
+      className={cn(
+        "fixed inset-x-0 top-0 z-50 border-b transition-[background-color,border-color,box-shadow] duration-300",
+        scrolled || menuOpen
+          ? "border-border bg-background/92 shadow-[0_12px_32px_-24px_rgba(0,0,0,0.6)] backdrop-blur-md"
+          : "border-transparent bg-transparent shadow-none",
+      )}
     >
-      <div className="mx-auto flex h-20 max-w-6xl items-center justify-between px-5 sm:px-8">
+      <div className="mx-auto flex h-20 max-w-6xl items-center justify-between px-5 transition-[height] duration-300 sm:px-8 lg:data-[scrolled=true]:h-[4.5rem]" data-scrolled={scrolled}>
         <a href="#topo" className="group flex items-center gap-3" aria-label="SinalZero, início">
           <img
             src={RADAR_LOGO_SRC}
             alt=""
             width={40}
             height={40}
-            className="h-10 w-10 transition-transform duration-300 group-hover:scale-105"
+            className="h-10 w-10 transition-transform duration-500 ease-out group-hover:rotate-[18deg] group-hover:scale-105 motion-reduce:transition-none motion-reduce:group-hover:rotate-0"
           />
           <span className="font-display text-lg font-semibold tracking-tight">
             Sinal<span className="text-accent">Zero</span>
@@ -90,6 +95,7 @@ export function Header() {
 
       <nav
         id="mobile-navigation"
+        data-open={menuOpen}
         aria-label="Seções do site no celular"
         className={cn(
           "grid overflow-hidden border-t transition-[grid-template-rows,opacity,border-color] duration-300 ease-out md:hidden motion-reduce:transition-none",
@@ -97,8 +103,12 @@ export function Header() {
         )}
       >
         <ul className="mx-auto flex min-h-0 w-full max-w-6xl flex-col px-5">
-          {NAV.map((item) => (
-            <li key={item.href} className="border-b border-border last:border-0">
+          {NAV.map((item, i) => (
+            <li
+              key={item.href}
+              className="mobile-nav-item border-b border-border last:border-0"
+              style={{ transitionDelay: menuOpen ? `${80 + i * 40}ms` : "0ms" }}
+            >
               <a href={item.href} onClick={() => setMenuOpen(false)} className="block py-4 text-sm font-medium text-foreground transition-colors hover:text-accent">
                 {item.label}
               </a>

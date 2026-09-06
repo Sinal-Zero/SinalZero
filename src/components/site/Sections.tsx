@@ -1,5 +1,6 @@
 import { Radar, MonitorSmartphone, Target, LineChart, ShieldCheck, Gauge } from "lucide-react";
 import { Reveal } from "./Reveal";
+import { SplitText } from "./SplitText";
 
 function SectionTitle({
   title,
@@ -10,9 +11,9 @@ function SectionTitle({
 }) {
   return (
     <div className="max-w-2xl">
-      <Reveal>
-        <h2 className="text-balance font-display text-3xl font-semibold sm:text-4xl">{title}</h2>
-      </Reveal>
+      <h2 className="text-balance font-display text-3xl font-semibold sm:text-4xl">
+        <SplitText segments={title} unit="word" stagger={45} />
+      </h2>
       {description ? (
         <Reveal delay={90}>
           <p className="mt-5 text-pretty leading-relaxed text-muted-foreground">{description}</p>

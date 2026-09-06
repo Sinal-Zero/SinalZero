@@ -1,6 +1,7 @@
 import { ArrowUpRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Reveal } from "./Reveal";
+import { SplitText } from "./SplitText";
 import { RadarBackdrop } from "./RadarBackdrop";
 import { LINKTREE_URL } from "./constants";
 
@@ -13,11 +14,9 @@ export function ContactCta() {
       <RadarBackdrop className="opacity-60" />
 
       <div className="relative mx-auto max-w-3xl px-5 text-center sm:px-8">
-        <Reveal>
-          <h2 className="text-balance font-display text-3xl font-semibold sm:text-4xl">
-            Vamos ligar o radar no seu negócio?
-          </h2>
-        </Reveal>
+        <h2 className="text-balance font-display text-3xl font-semibold sm:text-4xl">
+          <SplitText segments="Vamos ligar o radar no seu negócio?" unit="word" stagger={50} />
+        </h2>
         <Reveal delay={90}>
           <p className="mx-auto mt-5 max-w-xl text-pretty leading-relaxed text-muted-foreground">
             Conte o que você quer alcançar. A partir daí, definimos juntos o caminho mais curto até

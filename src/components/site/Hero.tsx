@@ -1,6 +1,7 @@
 import { ArrowUpRight, Radar, Sparkles, Target } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Reveal } from "./Reveal";
+import { SplitText } from "./SplitText";
 import { RadarBackdrop } from "./RadarBackdrop";
 import { LINKTREE_URL } from "./constants";
 
@@ -25,12 +26,17 @@ export function Hero() {
           </p>
         </Reveal>
 
-        <Reveal delay={90}>
-          <h1 className="mt-7 text-balance font-display text-4xl leading-[1.05] font-semibold sm:text-5xl lg:text-6xl">
-            Captamos o <span className="text-gradient-gold">sinal</span> dos seus próximos
-            clientes.
-          </h1>
-        </Reveal>
+        <h1 className="mt-7 text-balance font-display text-4xl leading-[1.05] font-semibold sm:text-5xl lg:text-6xl">
+          <SplitText
+            delay={90}
+            stagger={18}
+            segments={[
+              { text: "Captamos o " },
+              { text: "sinal", className: "text-gradient-gold", atomic: true },
+              { text: " dos seus próximos clientes." },
+            ]}
+          />
+        </h1>
 
         <Reveal delay={170}>
           <p className="mx-auto mt-6 max-w-xl text-pretty text-base leading-relaxed text-muted-foreground sm:text-lg">

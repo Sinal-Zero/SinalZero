@@ -15,6 +15,7 @@ const NAV = [
 export function Header() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [progress, setProgress] = useState(0);
 
   useEffect(() => {
     let frame = 0;
@@ -22,13 +23,18 @@ export function Header() {
       if (frame) return;
       frame = window.requestAnimationFrame(() => {
         setScrolled(window.scrollY > 24);
+        const doc = document.documentElement;
+        const max = doc.scrollHeight - doc.clientHeight;
+        setProgress(max > 0 ? Math.min(1, Math.max(0, window.scrollY / max)) : 0);
         frame = 0;
       });
     };
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll, { passive: true });
     return () => {
       window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
       if (frame) window.cancelAnimationFrame(frame);
     };
   }, []);
@@ -122,6 +128,16 @@ export function Header() {
           ))}
         </ul>
       </nav>
+
+      <div
+        aria-hidden="true"
+        className="absolute inset-x-0 bottom-0 h-px overflow-hidden bg-transparent"
+      >
+        <div
+          className="h-full origin-left bg-gradient-to-r from-primary via-accent to-gold transition-transform duration-150 ease-out motion-reduce:transition-none"
+          style={{ transform: `scaleX(${progress})` }}
+        />
+      </div>
     </header>
   );
 }

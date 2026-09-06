@@ -148,7 +148,9 @@ bun install
 bun run build
 ```
 
-Framework Vercel: **TanStack Start** (`vercel.json` declara isso explicitamente).
+Framework Vercel: **Other** (sem preset) — `vercel.json` declara `installCommand`,
+`buildCommand` e `outputDirectory` explicitamente. Isto é proposital, ver
+"Causa raiz 2" abaixo.
 
 O plugin `nitro/vite` em `vite.config.ts` é obrigatório: sem ele, `vite build`
 produz um bundle SSR genérico sem o payload da Build Output API do Vercel
@@ -159,28 +161,55 @@ com o deployment marcado `READY`.
 
 - **Problema:** `sinalzero.vercel.app` (e todo domínio do projeto) retornava
   `404: NOT_FOUND` em produção, embora o deployment aparecesse `READY`.
-- **Causa raiz (código):** `vite.config.ts` não incluía o plugin `nitro/vite`.
-  Sem ele, o build gerava apenas `dist/client` + `dist/server/server.js` (um
-  bundle Node genérico), nunca o `.vercel/output` que o Vercel precisa para
-  rotear requisições até a função serverless.
-- **Correção aplicada:** adicionado `nitro()` ao array de `plugins` (depois de
+
+- **Causa raiz 1 (código, corrigida):** `vite.config.ts` não incluía o plugin
+  `nitro/vite`. Sem ele, o build gerava apenas `dist/client` +
+  `dist/server/server.js` (um bundle Node genérico), nunca o `.vercel/output`
+  que o Vercel precisa para rotear requisições até a função serverless.
+  Corrigido adicionando `nitro()` ao array de `plugins` (depois de
   `tanstackStart()`, antes de `viteReact()`), com `nitro` movido de
-  `devDependencies` para `dependencies`. Verificado localmente com
-  `VERCEL=1 bun run build`: o build passou a gerar
-  `.vercel/output/functions/__server.func` e `.vercel/output/config.json`
-  com rota catch-all para `/__server`.
-- **Causa adicional (infraestrutura):** também havia proteção "Vercel
-  Authentication" (SSO) ativa no projeto sem domínio customizado, bloqueando
-  acesso público a qualquer URL — desativada nas configurações do projeto.
-- **Problema residual observado:** mesmo após a correção de código, deploys
-  subsequentes (via push, redeploy manual e até redeploy sem cache pelo
-  dashboard) mostraram `vercel build` concluindo em ~40ms sem executar
-  `bun install`/`bun run build`, produzindo `NOT_FOUND` sem nenhum log de
-  runtime — indício de um problema no lado da plataforma Vercel (não no
-  código deste repositório). Confirmado que `src/server.ts` existe e que
-  `tanstackStart({ server: { entry: "server" } })` é uma configuração válida.
-  Se `/` continuar retornando 404 após um novo push, abra um ticket com o
-  suporte da Vercel citando o log de build de ~40ms sem etapas de
-  install/build.
+  `devDependencies` para `dependencies`.
+
+- **Causa raiz 2 (Vercel, corrigida):** o **Framework Preset "TanStack Start"
+  do próprio Vercel estava quebrado para este projeto.** Com esse preset
+  ativo (seja por auto-detecção via dependências, seja setado explicitamente
+  em `vercel.json`), `vercel build` completava em ~35-75ms **sem executar
+  `bun install` nem `bun run build` em nenhuma tentativa** — testado via push
+  no Git, redeploy pela API, redeploy manual sem cache pelo dashboard, e
+  upload direto de arquivos. Nenhum log de instalação/build aparecia, e a
+  requisição a `/` nunca chegava a rodar código da aplicação (zero runtime
+  logs). Confirmado que isso não tinha relação com `nitro`, `bun` vs `npm`,
+  cache, ou `server: { entry: "server" }` (que é uma configuração válida —
+  `src/server.ts` existe).
+
+  **Isolado o problema:** definir `framework: null` no projeto + comandos
+  explícitos (`installCommand`/`buildCommand`) SEM um `outputDirectory` ainda
+  falhava do mesmo jeito. Só funcionou ao definir também um
+  `outputDirectory` concreto (`"dist"`) — mesmo o Nitro escrevendo o output
+  real diretamente em `.vercel/output` (que o Vercel prioriza automaticamente
+  quando presente). Sem um `outputDirectory` explícito, o `vercel build`
+  aparentemente assume que o projeto já fornece `.vercel/output` pronto e
+  pula toda a etapa de install/build — e com o preset "TanStack Start" essa
+  mesma pulada acontecia mesmo devendo rodar o build primeiro.
+
+  **Correção:** `vercel.json` agora fixa explicitamente:
+  ```json
+  {
+    "installCommand": "bun install",
+    "buildCommand": "bun run build",
+    "outputDirectory": "dist"
+  }
+  ```
+  sem declarar `framework`, evitando o preset "TanStack Start" quebrado.
+
+- **Causa adicional (infraestrutura, corrigida):** também havia proteção
+  "Vercel Authentication" (SSO) ativa no projeto sem domínio customizado,
+  bloqueando acesso público a qualquer URL — desativada nas configurações do
+  projeto.
+
 - **Arquivos alterados:** `vite.config.ts`, `package.json`, `bun.lock`,
   `vercel.json` (novo).
+
+- **Resultado dos testes:** `bun install && bun run build` local, exit 0.
+  Deploy de produção com a configuração acima: `GET https://sinalzero.vercel.app/`
+  → `200 OK`, HTML completo da SSR renderizado (todas as seções, nav, footer).

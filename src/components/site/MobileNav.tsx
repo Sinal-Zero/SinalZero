@@ -3,6 +3,7 @@ import * as DialogPrimitive from "@radix-ui/react-dialog";
 import { Menu, X, ArrowUpRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { LINKTREE_URL } from "./constants";
+import { useLoading } from "./LoadingWave";
 
 const NAV = [
   { href: "#sobre", label: "Sobre" },
@@ -23,6 +24,7 @@ export function MobileNav({
   open: boolean;
   onOpenChange: (open: boolean) => void;
 }) {
+  const { showLoading } = useLoading();
   useEffect(() => {
     document.body.classList.toggle("nav-open", open);
     return () => document.body.classList.remove("nav-open");
@@ -90,7 +92,10 @@ export function MobileNav({
             </DialogPrimitive.Close>
           </div>
 
-          <nav aria-label="Seções do site" className="mobile-drawer-stagger flex-1 overflow-y-auto px-6 pt-2">
+          <nav
+            aria-label="Seções do site"
+            className="mobile-drawer-stagger flex-1 overflow-y-auto px-6 pt-2"
+          >
             <ul className="flex flex-col">
               {NAV.map((item, i) => (
                 <li
@@ -101,6 +106,7 @@ export function MobileNav({
                   <DialogPrimitive.Close asChild>
                     <a
                       href={item.href}
+                      onClick={() => showLoading(700)}
                       className="flex items-center justify-between py-4 text-base font-medium text-foreground transition-colors hover:text-accent"
                     >
                       {item.label}

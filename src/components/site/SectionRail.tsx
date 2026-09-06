@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
+import { useLoading } from "./LoadingWave";
 
 const SECTIONS = [
   { href: "#topo", label: "Início" },
@@ -12,6 +13,7 @@ const SECTIONS = [
 
 export function SectionRail() {
   const [active, setActive] = useState("#topo");
+  const { showLoading } = useLoading();
 
   useEffect(() => {
     const nodes = SECTIONS.map(({ href }) => document.querySelector(href)).filter(
@@ -66,6 +68,7 @@ export function SectionRail() {
                 aria-label={item.label}
                 aria-current={isActive ? "location" : undefined}
                 data-active={isActive}
+                onClick={() => showLoading(700)}
                 className={cn(
                   "group flex items-center gap-2 rounded-md px-2 py-1 text-[10px] uppercase tracking-[0.18em] text-muted-foreground transition-[color,background-color,box-shadow,transform] duration-300 hover:-translate-y-0.5 hover:bg-surface/80 hover:text-foreground hover:shadow-[0_10px_26px_-16px_color-mix(in_oklab,var(--color-accent)_80%,transparent)]",
                   isActive && "text-accent",

@@ -188,12 +188,12 @@
 @keyframes loading-wave-animation {
   0%,
   100% {
-    height: 0.625rem;
+    height: var(--wave-min-height);
     transform: translateY(0);
   }
 
   50% {
-    height: 3.125rem;
+    height: var(--wave-max-height);
     transform: translateY(-0.15rem);
   }
 }
@@ -207,12 +207,59 @@
   gap: 0.6rem;
 }
 
+.loading-wave-large {
+  width: min(21rem, 80vw);
+  height: 10rem;
+  gap: 1rem;
+}
+
 .loading-bar {
+  --wave-min-height: 0.625rem;
+  --wave-max-height: 3.125rem;
   width: 0.8rem;
-  height: 0.625rem;
+  height: var(--wave-min-height);
   border-radius: 999px;
   animation: loading-wave-animation 1s ease-in-out infinite;
   box-shadow: 0 0 1.25rem color-mix(in oklab, currentColor 55%, transparent);
+}
+
+.loading-wave-large .loading-bar {
+  --wave-min-height: 1rem;
+  --wave-max-height: 7rem;
+  width: 1.35rem;
+}
+
+.global-loading {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: grid;
+  place-items: center;
+  background: color-mix(in oklab, var(--color-background) 72%, transparent);
+  backdrop-filter: blur(14px) saturate(0.8);
+  opacity: 0;
+  pointer-events: none;
+  transform: scale(1.035);
+  transition:
+    opacity 500ms ease,
+    transform 700ms cubic-bezier(0.22, 1.35, 0.36, 1);
+}
+
+.global-loading-visible {
+  opacity: 1;
+  pointer-events: auto;
+  transform: scale(1);
+}
+
+.global-loading-panel {
+  display: grid;
+  place-items: center;
+  min-width: min(25rem, 88vw);
+  min-height: 15rem;
+  border: 1px solid color-mix(in oklab, var(--color-accent) 22%, transparent);
+  border-radius: 1.5rem;
+  background: color-mix(in oklab, var(--color-surface) 65%, transparent);
+  box-shadow: 0 28px 90px -44px color-mix(in oklab, var(--color-primary) 85%, transparent);
 }
 
 .loading-bar:nth-child(2) {

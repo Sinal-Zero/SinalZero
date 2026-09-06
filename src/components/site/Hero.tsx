@@ -2,7 +2,6 @@ import { Reveal } from "./Reveal";
 import { BlurText } from "./BlurText";
 import { ContactConfirm } from "./ContactConfirm";
 import { GradientText } from "./GradientText";
-import { ScrollReveal } from "./ScrollReveal";
 
 export function Hero() {
   return (
@@ -26,12 +25,14 @@ export function Hero() {
           </GradientText>
         </h1>
 
-        <Reveal delay={170}>
-          <ScrollReveal className="mx-auto mt-6 max-w-xl text-pretty text-base leading-relaxed text-muted-foreground sm:text-lg">
-            Enquanto você perde tempo com listas frias e uma presença digital que não converte, a
-            SinalZero encontra quem já demonstra interesse, qualifica o sinal e transforma atenção
-            em conversa.
-          </ScrollReveal>
+        <Reveal
+          as="p"
+          delay={170}
+          className="mx-auto mt-6 max-w-xl text-pretty text-base leading-relaxed text-muted-foreground sm:text-lg"
+        >
+          Enquanto você perde tempo com listas frias e uma presença digital que não converte, a
+          SinalZero encontra quem já demonstra interesse, qualifica o sinal e transforma atenção em
+          conversa.
         </Reveal>
 
         <Reveal delay={250}>

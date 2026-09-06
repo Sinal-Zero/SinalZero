@@ -11,7 +11,6 @@ import {
 } from "lucide-react";
 import { Reveal } from "./Reveal";
 import { BlurText } from "./BlurText";
-import { ScrollReveal } from "./ScrollReveal";
 
 function SectionTitle({ title, description }: { title: string; description?: string }) {
   return (
@@ -20,10 +19,12 @@ function SectionTitle({ title, description }: { title: string; description?: str
         <BlurText as="span" text={title} delay={45} stepDuration={0.325} />
       </h2>
       {description ? (
-        <Reveal delay={90}>
-          <ScrollReveal className="mt-5 text-pretty leading-relaxed text-muted-foreground">
-            {description}
-          </ScrollReveal>
+        <Reveal
+          as="p"
+          delay={90}
+          className="mt-5 text-pretty leading-relaxed text-muted-foreground"
+        >
+          {description}
         </Reveal>
       ) : null}
     </div>
@@ -80,9 +81,7 @@ export function ClientPains() {
                   stepDuration={0.325}
                   className="mt-6 font-display text-lg font-semibold"
                 />
-                <ScrollReveal className="mt-3 text-sm leading-relaxed text-muted-foreground">
-                  {item.text}
-                </ScrollReveal>
+                <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{item.text}</p>
               </article>
             </Reveal>
           ))}
@@ -130,9 +129,9 @@ export function Services() {
                   stepDuration={0.325}
                   className="mt-6 font-display text-lg font-semibold"
                 />
-                <ScrollReveal className="mt-3 text-sm leading-relaxed text-muted-foreground">
+                <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
                   {service.text}
-                </ScrollReveal>
+                </p>
               </article>
             </Reveal>
           ))}
@@ -187,9 +186,7 @@ export function Process() {
                 stepDuration={0.325}
                 className="mt-4 font-display text-base font-semibold"
               />
-              <ScrollReveal className="mt-2 text-sm leading-relaxed text-muted-foreground">
-                {item.text}
-              </ScrollReveal>
+              <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{item.text}</p>
             </div>
           </Reveal>
         ))}
@@ -236,9 +233,7 @@ export function Differentials() {
                   stepDuration={0.325}
                   className="mt-5 font-display text-lg font-semibold"
                 />
-                <ScrollReveal className="mt-2 text-sm leading-relaxed text-muted-foreground">
-                  {item.text}
-                </ScrollReveal>
+                <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{item.text}</p>
               </div>
             </Reveal>
           ))}
@@ -286,9 +281,9 @@ export function Solutions() {
                 stepDuration={0.325}
                 className="relative font-display text-lg font-semibold"
               />
-              <ScrollReveal className="relative mt-3 text-sm leading-relaxed text-muted-foreground">
+              <p className="relative mt-3 text-sm leading-relaxed text-muted-foreground">
                 {item.text}
-              </ScrollReveal>
+              </p>
             </article>
           </Reveal>
         ))}

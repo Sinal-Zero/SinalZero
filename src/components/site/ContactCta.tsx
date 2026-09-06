@@ -1,6 +1,5 @@
 import { Reveal } from "./Reveal";
 import { BlurText } from "./BlurText";
-import { ScrollReveal } from "./ScrollReveal";
 import { RadarBackdrop } from "./RadarBackdrop";
 import { ContactConfirm } from "./ContactConfirm";
 
@@ -21,11 +20,13 @@ export function ContactCta() {
             stepDuration={0.325}
           />
         </h2>
-        <Reveal delay={90}>
-          <ScrollReveal className="mx-auto mt-5 max-w-xl text-pretty leading-relaxed text-muted-foreground">
-            Conte o que você quer alcançar. A partir daí, definimos juntos o caminho mais curto até
-            os próximos clientes.
-          </ScrollReveal>
+        <Reveal
+          as="p"
+          delay={90}
+          className="mx-auto mt-5 max-w-xl text-pretty leading-relaxed text-muted-foreground"
+        >
+          Conte o que você quer alcançar. A partir daí, definimos juntos o caminho mais curto até os
+          próximos clientes.
         </Reveal>
         <Reveal delay={170}>
           <div className="mt-9 flex justify-center">

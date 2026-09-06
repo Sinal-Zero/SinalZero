@@ -1,4 +1,11 @@
-import { AnimatePresence, motion, useMotionValue, useSpring, useTransform } from "motion/react";
+import {
+  AnimatePresence,
+  motion,
+  useMotionValue,
+  useMotionValueEvent,
+  useSpring,
+  useTransform,
+} from "motion/react";
 import { useEffect, useRef, useState } from "react";
 import { CircleDot, Compass, Crosshair, Radar, Send, Workflow } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -25,6 +32,7 @@ type DockItemProps = {
 function DockItem({ href, label, active, icon: Icon, mouseY, showLoading }: DockItemProps) {
   const ref = useRef<HTMLAnchorElement | null>(null);
   const hovered = useMotionValue(0);
+  const [isHovered, setIsHovered] = useState(false);
   const distance = 150;
   const baseSize = 44;
   const magnification = 64;
@@ -39,6 +47,8 @@ function DockItem({ href, label, active, icon: Icon, mouseY, showLoading }: Dock
     [baseSize, magnification, baseSize],
   );
   const size = useSpring(targetSize, { mass: 0.12, stiffness: 180, damping: 14 });
+
+  useMotionValueEvent(hovered, "change", (value) => setIsHovered(value === 1));
 
   return (
     <motion.a
@@ -71,7 +81,7 @@ function DockItem({ href, label, active, icon: Icon, mouseY, showLoading }: Dock
           <motion.span
             key="hover-label"
             initial={{ opacity: 0, x: -8 }}
-            animate={{ opacity: hovered.get(), x: hovered.get() ? 0 : -8 }}
+            animate={{ opacity: isHovered ? 1 : 0, x: isHovered ? 0 : -8 }}
             transition={{ duration: 0.2 }}
             className="dock-label"
             role="tooltip"

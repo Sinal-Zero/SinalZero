@@ -75,7 +75,7 @@ export function Header() {
         className="mx-auto flex h-20 max-w-6xl items-center justify-between px-5 transition-[height] duration-300 sm:px-8 lg:data-[scrolled=true]:h-[4.5rem]"
         data-scrolled={scrolled}
       >
-        <a href="#topo" className="group flex items-center gap-3" aria-label="SinalZero, início">
+        <div className="group flex items-center gap-3" aria-label="SinalZero">
           <img
             src={RADAR_LOGO_SRC}
             alt=""
@@ -86,7 +86,7 @@ export function Header() {
           <span className="font-display text-lg font-semibold tracking-tight">
             Sinal<span className="text-accent">Zero</span>
           </span>
-        </a>
+        </div>
 
         <div className="flex items-center gap-3">
           <OccultMenu open={occultMenuOpen} onOpenChange={setOccultMenuOpen} />

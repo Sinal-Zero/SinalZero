@@ -1,4 +1,14 @@
-import { Radar, MonitorSmartphone, Target, LineChart, ShieldCheck, Gauge } from "lucide-react";
+import {
+  Radar,
+  MonitorSmartphone,
+  Target,
+  LineChart,
+  ShieldCheck,
+  Gauge,
+  Clock3,
+  EyeOff,
+  WalletCards,
+} from "lucide-react";
 import { Reveal } from "./Reveal";
 import { BlurText } from "./BlurText";
 import { ScrollReveal } from "./ScrollReveal";
@@ -27,6 +37,57 @@ export function About() {
         title="Sinal claro no meio do ruído."
         description="A SinalZero é uma startup de prospecção inteligente de leads e construção de produtos digitais. Trabalhamos como um radar: varremos o mercado, identificamos quem realmente tem interesse no seu serviço e entregamos essas oportunidades prontas para o contato — junto com o site ou produto que sustenta a conversa."
       />
+    </section>
+  );
+}
+
+const CLIENT_PAINS = [
+  {
+    icon: Clock3,
+    title: "Seu time vende no escuro",
+    text: "Horas são gastas procurando contatos que nunca pediram uma conversa. O problema não é esforço: é falta de sinal.",
+  },
+  {
+    icon: EyeOff,
+    title: "Sua presença não é encontrada",
+    text: "Quando o cliente pesquisa, um site lento ou genérico faz sua empresa desaparecer antes do primeiro contato.",
+  },
+  {
+    icon: WalletCards,
+    title: "Oportunidades escapam",
+    text: "Cada lead mal qualificado custa tempo, dinheiro e confiança. Você precisa saber onde vale insistir.",
+  },
+];
+
+export function ClientPains() {
+  return (
+    <section className="relative border-y border-border bg-surface/40 py-20 sm:py-24">
+      <div className="mx-auto max-w-6xl px-5 sm:px-8">
+        <SectionTitle
+          title="O problema não é falta de clientes. É excesso de ruído."
+          description="A SinalZero existe para encurtar a distância entre quem precisa do que você vende e o momento certo de iniciar uma conversa."
+        />
+
+        <ul className="grid-rise mt-12 grid gap-5 md:grid-cols-3">
+          {CLIENT_PAINS.map((item, i) => (
+            <Reveal as="li" key={item.title} delay={i * 70}>
+              <article className="interactive-panel h-full rounded-lg border border-border bg-card/70 p-7">
+                <item.icon className="h-6 w-6 text-ember" aria-hidden="true" />
+                <BlurText
+                  as="h3"
+                  text={item.title}
+                  delay={35}
+                  stepDuration={1}
+                  className="mt-6 font-display text-lg font-semibold"
+                />
+                <ScrollReveal className="mt-3 text-sm leading-relaxed text-muted-foreground">
+                  {item.text}
+                </ScrollReveal>
+              </article>
+            </Reveal>
+          ))}
+        </ul>
+      </div>
     </section>
   );
 }

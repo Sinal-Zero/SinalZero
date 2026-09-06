@@ -1,14 +1,10 @@
-import { lazy, Suspense } from "react";
 import { Radar, Sparkles, Target } from "lucide-react";
 import { Reveal } from "./Reveal";
 import { BlurText } from "./BlurText";
 import { ContactConfirm } from "./ContactConfirm";
-import { LoadingWave } from "./LoadingWave";
 import { InfiniteSpiral } from "./InfiniteSpiral";
 import { GradientText } from "./GradientText";
 import { ScrollReveal } from "./ScrollReveal";
-
-const Radar3D = lazy(() => import("./Radar3D").then((m) => ({ default: m.Radar3D })));
 
 const SIGNALS = [
   { icon: Radar, label: "Prospecção ativa e contínua" },
@@ -22,16 +18,6 @@ export function Hero() {
       id="topo"
       className="relative flex min-h-[88svh] items-center overflow-hidden pb-20 pt-28 lg:min-h-[92svh]"
     >
-      <Suspense
-        fallback={
-          <div className="pointer-events-none absolute inset-0 flex items-center justify-center overflow-hidden">
-            <LoadingWave />
-          </div>
-        }
-      >
-        <Radar3D />
-      </Suspense>
-
       <InfiniteSpiral />
 
       <div className="relative z-10 mx-auto w-full max-w-3xl px-5 text-center sm:px-8">

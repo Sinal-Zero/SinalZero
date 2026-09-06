@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import * as DialogPrimitive from "@radix-ui/react-dialog";
-import { Menu, PanelRightClose, PanelRightOpen } from "lucide-react";
+import { Menu, PanelRightClose, PanelRightOpen, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 /** Menu reservado para futuras entradas; a navegação principal permanece no header. */
@@ -48,24 +48,21 @@ export function OccultMenu({
             <PanelRightOpen className="h-5 w-5 text-accent" aria-hidden="true" />
             Menu oculto
           </DialogPrimitive.Title>
-          <DialogPrimitive.Description className="mt-3 max-w-xs text-sm leading-relaxed text-muted-foreground">
-            Este espaço está reservado para os próximos atalhos da operação.
-          </DialogPrimitive.Description>
+          <DialogPrimitive.Close asChild>
+            <button
+              type="button"
+              aria-label="Fechar menu oculto"
+              className="absolute right-7 top-7 inline-flex h-9 w-9 items-center justify-center rounded-full text-muted-foreground transition-[color,background-color,transform] duration-300 hover:rotate-90 hover:bg-accent/10 hover:text-accent"
+            >
+              <X className="h-5 w-5" aria-hidden="true" />
+            </button>
+          </DialogPrimitive.Close>
 
           <div className="flex flex-1 items-center justify-center">
             <div className="rounded-full border border-dashed border-accent/30 px-5 py-2 text-xs uppercase tracking-[0.2em] text-muted-foreground">
               Em breve
             </div>
           </div>
-
-          <DialogPrimitive.Close asChild>
-            <button
-              type="button"
-              className="self-start text-sm text-muted-foreground transition-colors hover:text-foreground"
-            >
-              Fechar painel
-            </button>
-          </DialogPrimitive.Close>
         </DialogPrimitive.Content>
       </DialogPrimitive.Portal>
     </DialogPrimitive.Root>

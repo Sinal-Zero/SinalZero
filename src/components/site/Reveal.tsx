@@ -1,4 +1,11 @@
-import { useEffect, useRef, useState, type CSSProperties, type ElementType, type ReactNode } from "react";
+import {
+  useEffect,
+  useRef,
+  useState,
+  type CSSProperties,
+  type ElementType,
+  type ReactNode,
+} from "react";
 import { cn } from "@/lib/utils";
 
 /**
@@ -31,7 +38,7 @@ export function Reveal({
       return;
     }
 
-    let fallback = window.setTimeout(() => setVisible(true), 1400);
+    const fallback = window.setTimeout(() => setVisible(true), 1400);
     const observer = new IntersectionObserver(
       (entries) => {
         for (const entry of entries) {
@@ -59,10 +66,7 @@ export function Reveal({
       ref={ref}
       style={revealStyle}
       data-reveal-state={visible ? "visible" : "pending"}
-      className={cn(
-        "reveal-item",
-        className,
-      )}
+      className={cn("reveal-item", className)}
     >
       {children}
     </Tag>

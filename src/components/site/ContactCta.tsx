@@ -6,7 +6,10 @@ import { LINKTREE_URL } from "./constants";
 
 export function ContactCta() {
   return (
-    <section id="contato" className="relative overflow-hidden border-t border-border py-24 sm:py-28">
+    <section
+      id="contato"
+      className="relative overflow-hidden border-t border-border py-24 sm:py-28"
+    >
       <RadarBackdrop className="opacity-60" />
 
       <div className="relative mx-auto max-w-3xl px-5 text-center sm:px-8">
@@ -25,7 +28,10 @@ export function ContactCta() {
           <Button asChild variant="signal" size="signal" className="mt-9">
             <a href={LINKTREE_URL} target="_blank" rel="noopener noreferrer" className="group">
               Falar com a SinalZero
-              <ArrowUpRight className="transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 motion-reduce:transition-none" aria-hidden="true" />
+              <ArrowUpRight
+                className="transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 motion-reduce:transition-none"
+                aria-hidden="true"
+              />
             </a>
           </Button>
         </Reveal>

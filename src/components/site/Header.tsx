@@ -99,7 +99,9 @@ export function Header() {
         aria-label="Seções do site no celular"
         className={cn(
           "grid overflow-hidden border-t transition-[grid-template-rows,opacity,border-color] duration-300 ease-out md:hidden motion-reduce:transition-none",
-          menuOpen ? "grid-rows-[1fr] border-border opacity-100" : "pointer-events-none grid-rows-[0fr] border-transparent opacity-0",
+          menuOpen
+            ? "grid-rows-[1fr] border-border opacity-100"
+            : "pointer-events-none grid-rows-[0fr] border-transparent opacity-0",
         )}
       >
         <ul className="mx-auto flex min-h-0 w-full max-w-6xl flex-col px-5">
@@ -109,7 +111,11 @@ export function Header() {
               className="mobile-nav-item border-b border-border last:border-0"
               style={{ transitionDelay: menuOpen ? `${80 + i * 40}ms` : "0ms" }}
             >
-              <a href={item.href} onClick={() => setMenuOpen(false)} className="block py-4 text-sm font-medium text-foreground transition-colors hover:text-accent">
+              <a
+                href={item.href}
+                onClick={() => setMenuOpen(false)}
+                className="block py-4 text-sm font-medium text-foreground transition-colors hover:text-accent"
+              >
                 {item.label}
               </a>
             </li>

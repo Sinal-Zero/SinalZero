@@ -45,7 +45,10 @@ export function Hero() {
             <Button asChild variant="signal" size="signal">
               <a href={LINKTREE_URL} target="_blank" rel="noopener noreferrer" className="group">
                 Falar com a SinalZero
-                <ArrowUpRight className="transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 motion-reduce:transition-none" aria-hidden="true" />
+                <ArrowUpRight
+                  className="transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 motion-reduce:transition-none"
+                  aria-hidden="true"
+                />
               </a>
             </Button>
           </div>

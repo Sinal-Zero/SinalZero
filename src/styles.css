@@ -265,6 +265,7 @@
 .blur-text {
   display: flex;
   flex-wrap: wrap;
+  justify-content: center;
 }
 
 .scroll-reveal-word {

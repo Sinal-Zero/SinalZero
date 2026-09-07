@@ -16,6 +16,7 @@ import { EbookOffer } from "@/components/site/EbookOffer";
 import { ContactCta } from "@/components/site/ContactCta";
 import { Footer } from "@/components/site/Footer";
 import { SectionRail } from "@/components/site/SectionRail";
+import { MobileTabBar } from "@/components/site/MobileTabBar";
 
 const TITLE = "SinalZero — Prospecção inteligente de leads e produtos digitais";
 const DESCRIPTION =
@@ -52,6 +53,7 @@ function Index() {
     <div id="page-shell" className="page-shell min-h-screen bg-background">
       <Header />
       <SectionRail />
+      <MobileTabBar />
       <main>
         <Hero />
         <About />

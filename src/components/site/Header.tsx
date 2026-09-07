@@ -2,12 +2,22 @@ import { useEffect, useState } from "react";
 import { MobileNav } from "./MobileNav";
 
 /**
+ * Navegação desktop vive só na SectionRail (esquerda). Header aqui é
+ * só o gatilho de menu (mobile/tablet, topo-direita) e a barra de progresso.
  * A SectionRail continua como navegação rápida no desktop.
  * O hamburger fica disponível em todos os tamanhos de tela como menu secundário.
  */
 export function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [progress, setProgress] = useState(0);
+
+  useEffect(() => {
+    const closeOnDesktop = () => {
+      if (window.matchMedia("(min-width: 1024px)").matches) setMenuOpen(false);
+    };
+    window.addEventListener("resize", closeOnDesktop);
+    return () => window.removeEventListener("resize", closeOnDesktop);
+  }, []);
 
   useEffect(() => {
     let frame = 0;

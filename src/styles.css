@@ -490,6 +490,66 @@
   color: var(--color-accent);
 }
 
+/* Barra de navegação mobile/tablet — equivalente responsivo da dock desktop */
+@keyframes sz-tabbar-in {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.mobile-tab-bar {
+  border-top: 1px solid var(--color-border);
+  background: color-mix(in oklab, var(--color-background) 86%, transparent);
+  backdrop-filter: blur(18px) saturate(1.1);
+  -webkit-backdrop-filter: blur(18px) saturate(1.1);
+  animation: sz-tabbar-in 520ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.mobile-tab-bar-scroll {
+  scrollbar-width: none;
+}
+
+.mobile-tab-bar-scroll::-webkit-scrollbar {
+  display: none;
+}
+
+.mobile-tab-item {
+  position: relative;
+}
+
+.mobile-tab-item::after {
+  content: "";
+  position: absolute;
+  top: -0.5rem;
+  left: 50%;
+  height: 2px;
+  width: 1.25rem;
+  border-radius: 999px;
+  background: var(--color-accent);
+  opacity: 0;
+  transform: translateX(-50%) scaleX(0.4);
+  transition:
+    opacity 220ms ease,
+    transform 260ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.mobile-tab-item[aria-current="location"]::after {
+  opacity: 1;
+  transform: translateX(-50%) scaleX(1);
+}
+
+/* Reserva espaço para a barra fixa não cobrir o rodapé em telas < lg */
+@media (max-width: 1023.98px) {
+  #page-shell {
+    padding-bottom: calc(3.75rem + env(safe-area-inset-bottom));
+  }
+}
+
 .grid-rise > .reveal-item {
   transform: translateY(30px) scale(0.965);
   transition-duration: 680ms;
@@ -538,16 +598,7 @@
 }
 
 .page-shell {
-  transition:
-    transform 420ms cubic-bezier(0.22, 1, 0.36, 1),
-    border-radius 420ms cubic-bezier(0.22, 1, 0.36, 1);
   transform-origin: center top;
-}
-
-body.nav-open .page-shell {
-  transform: scale(0.92) translateY(10px);
-  border-radius: 28px;
-  overflow: hidden;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -562,14 +613,6 @@ body.nav-open .page-shell {
     opacity: 1;
     transform: none;
     transition-delay: 0ms;
-  }
-
-  .page-shell {
-    transition: none;
-  }
-
-  body.nav-open .page-shell {
-    transform: none;
   }
 
 }

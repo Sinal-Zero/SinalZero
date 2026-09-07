@@ -6,10 +6,11 @@ import {
   useSpring,
   useTransform,
 } from "motion/react";
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { CircleDot, Compass, Crosshair, HelpCircle, Radar, Users, Workflow } from "lucide-react";
+import { useActiveSection } from "@/hooks/use-active-section";
 
-const SECTIONS = [
+export const SECTIONS = [
   { href: "#topo", label: "Início", icon: Radar },
   { href: "#sobre", label: "Sobre", icon: CircleDot },
   { href: "#servicos", label: "Serviços", icon: Compass },
@@ -121,7 +122,12 @@ function DockItem({ href, label, active, icon: Icon, mouseY, onNavigate }: DockI
         className="relative z-[1] inline-flex"
         animate={
           isHovered
-            ? { scale: 1.18, y: -1, filter: "drop-shadow(0 0 8px color-mix(in oklab,var(--color-accent) 72%,transparent))" }
+            ? {
+                scale: 1.18,
+                y: -1,
+                filter:
+                  "drop-shadow(0 0 8px color-mix(in oklab,var(--color-accent) 72%,transparent))",
+              }
             : { scale: 1, y: 0, filter: "drop-shadow(0 0 0 transparent)" }
         }
         transition={{ duration: 0.24, ease: [0.16, 1, 0.3, 1] }}
@@ -164,65 +170,12 @@ function DockItem({ href, label, active, icon: Icon, mouseY, onNavigate }: DockI
 }
 
 export function SectionRail() {
-  const [active, setActive] = useState("#topo");
   const mouseY = useMotionValue(Number.POSITIVE_INFINITY);
   const reducedMotion = useReducedMotion();
-
-  const navigateToSection = (href: string) => {
-    const target = document.querySelector(href);
-    if (!target) return;
-
-    setActive(href);
-    target.scrollIntoView({
-      behavior: reducedMotion ? "auto" : "smooth",
-      block: "start",
-    });
-
-    const cleanUrl = `${window.location.pathname}${window.location.search}`;
-    window.history.replaceState(window.history.state, "", cleanUrl);
-  };
-
-  useEffect(() => {
-    const nodes = SECTIONS.map(({ href }) => document.querySelector(href)).filter(
-      (node): node is Element => Boolean(node),
-    );
-    if (!nodes.length) return;
-
-    if (window.location.hash) {
-      const initialHash = window.location.hash;
-      const hashTarget = document.querySelector(initialHash);
-      if (hashTarget) setActive(initialHash);
-      const cleanUrl = `${window.location.pathname}${window.location.search}`;
-      window.history.replaceState(window.history.state, "", cleanUrl);
-    }
-
-    let frame = 0;
-    const updateActive = () => {
-      const marker = window.scrollY + window.innerHeight * 0.33;
-      let nextActive = "#topo";
-      nodes.forEach((node, index) => {
-        const href = SECTIONS[index]?.href;
-        if (href && node.getBoundingClientRect().top + window.scrollY <= marker) nextActive = href;
-      });
-      setActive((current) => (current === nextActive ? current : nextActive));
-    };
-    const onScroll = () => {
-      if (frame) return;
-      frame = window.requestAnimationFrame(() => {
-        updateActive();
-        frame = 0;
-      });
-    };
-
-    updateActive();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    window.addEventListener("resize", onScroll, { passive: true });
-    return () => {
-      window.removeEventListener("scroll", onScroll);
-      window.removeEventListener("resize", onScroll);
-      if (frame) window.cancelAnimationFrame(frame);
-    };
-  }, []);
+  const { active, navigateToSection } = useActiveSection(
+    SECTIONS.map((s) => s.href),
+    reducedMotion,
+  );
 
   return (
     <motion.nav

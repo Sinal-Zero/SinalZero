@@ -6,7 +6,13 @@ import { LINKTREE_URL } from "./constants";
 import { RedirectConfirm } from "./RedirectConfirm";
 import "./MobileNav.css";
 
-export function MobileNav({ open, onOpenChange }: { open: boolean; onOpenChange: (open: boolean) => void }) {
+export function MobileNav({
+  open,
+  onOpenChange,
+}: {
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
+}) {
   const [contactConfirmOpen, setContactConfirmOpen] = useState(false);
 
   useEffect(() => {
@@ -45,9 +51,7 @@ export function MobileNav({ open, onOpenChange }: { open: boolean; onOpenChange:
         <DialogPrimitive.Portal>
           <DialogPrimitive.Overlay className="mobile-drawer-overlay fixed inset-0 z-[80] bg-black/50 backdrop-blur-[6px]" />
 
-          <DialogPrimitive.Content
-            className="mobile-drawer-panel fixed inset-y-2 right-2 z-[90] flex w-[calc(100vw-1rem)] max-w-[390px] flex-col overflow-hidden rounded-[1.75rem] border border-border/90 bg-surface/94 p-5 shadow-[0_30px_90px_-34px_rgba(0,0,0,.95)] backdrop-blur-2xl sm:inset-y-3 sm:right-3 sm:w-[min(88vw,390px)] sm:p-6"
-          >
+          <DialogPrimitive.Content className="mobile-drawer-panel fixed inset-y-2 right-2 z-[90] flex w-[calc(100vw-1rem)] max-w-[390px] flex-col overflow-hidden rounded-[1.75rem] border border-border/90 bg-surface/94 p-5 shadow-[0_30px_90px_-34px_rgba(0,0,0,.95)] backdrop-blur-2xl sm:inset-y-3 sm:right-3 sm:w-[min(88vw,390px)] sm:p-6">
             <DialogPrimitive.Title className="sr-only">Contato</DialogPrimitive.Title>
             <DialogPrimitive.Description className="sr-only">
               Acesse os canais de contato da SinalZero.

@@ -1,3 +1,4 @@
+import { Fragment } from "react";
 import { motion } from "motion/react";
 import { useEffect, useMemo, useRef, useState, type ElementType, type ReactNode } from "react";
 import { cn } from "@/lib/utils";
@@ -32,6 +33,15 @@ export function BlurText({
 }) {
   const ref = useRef<HTMLElement | null>(null);
   const [inView, setInView] = useState(false);
+  /**
+   * Em modo "letters", as letras de uma mesma palavra ficam agrupadas num
+   * wrapper inline-flex sem quebra — senão o navegador pode quebrar a linha
+   * no meio da palavra, já que cada letra seria seu próprio item flex.
+   */
+  const words = useMemo(
+    () => (animateBy === "letters" ? text.split(" ").map((word) => Array.from(word)) : []),
+    [animateBy, text],
+  );
   const elements = useMemo(
     () => (animateBy === "words" ? text.split(" ") : Array.from(text)),
     [animateBy, text],
@@ -88,10 +98,44 @@ export function BlurText({
     return () => observer.disconnect();
   }, []);
 
+  if (animateBy === "letters") {
+    let letterIndex = 0;
+    return (
+      <Tag ref={ref} className={cn("blur-text", className)}>
+        {words.map((letters, wordIndex) => (
+          <Fragment key={`word-${wordIndex}`}>
+            <span className="inline-flex flex-nowrap">
+              {letters.map((char, charIndex) => {
+                const index = letterIndex++;
+                return (
+                  <motion.span
+                    key={`${char}-${charIndex}`}
+                    className="inline-block will-change-[transform,filter,opacity]"
+                    initial={from}
+                    animate={inView ? keyframes : from}
+                    transition={{
+                      duration: stepDuration * steps.length,
+                      times,
+                      delay: (index * delay) / 1000,
+                      ease: [0.16, 1, 0.3, 1],
+                    }}
+                  >
+                    {char}
+                  </motion.span>
+                );
+              })}
+            </span>
+            {wordIndex < words.length - 1 ? <span className="inline-block"> </span> : null}
+          </Fragment>
+        ))}
+      </Tag>
+    );
+  }
+
   return (
     <Tag ref={ref} className={cn("blur-text", className)}>
       {elements.map((segment, index) => {
-        const renderedSegment = segment === " " || segment === "" ? "\u00a0" : segment;
+        const renderedSegment = segment === " " || segment === "" ? " " : segment;
 
         return (
           <motion.span
@@ -107,7 +151,7 @@ export function BlurText({
             }}
           >
             {renderedSegment}
-            {animateBy === "words" && index < elements.length - 1 ? "\u00a0" : null}
+            {animateBy === "words" && index < elements.length - 1 ? " " : null}
           </motion.span>
         );
       })}

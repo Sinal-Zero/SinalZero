@@ -2,13 +2,14 @@ import { motion } from "motion/react";
 import { useEffect, useMemo, useRef, useState, type ElementType, type ReactNode } from "react";
 import { cn } from "@/lib/utils";
 
-type BlurSnapshot = { filter: string; opacity: number; y: number };
+type BlurSnapshot = { filter: string; opacity: number; y: number; scale: number };
 
 function buildKeyframes(from: BlurSnapshot, steps: BlurSnapshot[]) {
   return {
     filter: [from.filter, ...steps.map((step) => step.filter)],
     opacity: [from.opacity, ...steps.map((step) => step.opacity)],
     y: [from.y, ...steps.map((step) => step.y)],
+    scale: [from.scale, ...steps.map((step) => step.scale)],
   };
 }
 
@@ -37,20 +38,22 @@ export function BlurText({
   );
   const from = useMemo<BlurSnapshot>(
     () => ({
-      filter: "blur(7px)",
+      filter: "blur(6px)",
       opacity: 0,
-      y: direction === "top" ? -7 : 7,
+      y: direction === "top" ? -6 : 6,
+      scale: 0.985,
     }),
     [direction],
   );
   const steps = useMemo<BlurSnapshot[]>(
     () => [
       {
-        filter: "blur(1.8px)",
-        opacity: 0.82,
-        y: direction === "top" ? -1 : 1,
+        filter: "blur(1.4px)",
+        opacity: 0.86,
+        y: direction === "top" ? -0.75 : 0.75,
+        scale: 0.998,
       },
-      { filter: "blur(0px)", opacity: 1, y: 0 },
+      { filter: "blur(0px)", opacity: 1, y: 0, scale: 1 },
     ],
     [direction],
   );
@@ -87,23 +90,27 @@ export function BlurText({
 
   return (
     <Tag ref={ref} className={cn("blur-text", className)}>
-      {elements.map((segment, index) => (
-        <motion.span
-          key={`${segment}-${index}`}
-          className="inline-block will-change-[transform,filter,opacity]"
-          initial={from}
-          animate={inView ? keyframes : from}
-          transition={{
-            duration: stepDuration * steps.length,
-            times,
-            delay: (index * delay) / 1000,
-            ease: [0.16, 1, 0.3, 1],
-          }}
-        >
-          {segment || "\u00a0"}
-          {animateBy === "words" && index < elements.length - 1 ? "\u00a0" : null}
-        </motion.span>
-      ))}
+      {elements.map((segment, index) => {
+        const renderedSegment = segment === " " || segment === "" ? "\u00a0" : segment;
+
+        return (
+          <motion.span
+            key={`${segment}-${index}`}
+            className="inline-block will-change-[transform,filter,opacity]"
+            initial={from}
+            animate={inView ? keyframes : from}
+            transition={{
+              duration: stepDuration * steps.length,
+              times,
+              delay: (index * delay) / 1000,
+              ease: [0.16, 1, 0.3, 1],
+            }}
+          >
+            {renderedSegment}
+            {animateBy === "words" && index < elements.length - 1 ? "\u00a0" : null}
+          </motion.span>
+        );
+      })}
     </Tag>
   );
 }

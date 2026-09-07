@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, type CSSProperties } from "react";
 import * as DialogPrimitive from "@radix-ui/react-dialog";
 import { ArrowUpRight, X } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -56,7 +56,7 @@ export function MobileNav({ open, onOpenChange }: { open: boolean; onOpenChange:
 
           <div className="flex min-h-0 flex-1 flex-col justify-center pr-1">
             <div className="mobile-drawer-stagger">
-              <div style={{ "--stagger-index": 0 } as React.CSSProperties}>
+              <div style={{ "--stagger-index": 0 } as CSSProperties}>
                 <p className="text-[0.68rem] font-semibold uppercase tracking-[0.2em] text-accent">
                   Contato
                 </p>
@@ -68,7 +68,7 @@ export function MobileNav({ open, onOpenChange }: { open: boolean; onOpenChange:
                 </p>
               </div>
 
-              <div className="mt-7" style={{ "--stagger-index": 1 } as React.CSSProperties}>
+              <div className="mt-7" style={{ "--stagger-index": 1 } as CSSProperties}>
                 <a
                   href={LINKTREE_URL}
                   target="_blank"

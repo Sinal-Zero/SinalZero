@@ -10,7 +10,6 @@ import {
 import { useEffect, useRef, useState } from "react";
 import { CircleDot, Compass, Crosshair, HelpCircle, Radar, Users, Workflow } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { useLoading } from "./LoadingWave";
 
 const SECTIONS = [
   { href: "#topo", label: "Início", icon: Radar },
@@ -31,7 +30,7 @@ type DockItemProps = {
   showLoading: (duration?: number) => void;
 };
 
-function DockItem({ href, label, active, icon: Icon, mouseY, showLoading }: DockItemProps) {
+function DockItem({ href, label, active, icon: Icon, mouseY }: DockItemProps) {
   const ref = useRef<HTMLAnchorElement | null>(null);
   const hovered = useMotionValue(0);
   const [isHovered, setIsHovered] = useState(false);
@@ -64,7 +63,7 @@ function DockItem({ href, label, active, icon: Icon, mouseY, showLoading }: Dock
       onMouseLeave={() => hovered.set(0)}
       onFocus={() => hovered.set(1)}
       onBlur={() => hovered.set(0)}
-      onClick={() => showLoading(400)}
+      onClick={() => { /* loading removido */ }}
     >
       {active ? (
         <motion.span
@@ -106,7 +105,6 @@ function DockItem({ href, label, active, icon: Icon, mouseY, showLoading }: Dock
 
 export function SectionRail() {
   const [active, setActive] = useState("#topo");
-  const { showLoading } = useLoading();
   const mouseY = useMotionValue(Number.POSITIVE_INFINITY);
   const reducedMotion = useReducedMotion();
 
@@ -167,7 +165,6 @@ export function SectionRail() {
               {...item}
               active={item.href === active}
               mouseY={mouseY}
-              showLoading={showLoading}
             />
           ))}
         </motion.div>

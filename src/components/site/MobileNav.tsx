@@ -1,33 +1,15 @@
-import { useEffect, type CSSProperties } from "react";
+import { useEffect } from "react";
 import * as DialogPrimitive from "@radix-ui/react-dialog";
-import { X } from "lucide-react";
+import { ArrowUpRight, X } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { LINKTREE_URL } from "./constants";
 import "./MobileNav.css";
-
-const NAV_ITEMS = [
-  { id: "topo", label: "Início" },
-  { id: "sobre", label: "Sobre" },
-  { id: "servicos", label: "Serviços" },
-  { id: "processo", label: "Processo" },
-  { id: "para-quem", label: "Para quem" },
-  { id: "solucoes", label: "Soluções" },
-  { id: "faq", label: "FAQ" },
-];
 
 export function MobileNav({ open, onOpenChange }: { open: boolean; onOpenChange: (open: boolean) => void }) {
   useEffect(() => {
     document.body.classList.toggle("nav-open", open);
     return () => document.body.classList.remove("nav-open");
   }, [open]);
-
-  const goToSection = (id: string) => {
-    const target = document.getElementById(id);
-    if (!target) return;
-
-    target.scrollIntoView({ behavior: "smooth", block: "start" });
-    window.history.replaceState(null, "", window.location.pathname + window.location.search);
-    onOpenChange(false);
-  };
 
   return (
     <DialogPrimitive.Root open={open} onOpenChange={onOpenChange}>
@@ -57,9 +39,9 @@ export function MobileNav({ open, onOpenChange }: { open: boolean; onOpenChange:
         <DialogPrimitive.Content
           className="mobile-drawer-panel fixed inset-y-2 right-2 z-[90] flex w-[calc(100vw-1rem)] max-w-[390px] flex-col overflow-hidden rounded-[1.75rem] border border-border/90 bg-surface/96 p-5 shadow-[0_30px_90px_-34px_rgba(0,0,0,.95)] backdrop-blur-2xl sm:inset-y-3 sm:right-3 sm:w-[min(88vw,390px)] sm:p-6"
         >
-          <DialogPrimitive.Title className="sr-only">Menu de navegação</DialogPrimitive.Title>
+          <DialogPrimitive.Title className="sr-only">Contato</DialogPrimitive.Title>
           <DialogPrimitive.Description className="sr-only">
-            Navegue pelas seções do site da SinalZero.
+            Acesse os canais de contato da SinalZero.
           </DialogPrimitive.Description>
 
           <DialogPrimitive.Close asChild>
@@ -72,32 +54,37 @@ export function MobileNav({ open, onOpenChange }: { open: boolean; onOpenChange:
             </button>
           </DialogPrimitive.Close>
 
-          <div className="mb-7 pr-14 pt-1 sm:mb-8">
-            <p className="text-[0.68rem] font-semibold uppercase tracking-[0.2em] text-accent">Navegação</p>
-            <p className="mt-2 max-w-[28ch] text-sm leading-relaxed text-muted-foreground">
-              Explore as principais seções da SinalZero.
-            </p>
-          </div>
+          <div className="flex min-h-0 flex-1 flex-col justify-center pr-1">
+            <div className="mobile-drawer-stagger">
+              <div style={{ "--stagger-index": 0 } as React.CSSProperties}>
+                <p className="text-[0.68rem] font-semibold uppercase tracking-[0.2em] text-accent">
+                  Contato
+                </p>
+                <h2 className="mt-3 max-w-[14ch] font-display text-2xl font-semibold leading-tight text-foreground sm:text-3xl">
+                  Vamos conversar sobre o próximo passo.
+                </h2>
+                <p className="mt-3 max-w-[30ch] text-sm leading-relaxed text-muted-foreground">
+                  Acesse os canais oficiais da SinalZero em um só lugar.
+                </p>
+              </div>
 
-          <nav aria-label="Menu principal" className="mobile-drawer-stagger flex min-h-0 flex-1 flex-col gap-1.5 overflow-y-auto pr-1">
-            {NAV_ITEMS.map((item, index) => (
-              <button
-                key={item.id}
-                type="button"
-                onClick={() => goToSection(item.id)}
-                style={{ "--stagger-index": index } as CSSProperties}
-                className="mobile-drawer-link group flex min-h-12 w-full items-center justify-between rounded-xl border border-transparent px-4 py-3 text-left text-base font-medium text-foreground transition-[background-color,border-color,box-shadow,transform] duration-200 ease-[cubic-bezier(.22,1,.36,1)] hover:translate-x-1 hover:border-accent/20 hover:bg-accent/10 hover:shadow-[0_10px_28px_-22px_rgba(245,124,0,.85)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/70"
-              >
-                <span>{item.label}</span>
-                <span
-                  className="text-sm text-muted-foreground transition-[color,transform] duration-200 group-hover:translate-x-0.5 group-hover:text-accent"
-                  aria-hidden="true"
+              <div className="mt-7" style={{ "--stagger-index": 1 } as React.CSSProperties}>
+                <a
+                  href={LINKTREE_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={() => onOpenChange(false)}
+                  className="group flex min-h-12 w-full items-center justify-between rounded-xl border border-accent/25 bg-accent/10 px-4 py-3.5 text-left text-base font-semibold text-foreground shadow-[0_14px_34px_-26px_rgba(245,124,0,.9)] transition-[background-color,border-color,box-shadow,transform] duration-200 ease-[cubic-bezier(.22,1,.36,1)] hover:-translate-y-0.5 hover:border-accent/45 hover:bg-accent/15 hover:shadow-[0_18px_38px_-24px_rgba(245,124,0,.95)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/70"
                 >
-                  →
-                </span>
-              </button>
-            ))}
-          </nav>
+                  <span>Entrar em contato</span>
+                  <ArrowUpRight
+                    className="h-4 w-4 text-accent transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+                    aria-hidden="true"
+                  />
+                </a>
+              </div>
+            </div>
+          </div>
         </DialogPrimitive.Content>
       </DialogPrimitive.Portal>
     </DialogPrimitive.Root>

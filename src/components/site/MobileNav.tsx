@@ -1,6 +1,7 @@
 import { useEffect, type CSSProperties } from "react";
 import * as DialogPrimitive from "@radix-ui/react-dialog";
 import { cn } from "@/lib/utils";
+import "./MobileNav.css";
 
 const NAV_ITEMS = [
   { id: "topo", label: "Início" },

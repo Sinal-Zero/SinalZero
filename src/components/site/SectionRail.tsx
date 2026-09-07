@@ -3,6 +3,7 @@ import {
   motion,
   useMotionValue,
   useMotionValueEvent,
+  useReducedMotion,
   useSpring,
   useTransform,
 } from "motion/react";
@@ -105,6 +106,7 @@ export function SectionRail() {
   const [active, setActive] = useState("#topo");
   const { showLoading } = useLoading();
   const mouseY = useMotionValue(Number.POSITIVE_INFINITY);
+  const reducedMotion = useReducedMotion();
 
   useEffect(() => {
     const nodes = SECTIONS.map(({ href }) => document.querySelector(href)).filter(
@@ -143,9 +145,12 @@ export function SectionRail() {
   }, []);
 
   return (
-    <nav
+    <motion.nav
       aria-label="Navegação rápida"
       className="section-rail fixed left-4 top-1/2 z-40 hidden -translate-y-1/2 lg:block xl:left-7"
+      initial={reducedMotion ? false : { opacity: 0, filter: "blur(6px)", x: -14, scale: 0.97 }}
+      animate={{ opacity: 1, filter: "blur(0px)", x: 0, scale: 1 }}
+      transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
     >
       <motion.div
         className="dock-outer"
@@ -164,6 +169,6 @@ export function SectionRail() {
           ))}
         </motion.div>
       </motion.div>
-    </nav>
+    </motion.nav>
   );
 }

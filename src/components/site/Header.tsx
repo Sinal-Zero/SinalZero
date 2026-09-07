@@ -1,34 +1,27 @@
-import { useEffect, useRef, useState } from "react";
-import { cn } from "@/lib/utils";
+import { useEffect, useState } from "react";
 import { MobileNav } from "./MobileNav";
-import { NavPill } from "./NavPill";
 
+/**
+ * Navegação desktop vive só na SectionRail (esquerda). Header aqui é
+ * só o gatilho de menu (mobile/tablet, topo-direita) e a barra de progresso.
+ */
 export function Header() {
-  const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
-  const [hiddenOnScroll, setHiddenOnScroll] = useState(false);
   const [progress, setProgress] = useState(0);
-  const lastScrollY = useRef(0);
-  const menuState = useRef({ menuOpen: false });
 
   useEffect(() => {
-    menuState.current = { menuOpen };
-    if (menuOpen) setHiddenOnScroll(false);
-  }, [menuOpen]);
+    const closeOnDesktop = () => {
+      if (window.matchMedia("(min-width: 1024px)").matches) setMenuOpen(false);
+    };
+    window.addEventListener("resize", closeOnDesktop);
+    return () => window.removeEventListener("resize", closeOnDesktop);
+  }, []);
 
   useEffect(() => {
     let frame = 0;
     const onScroll = () => {
       if (frame) return;
       frame = window.requestAnimationFrame(() => {
-        const currentY = window.scrollY;
-        setScrolled(currentY > 24);
-        const scrollingDown = currentY > lastScrollY.current + 8;
-        const scrollingUp = currentY < lastScrollY.current - 8;
-        if (scrollingDown || scrollingUp || currentY <= 120) {
-          setHiddenOnScroll(currentY > 120 && scrollingDown && !menuState.current.menuOpen);
-        }
-        lastScrollY.current = currentY;
         const doc = document.documentElement;
         const max = doc.scrollHeight - doc.clientHeight;
         setProgress(max > 0 ? Math.min(1, Math.max(0, window.scrollY / max)) : 0);
@@ -45,43 +38,21 @@ export function Header() {
     };
   }, []);
 
-  useEffect(() => {
-    const closeOnDesktop = () => {
-      if (window.matchMedia("(min-width: 768px)").matches) setMenuOpen(false);
-    };
-    window.addEventListener("resize", closeOnDesktop);
-    return () => window.removeEventListener("resize", closeOnDesktop);
-  }, []);
-
   return (
-    <header
-      className={cn(
-        "fixed inset-x-0 top-0 z-50 border-b transition-[background-color,border-color,box-shadow,transform] duration-500 [transition-timing-function:cubic-bezier(.16,1,.3,1)] motion-reduce:transition-none",
-        hiddenOnScroll && "-translate-y-full",
-        scrolled || menuOpen
-          ? "border-border bg-background/92 shadow-[0_12px_32px_-24px_rgba(0,0,0,0.6)] backdrop-blur-md"
-          : "border-transparent bg-transparent shadow-none",
-      )}
-    >
-      <div
-        className="mx-auto flex h-20 max-w-6xl items-center justify-between px-5 transition-[height] duration-300 sm:px-8 lg:data-[scrolled=true]:h-[4.5rem]"
-        data-scrolled={scrolled}
-      >
-        <NavPill />
-        <div className="ml-auto">
-          <MobileNav open={menuOpen} onOpenChange={setMenuOpen} />
-        </div>
-      </div>
-
+    <>
       <div
         aria-hidden="true"
-        className="absolute inset-x-0 bottom-0 h-px overflow-hidden bg-transparent"
+        className="fixed inset-x-0 top-0 z-50 h-px overflow-hidden bg-transparent"
       >
         <div
           className="h-full origin-left bg-gradient-to-r from-primary via-accent to-gold transition-transform duration-150 ease-out motion-reduce:transition-none"
           style={{ transform: `scaleX(${progress})` }}
         />
       </div>
-    </header>
+
+      <div className="fixed top-4 right-4 z-50 lg:hidden">
+        <MobileNav open={menuOpen} onOpenChange={setMenuOpen} />
+      </div>
+    </>
   );
 }

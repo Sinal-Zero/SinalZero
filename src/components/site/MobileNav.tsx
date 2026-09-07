@@ -28,7 +28,7 @@ export function MobileNav({
       <DialogPrimitive.Trigger asChild>
         <button
           type="button"
-          className="inline-flex h-9 w-9 items-center justify-center rounded-md text-foreground transition-colors hover:bg-accent/10 md:hidden"
+          className="relative inline-flex h-11 w-11 items-center justify-center rounded-full border border-border/80 bg-surface/80 text-foreground shadow-[0_12px_30px_-18px_rgba(0,0,0,0.6)] backdrop-blur-xl transition-colors hover:bg-accent/10 lg:hidden"
           aria-label={open ? "Fechar menu" : "Abrir menu"}
         >
           <Menu
@@ -51,7 +51,7 @@ export function MobileNav({
       <DialogPrimitive.Portal>
         <DialogPrimitive.Overlay
           className={cn(
-            "fixed inset-0 z-[60] bg-background/70 backdrop-blur-sm motion-reduce:transition-none md:hidden",
+            "fixed inset-0 z-[60] bg-background/70 backdrop-blur-sm motion-reduce:transition-none lg:hidden",
             "data-[state=open]:animate-in data-[state=closed]:animate-out",
             "data-[state=open]:fade-in-0 data-[state=closed]:fade-out-0",
             "duration-300",
@@ -59,9 +59,10 @@ export function MobileNav({
         />
         <DialogPrimitive.Content
           className={cn(
-            "fixed inset-y-0 right-0 z-[70] flex w-[min(84vw,360px)] flex-col border-l border-border bg-surface shadow-[-24px_0_60px_-30px_rgba(0,0,0,0.65)] outline-none md:hidden",
+            "fixed inset-y-0 right-0 z-[70] flex w-[min(84vw,360px)] flex-col border-l border-border bg-surface shadow-[-24px_0_60px_-30px_rgba(0,0,0,0.65)] outline-none lg:hidden",
             "data-[state=open]:animate-in data-[state=closed]:animate-out",
             "data-[state=open]:slide-in-from-right data-[state=closed]:slide-out-to-right",
+            "data-[state=open]:zoom-in-95 data-[state=closed]:zoom-out-95",
             "duration-[380ms] ease-out motion-reduce:transition-none",
           )}
         >

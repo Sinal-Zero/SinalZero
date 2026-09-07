@@ -9,7 +9,6 @@ import {
 } from "motion/react";
 import { useEffect, useRef, useState } from "react";
 import { CircleDot, Compass, Crosshair, HelpCircle, Radar, Users, Workflow } from "lucide-react";
-import { cn } from "@/lib/utils";
 
 const SECTIONS = [
   { href: "#topo", label: "Início", icon: Radar },
@@ -54,8 +53,15 @@ function DockItem({ href, label, active, icon: Icon, mouseY }: DockItemProps) {
     <motion.a
       ref={ref}
       href={href}
-      style={{ width: size, height: size }}
-      className={cn("dock-item", active && "dock-item-active")}
+      style={{
+        width: size,
+        height: size,
+        color: active ? "var(--color-accent)" : undefined,
+        backgroundColor: active ? "transparent" : undefined,
+        borderColor: active ? "transparent" : undefined,
+        boxShadow: active ? "none" : undefined,
+      }}
+      className="dock-item"
       aria-label={label}
       aria-current={active ? "location" : undefined}
       onMouseEnter={() => hovered.set(1)}
@@ -69,25 +75,22 @@ function DockItem({ href, label, active, icon: Icon, mouseY }: DockItemProps) {
           className="dock-indicator"
           transition={{
             layout: {
-              type: "spring",
-              stiffness: 125,
-              damping: 27,
-              mass: 0.9,
-              restDelta: 0.001,
+              duration: 0.48,
+              ease: [0.22, 1, 0.36, 1],
             },
           }}
           aria-hidden="true"
         />
       ) : null}
       <Icon className="dock-icon" aria-hidden="true" />
-      <AnimatePresence>
+      <AnimatePresence mode="wait" initial={false}>
         {active ? (
           <motion.span
             key="active-label"
-            initial={{ opacity: 0, x: -4 }}
+            initial={{ opacity: 0, x: -3 }}
             animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: -4 }}
-            transition={{ duration: 0.34, ease: [0.16, 1, 0.3, 1] }}
+            exit={{ opacity: 0, x: -3 }}
+            transition={{ duration: 0.18, ease: [0.22, 1, 0.36, 1] }}
             className="dock-active-label"
           >
             {label}
@@ -95,9 +98,9 @@ function DockItem({ href, label, active, icon: Icon, mouseY }: DockItemProps) {
         ) : (
           <motion.span
             key="hover-label"
-            initial={{ opacity: 0, x: -4 }}
-            animate={{ opacity: isHovered ? 1 : 0, x: isHovered ? 0 : -4 }}
-            transition={{ duration: 0.28, ease: [0.16, 1, 0.3, 1] }}
+            initial={{ opacity: 0, x: -3 }}
+            animate={{ opacity: isHovered ? 1 : 0, x: isHovered ? 0 : -3 }}
+            transition={{ duration: 0.16, ease: [0.22, 1, 0.36, 1] }}
             className="dock-label"
             role="tooltip"
           >
@@ -154,9 +157,9 @@ export function SectionRail() {
     <motion.nav
       aria-label="Navegação rápida"
       className="section-rail fixed left-4 top-1/2 z-[80] hidden -translate-y-1/2 lg:block xl:left-7"
-      initial={reducedMotion ? false : { opacity: 0, filter: "blur(4px)", x: -10, scale: 0.985 }}
+      initial={reducedMotion ? false : { opacity: 0, filter: "blur(3px)", x: -8, scale: 0.99 }}
       animate={{ opacity: 1, filter: "blur(0px)", x: 0, scale: 1 }}
-      transition={{ duration: 0.72, ease: [0.16, 1, 0.3, 1] }}
+      transition={{ duration: 0.52, ease: [0.22, 1, 0.36, 1] }}
       style={{ pointerEvents: "auto", isolation: "isolate" }}
     >
       <motion.div

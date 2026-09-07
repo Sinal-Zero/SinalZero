@@ -32,7 +32,7 @@ function DockItem({ href, label, active, icon: Icon, mouseY, onNavigate }: DockI
   const ref = useRef<HTMLAnchorElement | null>(null);
   const [isHovered, setIsHovered] = useState(false);
   const baseSize = 44;
-  const distance = 132;
+  const distance = 142;
 
   const mouseDistance = useTransform(mouseY, (value) => {
     const rect = ref.current?.getBoundingClientRect() ?? { y: 0, height: baseSize };
@@ -42,15 +42,15 @@ function DockItem({ href, label, active, icon: Icon, mouseY, onNavigate }: DockI
   const targetScale = useTransform(
     mouseDistance,
     [-distance, -distance * 0.5, 0, distance * 0.5, distance],
-    [1, 1.08, 1.28, 1.08, 1],
+    [1, 1.14, 1.46, 1.14, 1],
   );
   const targetX = useTransform(
     mouseDistance,
     [-distance, -distance * 0.5, 0, distance * 0.5, distance],
-    [0, 1.5, 5, 1.5, 0],
+    [0, 3, 10, 3, 0],
   );
-  const scale = useSpring(targetScale, { mass: 0.18, stiffness: 250, damping: 24 });
-  const x = useSpring(targetX, { mass: 0.2, stiffness: 230, damping: 25 });
+  const scale = useSpring(targetScale, { mass: 0.16, stiffness: 275, damping: 22 });
+  const x = useSpring(targetX, { mass: 0.18, stiffness: 250, damping: 24 });
 
   return (
     <motion.a
@@ -78,6 +78,31 @@ function DockItem({ href, label, active, icon: Icon, mouseY, onNavigate }: DockI
         onNavigate(href);
       }}
     >
+      <motion.span
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-[0.12rem] rounded-[0.78rem] border"
+        initial={false}
+        animate={
+          isHovered
+            ? {
+                opacity: 1,
+                scale: 1.08,
+                borderColor: "color-mix(in oklab, var(--color-accent) 68%, transparent)",
+                backgroundColor: "color-mix(in oklab, var(--color-accent) 24%, transparent)",
+                boxShadow:
+                  "0 0 0 1px color-mix(in oklab,var(--color-gold) 18%,transparent), 0 12px 34px -10px color-mix(in oklab,var(--color-accent) 78%,transparent)",
+              }
+            : {
+                opacity: 0,
+                scale: 0.92,
+                borderColor: "transparent",
+                backgroundColor: "transparent",
+                boxShadow: "0 0 0 0 transparent",
+              }
+        }
+        transition={{ duration: 0.24, ease: [0.16, 1, 0.3, 1] }}
+      />
+
       {active ? (
         <motion.span
           layoutId="section-rail-indicator"
@@ -91,13 +116,19 @@ function DockItem({ href, label, active, icon: Icon, mouseY, onNavigate }: DockI
           aria-hidden="true"
         />
       ) : null}
+
       <motion.span
         className="relative z-[1] inline-flex"
-        animate={isHovered ? { rotate: 0, scale: 1.04 } : { rotate: 0, scale: 1 }}
-        transition={{ duration: 0.28, ease: [0.16, 1, 0.3, 1] }}
+        animate={
+          isHovered
+            ? { scale: 1.18, y: -1, filter: "drop-shadow(0 0 8px color-mix(in oklab,var(--color-accent) 72%,transparent))" }
+            : { scale: 1, y: 0, filter: "drop-shadow(0 0 0 transparent)" }
+        }
+        transition={{ duration: 0.24, ease: [0.16, 1, 0.3, 1] }}
       >
         <Icon className="dock-icon" aria-hidden="true" />
       </motion.span>
+
       <AnimatePresence initial={false}>
         {active ? (
           <motion.span
@@ -113,14 +144,14 @@ function DockItem({ href, label, active, icon: Icon, mouseY, onNavigate }: DockI
         ) : (
           <motion.span
             key="hover-label"
-            initial={{ opacity: 0, x: -7, filter: "blur(5px)", scale: 0.97 }}
+            initial={{ opacity: 0, x: -12, filter: "blur(7px)", scale: 0.92 }}
             animate={{
               opacity: isHovered ? 1 : 0,
-              x: isHovered ? 0 : -7,
-              filter: isHovered ? "blur(0px)" : "blur(5px)",
-              scale: isHovered ? 1 : 0.97,
+              x: isHovered ? 5 : -12,
+              filter: isHovered ? "blur(0px)" : "blur(7px)",
+              scale: isHovered ? 1.08 : 0.92,
             }}
-            transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
+            transition={{ duration: 0.26, ease: [0.16, 1, 0.3, 1] }}
             className="dock-label"
             role="tooltip"
           >

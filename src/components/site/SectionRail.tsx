@@ -32,14 +32,25 @@ function DockItem({ href, label, active, icon: Icon, mouseY, onNavigate }: DockI
   const ref = useRef<HTMLAnchorElement | null>(null);
   const [isHovered, setIsHovered] = useState(false);
   const baseSize = 44;
-  const distance = 150;
+  const distance = 132;
 
   const mouseDistance = useTransform(mouseY, (value) => {
     const rect = ref.current?.getBoundingClientRect() ?? { y: 0, height: baseSize };
     return value - rect.y - rect.height / 2;
   });
-  const targetScale = useTransform(mouseDistance, [-distance, 0, distance], [1, 1.12, 1]);
-  const scale = useSpring(targetScale, { mass: 0.2, stiffness: 220, damping: 28 });
+
+  const targetScale = useTransform(
+    mouseDistance,
+    [-distance, -distance * 0.5, 0, distance * 0.5, distance],
+    [1, 1.08, 1.28, 1.08, 1],
+  );
+  const targetX = useTransform(
+    mouseDistance,
+    [-distance, -distance * 0.5, 0, distance * 0.5, distance],
+    [0, 1.5, 5, 1.5, 0],
+  );
+  const scale = useSpring(targetScale, { mass: 0.18, stiffness: 250, damping: 24 });
+  const x = useSpring(targetX, { mass: 0.2, stiffness: 230, damping: 25 });
 
   return (
     <motion.a
@@ -49,6 +60,7 @@ function DockItem({ href, label, active, icon: Icon, mouseY, onNavigate }: DockI
         width: baseSize,
         height: baseSize,
         scale,
+        x,
         color: active ? "var(--color-accent)" : undefined,
         backgroundColor: active ? "transparent" : undefined,
         borderColor: active ? "transparent" : undefined,
@@ -72,22 +84,28 @@ function DockItem({ href, label, active, icon: Icon, mouseY, onNavigate }: DockI
           className="dock-indicator"
           transition={{
             layout: {
-              duration: 0.24,
-              ease: [0.22, 1, 0.36, 1],
+              duration: 0.34,
+              ease: [0.16, 1, 0.3, 1],
             },
           }}
           aria-hidden="true"
         />
       ) : null}
-      <Icon className="dock-icon" aria-hidden="true" />
+      <motion.span
+        className="relative z-[1] inline-flex"
+        animate={isHovered ? { rotate: 0, scale: 1.04 } : { rotate: 0, scale: 1 }}
+        transition={{ duration: 0.28, ease: [0.16, 1, 0.3, 1] }}
+      >
+        <Icon className="dock-icon" aria-hidden="true" />
+      </motion.span>
       <AnimatePresence initial={false}>
         {active ? (
           <motion.span
             key="active-label"
-            initial={{ opacity: 0, x: -3, scale: 0.98 }}
-            animate={{ opacity: 1, x: 0, scale: 1 }}
-            exit={{ opacity: 0, x: -2, scale: 0.985 }}
-            transition={{ duration: 0.16, ease: [0.22, 1, 0.36, 1] }}
+            initial={{ opacity: 0, x: -6, filter: "blur(4px)", scale: 0.98 }}
+            animate={{ opacity: 1, x: 0, filter: "blur(0px)", scale: 1 }}
+            exit={{ opacity: 0, x: -4, filter: "blur(3px)", scale: 0.985 }}
+            transition={{ duration: 0.28, ease: [0.16, 1, 0.3, 1] }}
             className="dock-active-label"
           >
             {label}
@@ -95,9 +113,14 @@ function DockItem({ href, label, active, icon: Icon, mouseY, onNavigate }: DockI
         ) : (
           <motion.span
             key="hover-label"
-            initial={{ opacity: 0, x: -3, scale: 0.98 }}
-            animate={{ opacity: isHovered ? 1 : 0, x: isHovered ? 0 : -3, scale: isHovered ? 1 : 0.98 }}
-            transition={{ duration: 0.16, ease: [0.22, 1, 0.36, 1] }}
+            initial={{ opacity: 0, x: -7, filter: "blur(5px)", scale: 0.97 }}
+            animate={{
+              opacity: isHovered ? 1 : 0,
+              x: isHovered ? 0 : -7,
+              filter: isHovered ? "blur(0px)" : "blur(5px)",
+              scale: isHovered ? 1 : 0.97,
+            }}
+            transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
             className="dock-label"
             role="tooltip"
           >
@@ -174,9 +197,9 @@ export function SectionRail() {
     <motion.nav
       aria-label="Navegação rápida"
       className="section-rail fixed left-4 top-1/2 z-[80] hidden -translate-y-1/2 lg:block xl:left-7"
-      initial={reducedMotion ? false : { opacity: 0, filter: "blur(2px)", x: -5, scale: 0.99 }}
+      initial={reducedMotion ? false : { opacity: 0, filter: "blur(5px)", x: -10, scale: 0.975 }}
       animate={{ opacity: 1, filter: "blur(0px)", x: 0, scale: 1 }}
-      transition={{ duration: 0.32, ease: [0.22, 1, 0.36, 1] }}
+      transition={{ duration: 0.55, ease: [0.16, 1, 0.3, 1] }}
       style={{ pointerEvents: "auto", isolation: "isolate" }}
     >
       <motion.div

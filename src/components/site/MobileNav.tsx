@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, type CSSProperties } from "react";
 import * as DialogPrimitive from "@radix-ui/react-dialog";
 import { cn } from "@/lib/utils";
 
@@ -71,7 +71,7 @@ export function MobileNav({ open, onOpenChange }: { open: boolean; onOpenChange:
                 key={item.id}
                 type="button"
                 onClick={() => goToSection(item.id)}
-                style={{ "--stagger-index": index } as React.CSSProperties}
+                style={{ "--stagger-index": index } as CSSProperties}
                 className="mobile-drawer-link group flex w-full items-center justify-between rounded-xl border border-transparent px-4 py-3 text-left text-base font-medium text-foreground transition-[background-color,border-color,transform] duration-200 ease-[cubic-bezier(.22,1,.36,1)] hover:translate-x-1 hover:border-accent/20 hover:bg-accent/10"
               >
                 <span>{item.label}</span>

@@ -9,9 +9,8 @@ import {
 import { cn } from "@/lib/utils";
 
 /**
- * Revela o conteúdo com fade + deslocamento vertical quando ele entra na viewport.
- * Usa IntersectionObserver (sem dependências extras) e respeita prefers-reduced-motion:
- * quem prefere menos movimento vê o conteúdo já estático e visível.
+ * Revela o conteúdo quando entra na viewport, com atraso curto e previsível.
+ * Usa IntersectionObserver, evita listeners de scroll e respeita reduced motion.
  */
 export function Reveal({
   children,
@@ -21,7 +20,6 @@ export function Reveal({
 }: {
   children: ReactNode;
   as?: ElementType;
-  /** atraso em ms para escalonar itens de uma mesma lista */
   delay?: number;
   className?: string;
 }) {
@@ -38,7 +36,7 @@ export function Reveal({
       return;
     }
 
-    const fallback = window.setTimeout(() => setVisible(true), 1400);
+    const fallback = window.setTimeout(() => setVisible(true), 1000);
     const observer = new IntersectionObserver(
       (entries) => {
         for (const entry of entries) {
@@ -46,10 +44,14 @@ export function Reveal({
             window.clearTimeout(fallback);
             setVisible(true);
             observer.disconnect();
+            break;
           }
         }
       },
-      { threshold: 0.08, rootMargin: "0px 0px 6% 0px" },
+      {
+        threshold: 0.06,
+        rootMargin: "0px 0px 10% 0px",
+      },
     );
 
     observer.observe(node);
@@ -59,7 +61,7 @@ export function Reveal({
     };
   }, []);
 
-  const revealStyle = { "--reveal-delay": `${Math.min(delay, 180)}ms` } as CSSProperties;
+  const revealStyle = { "--reveal-delay": `${Math.min(delay, 150)}ms` } as CSSProperties;
 
   return (
     <Tag

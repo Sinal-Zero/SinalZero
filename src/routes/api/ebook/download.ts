@@ -1,5 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
 
+const EBOOK_BUCKET = "ebooks";
+const EBOOK_PATH = "fora-do-balcao.pdf";
+
 type StripeSession = {
   payment_status?: string;
   status?: string;
@@ -11,9 +14,10 @@ export const Route = createFileRoute("/api/ebook/download")({
     handlers: {
       GET: async ({ request }) => {
         const stripeSecret = process.env.STRIPE_SECRET_KEY;
-        const ebookFileUrl = process.env.EBOOK_FILE_URL;
+        const supabaseUrl = process.env.SUPABASE_URL;
+        const supabaseSecret = process.env.SUPABASE_SECRET_KEY;
 
-        if (!stripeSecret || !ebookFileUrl) {
+        if (!stripeSecret || !supabaseUrl || !supabaseSecret) {
           console.error("E-book delivery environment variables are missing.");
           return new Response("Entrega temporariamente indisponível.", { status: 503 });
         }
@@ -32,6 +36,7 @@ export const Route = createFileRoute("/api/ebook/download")({
         );
 
         if (!stripeResponse.ok) {
+          console.error("Unable to validate Stripe checkout session.", stripeResponse.status);
           return new Response("Não foi possível validar a compra.", { status: 502 });
         }
 
@@ -45,23 +50,36 @@ export const Route = createFileRoute("/api/ebook/download")({
           return new Response("Pagamento não confirmado.", { status: 403 });
         }
 
-        let sourceUrl: URL;
+        let storageOrigin: URL;
         try {
-          sourceUrl = new URL(ebookFileUrl);
+          storageOrigin = new URL(supabaseUrl);
         } catch {
-          return new Response("Arquivo do e-book não configurado.", { status: 503 });
+          return new Response("Storage do e-book não configurado.", { status: 503 });
         }
 
-        if (sourceUrl.protocol !== "https:") {
-          return new Response("Arquivo do e-book não configurado.", { status: 503 });
+        if (storageOrigin.protocol !== "https:") {
+          return new Response("Storage do e-book não configurado.", { status: 503 });
         }
 
-        const fileResponse = await fetch(sourceUrl, {
-          headers: { Accept: "application/pdf" },
+        const objectPath = `${encodeURIComponent(EBOOK_BUCKET)}/${EBOOK_PATH.split("/")
+          .map((segment) => encodeURIComponent(segment))
+          .join("/")}`;
+        const storageUrl = new URL(`/storage/v1/object/${objectPath}`, storageOrigin);
+
+        const fileResponse = await fetch(storageUrl, {
+          headers: {
+            Authorization: `Bearer ${supabaseSecret}`,
+            apikey: supabaseSecret,
+            Accept: "application/pdf",
+          },
         });
 
         if (!fileResponse.ok || !fileResponse.body) {
-          console.error("Unable to fetch configured ebook file.", fileResponse.status);
+          const detail = await fileResponse.text().catch(() => "");
+          console.error("Unable to fetch private ebook from Supabase Storage.", {
+            status: fileResponse.status,
+            detail: detail.slice(0, 240),
+          });
           return new Response("Não foi possível carregar o e-book.", { status: 502 });
         }
 
@@ -70,6 +88,7 @@ export const Route = createFileRoute("/api/ebook/download")({
             "Content-Type": fileResponse.headers.get("content-type") || "application/pdf",
             "Content-Disposition": 'attachment; filename="fora-do-balcao-sinalzero.pdf"',
             "Cache-Control": "private, no-store, max-age=0",
+            Pragma: "no-cache",
             "X-Content-Type-Options": "nosniff",
           },
         });

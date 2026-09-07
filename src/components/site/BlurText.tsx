@@ -14,12 +14,12 @@ function buildKeyframes(from: BlurSnapshot, steps: BlurSnapshot[]) {
 
 export function BlurText({
   text = "",
-  delay = 70,
+  delay = 54,
   className,
   as: Tag = "p",
   animateBy = "words",
-  direction = "top",
-  stepDuration = 0.325,
+  direction = "bottom",
+  stepDuration = 0.28,
 }: {
   text?: string;
   delay?: number;
@@ -27,7 +27,6 @@ export function BlurText({
   as?: ElementType;
   animateBy?: "words" | "letters";
   direction?: "top" | "bottom";
-  /** Two steps at 0.325s = 0.65s total for a quick blur/fade reveal. */
   stepDuration?: number;
 }) {
   const ref = useRef<HTMLElement | null>(null);
@@ -38,15 +37,19 @@ export function BlurText({
   );
   const from = useMemo<BlurSnapshot>(
     () => ({
-      filter: "blur(2px)",
+      filter: "blur(7px)",
       opacity: 0,
-      y: direction === "top" ? -4 : 4,
+      y: direction === "top" ? -7 : 7,
     }),
     [direction],
   );
   const steps = useMemo<BlurSnapshot[]>(
     () => [
-      { filter: "blur(0.5px)", opacity: 0.85, y: direction === "top" ? 0.5 : -0.5 },
+      {
+        filter: "blur(1.8px)",
+        opacity: 0.82,
+        y: direction === "top" ? -1 : 1,
+      },
       { filter: "blur(0px)", opacity: 1, y: 0 },
     ],
     [direction],
@@ -60,16 +63,24 @@ export function BlurText({
   useEffect(() => {
     const node = ref.current;
     if (!node) return;
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+
+    if (
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches ||
+      typeof IntersectionObserver === "undefined"
+    ) {
       setInView(true);
       return;
     }
+
     const observer = new IntersectionObserver(
       ([entry]) => {
-        setInView(Boolean(entry?.isIntersecting));
+        if (!entry?.isIntersecting) return;
+        setInView(true);
+        observer.disconnect();
       },
-      { threshold: 0.1 },
+      { threshold: 0.12, rootMargin: "0px 0px -3% 0px" },
     );
+
     observer.observe(node);
     return () => observer.disconnect();
   }, []);

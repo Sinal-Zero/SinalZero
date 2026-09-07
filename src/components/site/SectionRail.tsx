@@ -2,7 +2,6 @@ import {
   AnimatePresence,
   motion,
   useMotionValue,
-  useMotionValueEvent,
   useReducedMotion,
   useSpring,
   useTransform,
@@ -31,32 +30,25 @@ type DockItemProps = {
 
 function DockItem({ href, label, active, icon: Icon, mouseY, onNavigate }: DockItemProps) {
   const ref = useRef<HTMLAnchorElement | null>(null);
-  const hovered = useMotionValue(0);
   const [isHovered, setIsHovered] = useState(false);
-  const distance = 155;
   const baseSize = 44;
-  const magnification = 50;
+  const distance = 150;
 
   const mouseDistance = useTransform(mouseY, (value) => {
     const rect = ref.current?.getBoundingClientRect() ?? { y: 0, height: baseSize };
-    return value - rect.y - baseSize / 2;
+    return value - rect.y - rect.height / 2;
   });
-  const targetSize = useTransform(
-    mouseDistance,
-    [-distance, 0, distance],
-    [baseSize, magnification, baseSize],
-  );
-  const size = useSpring(targetSize, { mass: 0.22, stiffness: 190, damping: 25 });
-
-  useMotionValueEvent(hovered, "change", (value) => setIsHovered(value === 1));
+  const targetScale = useTransform(mouseDistance, [-distance, 0, distance], [1, 1.12, 1]);
+  const scale = useSpring(targetScale, { mass: 0.2, stiffness: 220, damping: 28 });
 
   return (
     <motion.a
       ref={ref}
       href={href}
       style={{
-        width: size,
-        height: size,
+        width: baseSize,
+        height: baseSize,
+        scale,
         color: active ? "var(--color-accent)" : undefined,
         backgroundColor: active ? "transparent" : undefined,
         borderColor: active ? "transparent" : undefined,
@@ -65,10 +57,10 @@ function DockItem({ href, label, active, icon: Icon, mouseY, onNavigate }: DockI
       className="dock-item"
       aria-label={label}
       aria-current={active ? "location" : undefined}
-      onMouseEnter={() => hovered.set(1)}
-      onMouseLeave={() => hovered.set(0)}
-      onFocus={() => hovered.set(1)}
-      onBlur={() => hovered.set(0)}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+      onFocus={() => setIsHovered(true)}
+      onBlur={() => setIsHovered(false)}
       onClick={(event) => {
         event.preventDefault();
         onNavigate(href);
@@ -80,7 +72,7 @@ function DockItem({ href, label, active, icon: Icon, mouseY, onNavigate }: DockI
           className="dock-indicator"
           transition={{
             layout: {
-              duration: 0.3,
+              duration: 0.24,
               ease: [0.22, 1, 0.36, 1],
             },
           }}
@@ -92,10 +84,10 @@ function DockItem({ href, label, active, icon: Icon, mouseY, onNavigate }: DockI
         {active ? (
           <motion.span
             key="active-label"
-            initial={{ opacity: 0, x: -2 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: -2 }}
-            transition={{ duration: 0.14, ease: [0.22, 1, 0.36, 1] }}
+            initial={{ opacity: 0, x: -3, scale: 0.98 }}
+            animate={{ opacity: 1, x: 0, scale: 1 }}
+            exit={{ opacity: 0, x: -2, scale: 0.985 }}
+            transition={{ duration: 0.16, ease: [0.22, 1, 0.36, 1] }}
             className="dock-active-label"
           >
             {label}
@@ -103,9 +95,9 @@ function DockItem({ href, label, active, icon: Icon, mouseY, onNavigate }: DockI
         ) : (
           <motion.span
             key="hover-label"
-            initial={{ opacity: 0, x: -2 }}
-            animate={{ opacity: isHovered ? 1 : 0, x: isHovered ? 0 : -2 }}
-            transition={{ duration: 0.14, ease: [0.22, 1, 0.36, 1] }}
+            initial={{ opacity: 0, x: -3, scale: 0.98 }}
+            animate={{ opacity: isHovered ? 1 : 0, x: isHovered ? 0 : -3, scale: isHovered ? 1 : 0.98 }}
+            transition={{ duration: 0.16, ease: [0.22, 1, 0.36, 1] }}
             className="dock-label"
             role="tooltip"
           >
@@ -145,22 +137,18 @@ export function SectionRail() {
     if (window.location.hash) {
       const initialHash = window.location.hash;
       const hashTarget = document.querySelector(initialHash);
-      if (hashTarget) {
-        setActive(initialHash);
-      }
+      if (hashTarget) setActive(initialHash);
       const cleanUrl = `${window.location.pathname}${window.location.search}`;
       window.history.replaceState(window.history.state, "", cleanUrl);
     }
 
     let frame = 0;
     const updateActive = () => {
-      const marker = window.scrollY + window.innerHeight * 0.34;
+      const marker = window.scrollY + window.innerHeight * 0.33;
       let nextActive = "#topo";
       nodes.forEach((node, index) => {
         const href = SECTIONS[index]?.href;
-        if (href && node.getBoundingClientRect().top + window.scrollY <= marker) {
-          nextActive = href;
-        }
+        if (href && node.getBoundingClientRect().top + window.scrollY <= marker) nextActive = href;
       });
       setActive((current) => (current === nextActive ? current : nextActive));
     };
@@ -186,9 +174,9 @@ export function SectionRail() {
     <motion.nav
       aria-label="Navegação rápida"
       className="section-rail fixed left-4 top-1/2 z-[80] hidden -translate-y-1/2 lg:block xl:left-7"
-      initial={reducedMotion ? false : { opacity: 0, filter: "blur(2px)", x: -6, scale: 0.995 }}
+      initial={reducedMotion ? false : { opacity: 0, filter: "blur(2px)", x: -5, scale: 0.99 }}
       animate={{ opacity: 1, filter: "blur(0px)", x: 0, scale: 1 }}
-      transition={{ duration: 0.38, ease: [0.22, 1, 0.36, 1] }}
+      transition={{ duration: 0.32, ease: [0.22, 1, 0.36, 1] }}
       style={{ pointerEvents: "auto", isolation: "isolate" }}
     >
       <motion.div

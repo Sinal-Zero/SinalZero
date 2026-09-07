@@ -2,6 +2,7 @@ import { ArrowUpRight, BookOpen, Download, Mail, ShieldCheck } from "lucide-reac
 
 import { Reveal } from "./Reveal";
 import { KIWIFY_EBOOK_URL } from "./constants";
+import { RedirectConfirm } from "./RedirectConfirm";
 
 const benefits = [
   {
@@ -81,18 +82,23 @@ export function EbookOffer() {
                 O pagamento e a liberação do acesso são processados pela Kiwify. O arquivo original também permanece preservado no armazenamento privado da SinalZero como cópia de segurança.
               </p>
 
-              <a
+              <RedirectConfirm
                 href={KIWIFY_EBOOK_URL}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="group mt-7 inline-flex min-h-12 w-full items-center justify-between rounded-xl border border-accent/30 bg-accent px-4 py-3.5 text-sm font-semibold text-accent-foreground shadow-[0_18px_42px_-24px_rgba(245,124,0,.95)] transition-[transform,box-shadow,filter] duration-250 ease-[cubic-bezier(.16,1,.3,1)] hover:-translate-y-0.5 hover:shadow-[0_22px_50px_-22px_rgba(245,124,0,.98)] hover:brightness-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/80"
+                title="Vamos para a Kiwify"
+                description="Você será direcionado para o checkout seguro da Kiwify para concluir a compra do e-book Fora do Balcão."
+                continueLabel="Ir para o checkout"
               >
-                <span>Comprar e-book</span>
-                <ArrowUpRight
-                  className="h-4 w-4 transition-transform duration-250 ease-[cubic-bezier(.16,1,.3,1)] group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
-                  aria-hidden="true"
-                />
-              </a>
+                <button
+                  type="button"
+                  className="group mt-7 inline-flex min-h-12 w-full items-center justify-between rounded-xl border border-accent/30 bg-accent px-4 py-3.5 text-sm font-semibold text-accent-foreground shadow-[0_18px_42px_-24px_rgba(245,124,0,.95)] transition-[transform,box-shadow,filter] duration-250 ease-[cubic-bezier(.16,1,.3,1)] hover:-translate-y-0.5 hover:shadow-[0_22px_50px_-22px_rgba(245,124,0,.98)] hover:brightness-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/80"
+                >
+                  <span>Comprar e-book</span>
+                  <ArrowUpRight
+                    className="h-4 w-4 transition-transform duration-250 ease-[cubic-bezier(.16,1,.3,1)] group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+                    aria-hidden="true"
+                  />
+                </button>
+              </RedirectConfirm>
 
               <p className="mt-3 text-center text-xs leading-5 text-muted-foreground">
                 Após a compra, guarde o e-mail usado no checkout: ele é a sua rota alternativa de acesso ao produto.

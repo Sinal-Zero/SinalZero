@@ -1,6 +1,5 @@
 import { Reveal } from "./Reveal";
 import { BlurText } from "./BlurText";
-import { ContactConfirm } from "./ContactConfirm";
 import { GradientText } from "./GradientText";
 
 export function Hero() {
@@ -33,12 +32,6 @@ export function Hero() {
           Enquanto você perde tempo com listas frias e uma presença digital que não converte, a
           SinalZero encontra quem já demonstra interesse, qualifica o sinal e transforma atenção em
           conversa.
-        </Reveal>
-
-        <Reveal delay={210}>
-          <div className="mt-7 flex justify-center sm:mt-9">
-            <ContactConfirm />
-          </div>
         </Reveal>
       </div>
     </section>

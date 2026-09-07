@@ -38,15 +38,15 @@ export function BlurText({
   );
   const from = useMemo<BlurSnapshot>(
     () => ({
-      filter: "blur(4px)",
+      filter: "blur(2px)",
       opacity: 0,
-      y: direction === "top" ? -8 : 8,
+      y: direction === "top" ? -4 : 4,
     }),
     [direction],
   );
   const steps = useMemo<BlurSnapshot[]>(
     () => [
-      { filter: "blur(1px)", opacity: 0.6, y: direction === "top" ? 1 : -1 },
+      { filter: "blur(0.5px)", opacity: 0.85, y: direction === "top" ? 0.5 : -0.5 },
       { filter: "blur(0px)", opacity: 1, y: 0 },
     ],
     [direction],

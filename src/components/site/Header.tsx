@@ -50,7 +50,7 @@ export function Header() {
         />
       </div>
 
-      <div className="fixed top-4 right-4 z-50 lg:hidden">
+      <div className="hidden lg:flex top-4 right-4 z-50">
         <MobileNav open={menuOpen} onOpenChange={setMenuOpen} />
       </div>
     </>

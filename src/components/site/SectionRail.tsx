@@ -32,7 +32,7 @@ function DockItem({ href, label, active, icon: Icon, mouseY }: DockItemProps) {
   const ref = useRef<HTMLAnchorElement | null>(null);
   const hovered = useMotionValue(0);
   const [isHovered, setIsHovered] = useState(false);
-  const distance = 165;
+  const distance = 155;
   const baseSize = 44;
   const magnification = 50;
 
@@ -45,7 +45,7 @@ function DockItem({ href, label, active, icon: Icon, mouseY }: DockItemProps) {
     [-distance, 0, distance],
     [baseSize, magnification, baseSize],
   );
-  const size = useSpring(targetSize, { mass: 0.28, stiffness: 145, damping: 24 });
+  const size = useSpring(targetSize, { mass: 0.22, stiffness: 190, damping: 25 });
 
   useMotionValueEvent(hovered, "change", (value) => setIsHovered(value === 1));
 
@@ -75,7 +75,7 @@ function DockItem({ href, label, active, icon: Icon, mouseY }: DockItemProps) {
           className="dock-indicator"
           transition={{
             layout: {
-              duration: 0.48,
+              duration: 0.3,
               ease: [0.22, 1, 0.36, 1],
             },
           }}
@@ -83,14 +83,14 @@ function DockItem({ href, label, active, icon: Icon, mouseY }: DockItemProps) {
         />
       ) : null}
       <Icon className="dock-icon" aria-hidden="true" />
-      <AnimatePresence mode="wait" initial={false}>
+      <AnimatePresence initial={false}>
         {active ? (
           <motion.span
             key="active-label"
-            initial={{ opacity: 0, x: -3 }}
+            initial={{ opacity: 0, x: -2 }}
             animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: -3 }}
-            transition={{ duration: 0.18, ease: [0.22, 1, 0.36, 1] }}
+            exit={{ opacity: 0, x: -2 }}
+            transition={{ duration: 0.14, ease: [0.22, 1, 0.36, 1] }}
             className="dock-active-label"
           >
             {label}
@@ -98,9 +98,9 @@ function DockItem({ href, label, active, icon: Icon, mouseY }: DockItemProps) {
         ) : (
           <motion.span
             key="hover-label"
-            initial={{ opacity: 0, x: -3 }}
-            animate={{ opacity: isHovered ? 1 : 0, x: isHovered ? 0 : -3 }}
-            transition={{ duration: 0.16, ease: [0.22, 1, 0.36, 1] }}
+            initial={{ opacity: 0, x: -2 }}
+            animate={{ opacity: isHovered ? 1 : 0, x: isHovered ? 0 : -2 }}
+            transition={{ duration: 0.14, ease: [0.22, 1, 0.36, 1] }}
             className="dock-label"
             role="tooltip"
           >
@@ -125,7 +125,7 @@ export function SectionRail() {
 
     let frame = 0;
     const updateActive = () => {
-      const marker = window.scrollY + window.innerHeight * 0.38;
+      const marker = window.scrollY + window.innerHeight * 0.34;
       let nextActive = "#topo";
       nodes.forEach((node, index) => {
         const href = SECTIONS[index]?.href;
@@ -157,9 +157,9 @@ export function SectionRail() {
     <motion.nav
       aria-label="Navegação rápida"
       className="section-rail fixed left-4 top-1/2 z-[80] hidden -translate-y-1/2 lg:block xl:left-7"
-      initial={reducedMotion ? false : { opacity: 0, filter: "blur(3px)", x: -8, scale: 0.99 }}
+      initial={reducedMotion ? false : { opacity: 0, filter: "blur(2px)", x: -6, scale: 0.995 }}
       animate={{ opacity: 1, filter: "blur(0px)", x: 0, scale: 1 }}
-      transition={{ duration: 0.52, ease: [0.22, 1, 0.36, 1] }}
+      transition={{ duration: 0.38, ease: [0.22, 1, 0.36, 1] }}
       style={{ pointerEvents: "auto", isolation: "isolate" }}
     >
       <motion.div

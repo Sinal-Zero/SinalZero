@@ -9,8 +9,8 @@ import {
 import { cn } from "@/lib/utils";
 
 /**
- * Revela o conteúdo quando entra na viewport, com atraso curto e previsível.
- * Usa IntersectionObserver, evita listeners de scroll e respeita reduced motion.
+ * Revela o conteúdo uma única vez com fade, blur e deslocamento curto.
+ * Usa IntersectionObserver e respeita prefers-reduced-motion.
  */
 export function Reveal({
   children,
@@ -36,21 +36,17 @@ export function Reveal({
       return;
     }
 
-    const fallback = window.setTimeout(() => setVisible(true), 1000);
+    const fallback = window.setTimeout(() => setVisible(true), 900);
     const observer = new IntersectionObserver(
-      (entries) => {
-        for (const entry of entries) {
-          if (entry.isIntersecting) {
-            window.clearTimeout(fallback);
-            setVisible(true);
-            observer.disconnect();
-            break;
-          }
-        }
+      ([entry]) => {
+        if (!entry?.isIntersecting) return;
+        window.clearTimeout(fallback);
+        setVisible(true);
+        observer.disconnect();
       },
       {
-        threshold: 0.06,
-        rootMargin: "0px 0px 10% 0px",
+        threshold: 0.08,
+        rootMargin: "0px 0px -4% 0px",
       },
     );
 
@@ -61,14 +57,19 @@ export function Reveal({
     };
   }, []);
 
-  const revealStyle = { "--reveal-delay": `${Math.min(delay, 150)}ms` } as CSSProperties;
+  const revealStyle = {
+    "--reveal-delay": `${Math.min(Math.max(delay, 0), 180)}ms`,
+  } as CSSProperties;
 
   return (
     <Tag
       ref={ref}
       style={revealStyle}
       data-reveal-state={visible ? "visible" : "pending"}
-      className={cn("reveal-item", className)}
+      className={cn(
+        "opacity-0 translate-y-5 scale-[0.988] blur-[7px] transition-[opacity,transform,filter] duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] [transition-delay:var(--reveal-delay)] data-[reveal-state=visible]:translate-y-0 data-[reveal-state=visible]:scale-100 data-[reveal-state=visible]:opacity-100 data-[reveal-state=visible]:blur-0 motion-reduce:transform-none motion-reduce:opacity-100 motion-reduce:blur-0 motion-reduce:transition-none",
+        className,
+      )}
     >
       {children}
     </Tag>

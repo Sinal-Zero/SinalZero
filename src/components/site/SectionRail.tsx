@@ -67,7 +67,12 @@ function DockItem({ href, label, active, icon: Icon, mouseY }: DockItemProps) {
         <motion.span
           layoutId="section-rail-indicator"
           className="dock-indicator"
-          transition={{ type: "spring", stiffness: 380, damping: 34, mass: 0.6 }}
+          transition={{
+            layout: {
+              duration: 0.55,
+              ease: [0.22, 1, 0.36, 1],
+            },
+          }}
           aria-hidden="true"
         />
       ) : null}
@@ -79,7 +84,7 @@ function DockItem({ href, label, active, icon: Icon, mouseY }: DockItemProps) {
             initial={{ opacity: 0, x: -8 }}
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: -8 }}
-            transition={{ duration: 0.25 }}
+            transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
             className="dock-active-label"
           >
             {label}
@@ -89,7 +94,7 @@ function DockItem({ href, label, active, icon: Icon, mouseY }: DockItemProps) {
             key="hover-label"
             initial={{ opacity: 0, x: -8 }}
             animate={{ opacity: isHovered ? 1 : 0, x: isHovered ? 0 : -8 }}
-            transition={{ duration: 0.2 }}
+            transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
             className="dock-label"
             role="tooltip"
           >

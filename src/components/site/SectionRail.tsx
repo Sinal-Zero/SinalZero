@@ -27,7 +27,6 @@ type DockItemProps = {
   active: boolean;
   icon: typeof Radar;
   mouseY: ReturnType<typeof useMotionValue<number>>;
-  showLoading: (duration?: number) => void;
 };
 
 function DockItem({ href, label, active, icon: Icon, mouseY }: DockItemProps) {
@@ -63,7 +62,6 @@ function DockItem({ href, label, active, icon: Icon, mouseY }: DockItemProps) {
       onMouseLeave={() => hovered.set(0)}
       onFocus={() => hovered.set(1)}
       onBlur={() => hovered.set(0)}
-      onClick={() => { /* loading removido */ }}
     >
       {active ? (
         <motion.span
@@ -147,14 +145,15 @@ export function SectionRail() {
   return (
     <motion.nav
       aria-label="Navegação rápida"
-      className="section-rail fixed left-4 top-1/2 z-40 hidden -translate-y-1/2 lg:block xl:left-7"
+      className="section-rail fixed left-4 top-1/2 z-[80] hidden -translate-y-1/2 lg:block xl:left-7"
       initial={reducedMotion ? false : { opacity: 0, filter: "blur(6px)", x: -14, scale: 0.97 }}
       animate={{ opacity: 1, filter: "blur(0px)", x: 0, scale: 1 }}
       transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+      style={{ pointerEvents: "auto", isolation: "isolate" }}
     >
       <motion.div
         className="dock-outer"
-        onMouseMove={(event) => mouseY.set(event.pageY)}
+        onMouseMove={(event) => mouseY.set(event.clientY)}
         onMouseLeave={() => mouseY.set(Number.POSITIVE_INFINITY)}
         style={{ pointerEvents: "auto" }}
       >

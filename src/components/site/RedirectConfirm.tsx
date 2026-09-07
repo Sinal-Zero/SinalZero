@@ -20,30 +20,38 @@ export function RedirectConfirm({
   description,
   continueLabel = "Continuar",
   onTriggerClick,
+  open,
+  onOpenChange,
 }: {
-  children: ReactNode;
+  children?: ReactNode;
   href: string;
   title: string;
   description: string;
   continueLabel?: string;
   onTriggerClick?: () => void;
+  open?: boolean;
+  onOpenChange?: (open: boolean) => void;
 }) {
   return (
-    <Dialog>
-      <DialogTrigger asChild>
-        <span onClick={onTriggerClick} className="contents">
-          {children}
-        </span>
-      </DialogTrigger>
+    <Dialog open={open} onOpenChange={onOpenChange}>
+      {children ? (
+        <DialogTrigger asChild>
+          <span onClick={onTriggerClick} className="contents">
+            {children}
+          </span>
+        </DialogTrigger>
+      ) : null}
 
-      <DialogContent className="modal-stagger max-w-sm border-border bg-card/95 backdrop-blur-xl sm:rounded-xl">
-        <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-primary/15 text-accent">
+      <DialogContent className="modal-stagger redirect-confirm max-w-sm border-accent/15 bg-card/92 shadow-[0_32px_100px_-36px_rgba(0,0,0,.95)] backdrop-blur-2xl sm:rounded-2xl">
+        <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full border border-accent/15 bg-primary/12 text-accent shadow-[0_12px_34px_-22px_rgba(245,124,0,.9)]">
           <Radar className="h-6 w-6" aria-hidden="true" />
         </div>
 
         <DialogHeader className="text-center sm:text-center">
-          <DialogTitle className="font-display text-xl">{title}</DialogTitle>
-          <DialogDescription>{description}</DialogDescription>
+          <DialogTitle className="font-display text-xl leading-tight">{title}</DialogTitle>
+          <DialogDescription className="mx-auto max-w-[32ch] text-pretty leading-6">
+            {description}
+          </DialogDescription>
         </DialogHeader>
 
         <DialogFooter className="sm:flex-col sm:items-center sm:gap-3 sm:space-x-0">
@@ -63,7 +71,7 @@ export function RedirectConfirm({
           <DialogClose asChild>
             <button
               type="button"
-              className="text-sm text-muted-foreground transition-colors hover:text-foreground"
+              className="rounded-md px-2 py-1 text-sm text-muted-foreground transition-[color,opacity,transform] duration-200 hover:-translate-y-0.5 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/60"
             >
               Agora não
             </button>

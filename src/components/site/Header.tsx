@@ -1,21 +1,20 @@
 import { useEffect, useRef, useState } from "react";
 import { cn } from "@/lib/utils";
 import { MobileNav } from "./MobileNav";
-import { OccultMenu } from "./OccultMenu";
+import { NavPill } from "./NavPill";
 
 export function Header() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
-  const [occultMenuOpen, setOccultMenuOpen] = useState(false);
   const [hiddenOnScroll, setHiddenOnScroll] = useState(false);
   const [progress, setProgress] = useState(0);
   const lastScrollY = useRef(0);
-  const menuState = useRef({ menuOpen: false, occultMenuOpen: false });
+  const menuState = useRef({ menuOpen: false });
 
   useEffect(() => {
-    menuState.current = { menuOpen, occultMenuOpen };
-    if (menuOpen || occultMenuOpen) setHiddenOnScroll(false);
-  }, [menuOpen, occultMenuOpen]);
+    menuState.current = { menuOpen };
+    if (menuOpen) setHiddenOnScroll(false);
+  }, [menuOpen]);
 
   useEffect(() => {
     let frame = 0;
@@ -27,12 +26,7 @@ export function Header() {
         const scrollingDown = currentY > lastScrollY.current + 8;
         const scrollingUp = currentY < lastScrollY.current - 8;
         if (scrollingDown || scrollingUp || currentY <= 120) {
-          setHiddenOnScroll(
-            currentY > 120 &&
-              scrollingDown &&
-              !menuState.current.menuOpen &&
-              !menuState.current.occultMenuOpen,
-          );
+          setHiddenOnScroll(currentY > 120 && scrollingDown && !menuState.current.menuOpen);
         }
         lastScrollY.current = currentY;
         const doc = document.documentElement;
@@ -73,8 +67,8 @@ export function Header() {
         className="mx-auto flex h-20 max-w-6xl items-center justify-between px-5 transition-[height] duration-300 sm:px-8 lg:data-[scrolled=true]:h-[4.5rem]"
         data-scrolled={scrolled}
       >
-        <div className="ml-auto flex items-center gap-3">
-          <OccultMenu open={occultMenuOpen} onOpenChange={setOccultMenuOpen} />
+        <NavPill />
+        <div className="ml-auto">
           <MobileNav open={menuOpen} onOpenChange={setMenuOpen} />
         </div>
       </div>

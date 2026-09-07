@@ -2,15 +2,8 @@ import { useEffect, type CSSProperties } from "react";
 import * as DialogPrimitive from "@radix-ui/react-dialog";
 import { Menu, X, ArrowUpRight } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { LINKTREE_URL } from "./constants";
+import { LINKTREE_URL, NAV } from "./constants";
 import { useLoading } from "./LoadingWave";
-
-const NAV = [
-  { href: "#sobre", label: "Sobre" },
-  { href: "#servicos", label: "Serviços" },
-  { href: "#processo", label: "Processo" },
-  { href: "#solucoes", label: "Soluções" },
-];
 
 /**
  * Menu off-canvas do celular: painel desliza da direita sobre um backdrop

@@ -38,15 +38,15 @@ export function BlurText({
   );
   const from = useMemo<BlurSnapshot>(
     () => ({
-      filter: "blur(10px)",
+      filter: "blur(14px)",
       opacity: 0,
-      y: direction === "top" ? -50 : 50,
+      y: direction === "top" ? -34 : 34,
     }),
     [direction],
   );
   const steps = useMemo<BlurSnapshot[]>(
     () => [
-      { filter: "blur(5px)", opacity: 0.5, y: direction === "top" ? 5 : -5 },
+      { filter: "blur(6px)", opacity: 0.55, y: direction === "top" ? 3 : -3 },
       { filter: "blur(0px)", opacity: 1, y: 0 },
     ],
     [direction],
@@ -86,7 +86,7 @@ export function BlurText({
             duration: stepDuration * steps.length,
             times,
             delay: (index * delay) / 1000,
-            ease: "easeOut",
+            ease: [0.16, 1, 0.3, 1],
           }}
         >
           {segment || "\u00a0"}

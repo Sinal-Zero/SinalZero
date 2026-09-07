@@ -9,5 +9,7 @@ export const NAV = [
   { href: "#sobre", label: "Sobre" },
   { href: "#servicos", label: "Serviços" },
   { href: "#processo", label: "Processo" },
+  { href: "#para-quem", label: "Para quem" },
   { href: "#solucoes", label: "Soluções" },
+  { href: "#faq", label: "FAQ" },
 ];

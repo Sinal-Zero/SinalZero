@@ -7,8 +7,10 @@ import {
   ClientPains,
   Services,
   Process,
+  WhoItsFor,
   Differentials,
   Solutions,
+  Faq,
 } from "@/components/site/Sections";
 import { ContactCta } from "@/components/site/ContactCta";
 import { Footer } from "@/components/site/Footer";
@@ -55,8 +57,10 @@ function Index() {
         <ClientPains />
         <Services />
         <Process />
+        <WhoItsFor />
         <Differentials />
         <Solutions />
+        <Faq />
         <ContactCta />
       </main>
       <Footer />

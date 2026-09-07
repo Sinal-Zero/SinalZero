@@ -8,6 +8,9 @@ import {
   Clock3,
   EyeOff,
   WalletCards,
+  Building2,
+  Handshake,
+  Globe,
 } from "lucide-react";
 import { Reveal } from "./Reveal";
 import { BlurText } from "./BlurText";
@@ -238,6 +241,104 @@ export function Differentials() {
             </Reveal>
           ))}
         </div>
+      </div>
+    </section>
+  );
+}
+
+const WHO_FOR = [
+  {
+    icon: Building2,
+    title: "Pequenas e médias empresas B2B",
+    text: "Times comerciais enxutos que precisam de leads qualificados sem inflar a equipe de vendas.",
+  },
+  {
+    icon: Handshake,
+    title: "Prestadores de serviço de ticket alto",
+    text: "Consultorias, agências e especialistas que vendem por relacionamento e precisam de conversas certas, não de volume.",
+  },
+  {
+    icon: Globe,
+    title: "Negócios sem presença digital forte",
+    text: "Empresas que perdem cliente porque o site não passa confiança — ou porque ainda não existe.",
+  },
+];
+
+export function WhoItsFor() {
+  return (
+    <section id="para-quem" className="mx-auto max-w-6xl px-5 py-20 sm:px-8 sm:py-24">
+      <SectionTitle
+        title="Para quem a SinalZero faz sentido."
+        description="Não somos para todo mundo. Trabalhamos melhor com quem já sabe o que vende e precisa de mais sinal, não de mais ruído."
+      />
+
+      <ul className="grid-rise mx-auto mt-12 grid max-w-5xl gap-5 md:grid-cols-3">
+        {WHO_FOR.map((item, i) => (
+          <Reveal as="li" key={item.title} delay={i * 70}>
+            <article className="interactive-panel h-full rounded-lg border border-border bg-card/70 p-7 text-center">
+              <item.icon className="mx-auto h-6 w-6 text-accent" aria-hidden="true" />
+              <BlurText
+                as="h3"
+                text={item.title}
+                delay={35}
+                stepDuration={0.325}
+                className="mt-6 font-display text-lg font-semibold"
+              />
+              <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{item.text}</p>
+            </article>
+          </Reveal>
+        ))}
+      </ul>
+    </section>
+  );
+}
+
+const FAQ = [
+  {
+    question: "Como vocês encontram os leads?",
+    answer:
+      "Cruzamos sinais públicos de intenção e comportamento com o perfil de cliente que você define na Calibragem, e qualificamos manualmente antes de entregar.",
+  },
+  {
+    question: "Preciso já ter um site pronto para começar?",
+    answer:
+      "Não. Podemos iniciar pela prospecção, pelo site, ou pelos dois juntos — depende do que fizer mais sentido para o seu momento.",
+  },
+  {
+    question: "Como funciona a cobrança?",
+    answer:
+      "Cada operação é dimensionada em conversa com o cliente: escopo, volume de leads e prazo definem o formato antes de fechar.",
+  },
+  {
+    question: "Vocês têm cases de outros clientes?",
+    answer:
+      "Somos uma operação nova. Preferimos mostrar exatamente o que entregamos hoje a inflar isso com cases genéricos.",
+  },
+  {
+    question: "Em quanto tempo aparecem os primeiros sinais?",
+    answer:
+      "Depende do mercado e do volume definido na Calibragem. O objetivo é entregar sinais reais o quanto antes — não prometer um prazo fixo.",
+  },
+];
+
+export function Faq() {
+  return (
+    <section id="faq" className="relative border-y border-border bg-surface/40 py-20 sm:py-24">
+      <div className="mx-auto max-w-6xl px-5 text-center sm:px-8">
+        <SectionTitle title="Perguntas frequentes." />
+
+        <dl className="grid-rise mx-auto mt-12 grid max-w-4xl gap-5 text-left sm:grid-cols-2">
+          {FAQ.map((item, i) => (
+            <Reveal as="div" key={item.question} delay={i * 55}>
+              <div className="interactive-panel h-full rounded-lg border border-border bg-card/60 p-6">
+                <dt className="font-display text-base font-semibold">{item.question}</dt>
+                <dd className="mt-2 text-sm leading-relaxed text-muted-foreground">
+                  {item.answer}
+                </dd>
+              </div>
+            </Reveal>
+          ))}
+        </dl>
       </div>
     </section>
   );

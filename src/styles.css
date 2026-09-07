@@ -427,7 +427,8 @@
     color 250ms cubic-bezier(0.16, 1, 0.3, 1),
     background-color 250ms cubic-bezier(0.16, 1, 0.3, 1),
     border-color 250ms cubic-bezier(0.16, 1, 0.3, 1),
-    box-shadow 350ms cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow 350ms cubic-bezier(0.16, 1, 0.3, 1),
+    transform 350ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .dock-indicator {
@@ -451,6 +452,12 @@
   border-color: color-mix(in oklab, var(--color-accent) 28%, transparent);
   background: color-mix(in oklab, var(--color-accent) 12%, transparent);
   box-shadow: 0 12px 28px -16px color-mix(in oklab, var(--color-accent) 90%, transparent);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .dock-item:hover {
+    transform: translateY(-1px);
+  }
 }
 
 .dock-icon {
@@ -538,8 +545,8 @@
 }
 
 body.nav-open .page-shell {
-  transform: scale(0.99) translateY(4px);
-  border-radius: 22px;
+  transform: scale(0.92) translateY(10px);
+  border-radius: 28px;
   overflow: hidden;
 }
 

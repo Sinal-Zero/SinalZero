@@ -101,11 +101,11 @@ export function MobileNav({
                     <a
                       href={item.href}
                       onClick={() => showLoading(700)}
-                      className="flex items-center justify-between py-4 text-base font-medium text-foreground transition-colors hover:text-accent"
+                      className="group flex items-center justify-between py-4 text-base font-medium text-foreground transition-colors duration-300 hover:text-accent hover:pl-1"
                     >
                       {item.label}
                       <ArrowUpRight
-                        className="h-4 w-4 text-muted-foreground transition-transform duration-300 group-hover:translate-x-0.5"
+                        className="h-4 w-4 text-muted-foreground transition-transform duration-300 group-hover:translate-x-0.5 group-hover:text-accent"
                         aria-hidden="true"
                       />
                     </a>

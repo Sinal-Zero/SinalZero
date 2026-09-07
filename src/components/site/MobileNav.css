@@ -1,13 +1,13 @@
 .hamburger-icon {
   position: relative;
-  display: inline-flex;
-  width: 1.25rem;
+  display: block;
+  width: 1.2rem;
   height: 0.9rem;
-  flex-direction: column;
-  justify-content: space-between;
 }
 
 .hamburger-icon > span {
+  position: absolute;
+  left: 0;
   display: block;
   width: 100%;
   height: 2px;
@@ -15,27 +15,40 @@
   background: currentColor;
   transform-origin: center;
   transition:
-    transform 240ms cubic-bezier(0.22, 1, 0.36, 1),
-    opacity 160ms ease,
-    width 220ms cubic-bezier(0.22, 1, 0.36, 1);
+    transform 220ms cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 140ms ease,
+    top 220ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.hamburger-icon > span:nth-child(1) {
+  top: 0;
+}
+
+.hamburger-icon > span:nth-child(2) {
+  top: 0.4rem;
+}
+
+.hamburger-icon > span:nth-child(3) {
+  top: 0.8rem;
 }
 
 .hamburger-button[aria-expanded="true"] .hamburger-icon > span:nth-child(1) {
-  transform: translateY(6px) rotate(45deg);
+  top: 0.4rem;
+  transform: rotate(45deg);
 }
 
 .hamburger-button[aria-expanded="true"] .hamburger-icon > span:nth-child(2) {
   opacity: 0;
-  width: 55%;
 }
 
 .hamburger-button[aria-expanded="true"] .hamburger-icon > span:nth-child(3) {
-  transform: translateY(-6px) rotate(-45deg);
+  top: 0.4rem;
+  transform: rotate(-45deg);
 }
 
 .mobile-drawer-overlay {
   opacity: 0;
-  transition: opacity 260ms cubic-bezier(0.22, 1, 0.36, 1);
+  transition: opacity 240ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .mobile-drawer-overlay[data-state="open"] {
@@ -48,11 +61,11 @@
 
 .mobile-drawer-panel {
   opacity: 0;
-  transform: translateX(24px) scale(0.985);
+  transform: translateX(28px) scale(0.985);
   transform-origin: right center;
   transition:
-    opacity 240ms cubic-bezier(0.22, 1, 0.36, 1),
-    transform 320ms cubic-bezier(0.22, 1, 0.36, 1);
+    opacity 220ms cubic-bezier(0.22, 1, 0.36, 1),
+    transform 300ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .mobile-drawer-panel[data-state="open"] {
@@ -67,11 +80,13 @@
 
 .mobile-drawer-stagger > * {
   opacity: 0;
-  transform: translateX(12px);
+  transform: translateX(10px);
   transition:
-    opacity 220ms cubic-bezier(0.22, 1, 0.36, 1),
-    transform 280ms cubic-bezier(0.22, 1, 0.36, 1);
-  transition-delay: calc(var(--stagger-index, 0) * 42ms + 70ms);
+    opacity 190ms cubic-bezier(0.22, 1, 0.36, 1),
+    transform 240ms cubic-bezier(0.22, 1, 0.36, 1),
+    background-color 180ms ease,
+    border-color 180ms ease;
+  transition-delay: calc(var(--stagger-index, 0) * 34ms + 52ms);
 }
 
 [data-state="open"] .mobile-drawer-stagger > * {
@@ -80,12 +95,18 @@
 }
 
 body.nav-open #page-shell.page-shell {
-  transform: scale(0.975) translateY(4px);
+  transform: scale(0.978) translateY(3px);
   border-radius: 22px;
   overflow: hidden;
   transition:
-    transform 340ms cubic-bezier(0.22, 1, 0.36, 1),
-    border-radius 340ms cubic-bezier(0.22, 1, 0.36, 1);
+    transform 300ms cubic-bezier(0.22, 1, 0.36, 1),
+    border-radius 300ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@media (min-width: 1024px) {
+  body.nav-open #page-shell.page-shell {
+    transform: scale(0.986) translateX(-8px);
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

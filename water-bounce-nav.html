@@ -1,0 +1,491 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Left Drawer Navigation</title>
+<style>
+  :root{
+    --bg:#09090b;
+    --panel:rgba(255,255,255,.06);
+    --border:rgba(255,255,255,.11);
+    --text:rgba(255,255,255,.62);
+    --text-hi:#fff;
+    --accent:#fff;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{
+    min-height:100vh;
+    background:var(--bg);
+    font-family:Arial,sans-serif;
+    color:var(--text-hi);
+    overflow-x:hidden;
+  }
+
+  /* ---------- Left drawer (desktop) ---------- */
+  .drawer{
+    position:fixed; top:0; left:0; bottom:0;
+    width:240px;
+    padding:24px 12px;
+    background:rgba(255,255,255,.04);
+    border-right:1px solid var(--border);
+    backdrop-filter:blur(20px);
+    display:flex; flex-direction:column; gap:6px;
+    z-index:40;
+    transform-origin:left center;
+    transition:transform .5s cubic-bezier(.18,.82,.18,1), opacity .4s ease;
+  }
+  .drawer.hidden-headroom{ transform:translateX(-100%); opacity:0; }
+
+  .drawer-brand{
+    font-weight:800; font-size:15px; letter-spacing:.02em;
+    padding:8px 12px 20px;
+    color:var(--text-hi);
+  }
+
+  .tree{
+    position:relative;
+    display:flex; flex-direction:column; gap:4px;
+  }
+
+  .tree-indicator{
+    position:absolute;
+    left:0; top:0;
+    width:100%;
+    /* height replaced with scaleY — avoids layout thrash */
+    transform:scaleY(0);
+    border-radius:12px;
+    background:#fff;
+    z-index:0;
+    pointer-events:none;
+    transition:
+      transform 620ms cubic-bezier(.18,.82,.18,1);
+    will-change:transform;
+  }
+
+  .nav-item{
+    position:relative; z-index:1;
+    display:flex; align-items:center; gap:10px;
+    border:0; outline:0; background:transparent;
+    color:var(--text);
+    padding:12px 14px;
+    border-radius:12px;
+    cursor:pointer;
+    font-size:14px; font-weight:600;
+    text-align:left;
+    width:100%;
+    transition:color .25s ease, transform .25s ease, background .25s ease;
+  }
+  .nav-item:hover{ color:var(--text-hi); background:rgba(255,255,255,.05); transform:translateX(2px); }
+  .nav-item.active{ color:#09090b; }
+
+  .nav-icon{
+    display:inline-flex; align-items:center; justify-content:center;
+    width:20px; height:20px;
+    flex-shrink:0;
+    transition:width .35s cubic-bezier(.22,1,.36,1);
+  }
+  .nav-icon svg{ width:16px; height:16px; }
+
+  /* Expanding icon button effect: icon box widens slightly + icon scales on hover/active */
+  .nav-item:hover .nav-icon,
+  .nav-item.active .nav-icon{
+    width:24px;
+  }
+  .nav-item:hover .nav-icon svg,
+  .nav-item.active .nav-icon svg{
+    transform:scale(1.12);
+    transition:transform .3s cubic-bezier(.22,1,.36,1);
+  }
+
+  /* ---------- Hover glow across whole nav box ---------- */
+  .drawer{
+    position:fixed;
+  }
+  .drawer::before{
+    content:"";
+    position:absolute; inset:0;
+    border-radius:inherit;
+    background:radial-gradient(180px 180px at var(--mx,50%) var(--my,50%), rgba(255,255,255,.08), transparent 70%);
+    opacity:0;
+    transition:opacity .3s ease;
+    pointer-events:none;
+  }
+  .drawer:hover::before{ opacity:1; }
+
+  /* ---------- Content ---------- */
+  main{
+    margin-left:240px;
+    padding:64px 48px;
+    min-height:100vh;
+  }
+  section{
+    min-height:100vh;
+    display:flex; flex-direction:column; justify-content:center;
+    border-bottom:1px solid rgba(255,255,255,.06);
+  }
+  section h1{ font-size:42px; margin:0 0 12px; }
+  section p{ color:var(--text); max-width:560px; line-height:1.6; }
+
+  /* ---------- Staggered content reveal per section ---------- */
+  .stagger > *{
+    opacity:0;
+    transform:translateY(16px);
+    transition:opacity .5s cubic-bezier(.22,1,.36,1), transform .5s cubic-bezier(.22,1,.36,1);
+  }
+  .stagger.in-view > *{ opacity:1; transform:translateY(0); }
+  .stagger.in-view > *:nth-child(1){ transition-delay:0ms; }
+  .stagger.in-view > *:nth-child(2){ transition-delay:80ms; }
+  .stagger.in-view > *:nth-child(3){ transition-delay:160ms; }
+  .stagger.in-view > *:nth-child(4){ transition-delay:240ms; }
+
+  /* ---------- Modal with backdrop scale + staggered menu tree ---------- */
+  .modal-backdrop{
+    position:fixed; inset:0;
+    background:rgba(0,0,0,.6);
+    backdrop-filter:blur(6px);
+    display:flex; align-items:center; justify-content:center;
+    opacity:0; pointer-events:none;
+    transition:opacity .35s ease;
+    z-index:60;
+  }
+  .modal-backdrop.open{ opacity:1; pointer-events:auto; }
+
+  .modal-box{
+    background:#111114;
+    border:1px solid var(--border);
+    border-radius:20px;
+    padding:28px;
+    width:min(420px,90vw);
+    transform:scale(.85);
+    opacity:0;
+    transition:transform .4s cubic-bezier(.18,.82,.18,1), opacity .3s ease;
+  }
+  .modal-backdrop.open .modal-box{ transform:scale(1); opacity:1; }
+
+  .modal-box h2{ margin:0 0 16px; font-size:18px; }
+  .modal-list{ display:flex; flex-direction:column; gap:4px; }
+  .modal-list button{
+    all:unset; cursor:pointer;
+    padding:10px 12px; border-radius:10px;
+    color:var(--text); font-size:14px;
+    opacity:0; transform:translateX(-10px);
+    transition:opacity .4s ease, transform .4s cubic-bezier(.22,1,.36,1), background .2s ease, color .2s ease;
+  }
+  .modal-list button:hover{ background:rgba(255,255,255,.06); color:#fff; }
+  .modal-backdrop.open .modal-list button{ opacity:1; transform:translateX(0); }
+  .modal-backdrop.open .modal-list button:nth-child(1){ transition-delay:60ms; }
+  .modal-backdrop.open .modal-list button:nth-child(2){ transition-delay:120ms; }
+  .modal-backdrop.open .modal-list button:nth-child(3){ transition-delay:180ms; }
+  .modal-backdrop.open .modal-list button:nth-child(4){ transition-delay:240ms; }
+
+  /* ---------- Mobile hamburger ---------- */
+  .hamburger{
+    display:none;
+    position:fixed; top:16px; right:16px; z-index:70;
+    width:44px; height:44px;
+    border:1px solid var(--border);
+    background:rgba(255,255,255,.06);
+    border-radius:12px;
+    align-items:center; justify-content:center;
+    cursor:pointer;
+    backdrop-filter:blur(20px);
+  }
+  .hamburger span{
+    position:relative;
+    width:18px; height:2px; background:#fff;
+    transition:transform .3s ease, opacity .3s ease;
+  }
+  .hamburger span::before,
+  .hamburger span::after{
+    content:""; position:absolute; left:0;
+    width:18px; height:2px; background:#fff;
+    transition:transform .3s ease;
+  }
+  .hamburger span::before{ top:-6px; }
+  .hamburger span::after{ top:6px; }
+  .hamburger.open span{ background:transparent; }
+  .hamburger.open span::before{ transform:translateY(6px) rotate(45deg); }
+  .hamburger.open span::after{ transform:translateY(-6px) rotate(-45deg); }
+
+  .mobile-menu{
+    position:fixed; inset:0;
+    background:rgba(9,9,11,.98);
+    backdrop-filter:blur(20px);
+    z-index:65;
+    display:flex; flex-direction:column;
+    align-items:flex-start;
+    justify-content:center;
+    gap:8px;
+    padding:32px;
+    opacity:0; pointer-events:none;
+    transform:scale(.96);
+    transition:opacity .35s ease, transform .35s cubic-bezier(.18,.82,.18,1);
+  }
+  .mobile-menu.open{ opacity:1; pointer-events:auto; transform:scale(1); }
+
+  .mobile-menu a{
+    all:unset; cursor:pointer;
+    font-size:28px; font-weight:700;
+    color:var(--text);
+    padding:6px 0;
+    opacity:0; transform:translateY(14px);
+    transition:opacity .45s cubic-bezier(.22,1,.36,1), transform .45s cubic-bezier(.22,1,.36,1), color .2s ease;
+  }
+  .mobile-menu a:hover{ color:#fff; }
+  .mobile-menu.open a:nth-child(1){ transition-delay:60ms; opacity:1; transform:translateY(0); }
+  .mobile-menu.open a:nth-child(2){ transition-delay:120ms; opacity:1; transform:translateY(0); }
+  .mobile-menu.open a:nth-child(3){ transition-delay:180ms; opacity:1; transform:translateY(0); }
+  .mobile-menu.open a:nth-child(4){ transition-delay:240ms; opacity:1; transform:translateY(0); }
+  .mobile-menu.open a:nth-child(5){ transition-delay:300ms; opacity:1; transform:translateY(0); }
+
+  @media (max-width:860px){
+    .drawer{ display:none; }
+    .hamburger{ display:flex; }
+    main{ margin-left:0; padding:64px 24px; }
+  }
+</style>
+</head>
+
+<body>
+
+  <!-- Left drawer nav (desktop) -->
+  <nav class="drawer" id="drawer">
+    <div class="drawer-brand">SinalZero</div>
+    <div class="tree" id="tree">
+      <div class="tree-indicator" id="indicator"></div>
+      <button class="nav-item active" data-target="home">
+        <span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/></svg></span>
+        Home
+      </button>
+      <button class="nav-item" data-target="projetos">
+        <span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg></span>
+        Projetos
+      </button>
+      <button class="nav-item" data-target="servicos">
+        <span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg></span>
+        Serviços
+      </button>
+      <button class="nav-item" data-target="sobre">
+        <span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21c1-4 5-6 8-6s7 2 8 6"/></svg></span>
+        Sobre
+      </button>
+      <button class="nav-item" id="menuTrigger" data-modal="true">
+        <span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h16"/></svg></span>
+        Contato
+      </button>
+    </div>
+  </nav>
+
+  <!-- Mobile hamburger -->
+  <button class="hamburger" id="hamburger" aria-label="Menu"><span></span></button>
+  <div class="mobile-menu" id="mobileMenu">
+    <a data-target="home">Home</a>
+    <a data-target="projetos">Projetos</a>
+    <a data-target="servicos">Serviços</a>
+    <a data-target="sobre">Sobre</a>
+    <a id="mobileContact">Contato</a>
+  </div>
+
+  <!-- Contact modal with backdrop scale + staggered list -->
+  <div class="modal-backdrop" id="modalBackdrop">
+    <div class="modal-box">
+      <h2>Fale com a gente</h2>
+      <div class="modal-list">
+        <button>E-mail</button>
+        <button>WhatsApp</button>
+        <button>Instagram</button>
+        <button>Fechar</button>
+      </div>
+    </div>
+  </div>
+
+  <main>
+    <section id="home" class="stagger">
+      <h1>Home</h1>
+      <p>Seção inicial com navegação lateral, spring suave e hover de brilho na drawer.</p>
+    </section>
+    <section id="projetos" class="stagger">
+      <h1>Projetos</h1>
+      <p>Cada seção revela conteúdo com stagger ao entrar na viewport.</p>
+    </section>
+    <section id="servicos" class="stagger">
+      <h1>Serviços</h1>
+      <p>Indicador com water-bounce ao trocar item ativo no menu.</p>
+    </section>
+    <section id="sobre" class="stagger">
+      <h1>Sobre</h1>
+      <p>Drawer some suavemente ao rolar para baixo (headroom) e volta ao subir.</p>
+    </section>
+  </main>
+
+<script>
+(function(){
+  const tree = document.getElementById("tree");
+  const indicator = document.getElementById("indicator");
+  const items = [...document.querySelectorAll(".nav-item[data-target]")];
+  const drawer = document.getElementById("drawer");
+
+  let currentY = 0;
+  let currentH = 0;
+  let animationId = null;
+
+  const clamp = (v, min, max) => Math.max(min, Math.min(max, v));
+
+  function targetFor(item){
+    const treeRect = tree.getBoundingClientRect();
+    const rect = item.getBoundingClientRect();
+    return { y: rect.top - treeRect.top, h: rect.height };
+  }
+
+  function moveIndicator(item, instant){
+    const target = targetFor(item);
+    if (instant){
+      currentY = target.y; currentH = target.h;
+      indicator.style.transition = "none";
+      indicator.style.transform = `translateY(${currentY}px)`;
+      indicator.style.height = `${currentH}px`;
+      requestAnimationFrame(() => {
+        indicator.style.transition =
+          "transform 620ms cubic-bezier(.18,.82,.18,1), height 220ms cubic-bezier(.22,1,.36,1)";
+      });
+      return;
+    }
+
+    const fromY = currentY;
+    const distance = target.y - fromY;
+    const overshoot = clamp(distance * 0.06, -14, 14);
+    const t0 = performance.now();
+    const duration = 620;
+
+    cancelAnimationFrame(animationId);
+
+    function easeOutCubic(t){ return 1 - Math.pow(1 - t, 3); }
+
+    function spring(t){
+      if (t < 0.76){
+        const p = t / 0.76;
+        return fromY + (distance + overshoot) * easeOutCubic(p);
+      } else {
+        const p = (t - 0.76) / 0.24;
+        return fromY + (distance + overshoot) - overshoot * (1 - Math.pow(1 - p, 3));
+      }
+    }
+
+    const startH = currentH || target.h;
+
+    function frame(now){
+      const progress = clamp((now - t0) / duration, 0, 1);
+      currentY = spring(progress);
+      currentH = startH + (target.h - startH) * easeOutCubic(progress);
+
+      let scaleY = 1;
+      if (progress > 0.68 && progress < 0.88){
+        const p = (progress - 0.68) / 0.20;
+        scaleY = 1 + Math.sin(p * Math.PI) * 0.03;
+      }
+
+      indicator.style.transform = `translateY(${currentY}px) scaleY(${scaleY})`;
+      indicator.style.height = `${currentH}px`;
+
+      if (progress < 1){
+        animationId = requestAnimationFrame(frame);
+      } else {
+        currentY = target.y; currentH = target.h;
+        indicator.style.transform = `translateY(${currentY}px)`;
+        indicator.style.height = `${currentH}px`;
+      }
+    }
+
+    animationId = requestAnimationFrame(frame);
+  }
+
+  items.forEach(item => {
+    item.addEventListener("click", () => {
+      items.forEach(x => x.classList.remove("active"));
+      item.classList.add("active");
+      moveIndicator(item);
+      const id = item.dataset.target;
+      const el = document.getElementById(id);
+      if (el) el.scrollIntoView({ behavior: "smooth" });
+    });
+  });
+
+  window.addEventListener("load", () => {
+    const active = document.querySelector(".nav-item.active");
+    moveIndicator(active, true);
+  });
+  window.addEventListener("resize", () => {
+    const active = document.querySelector(".nav-item.active");
+    moveIndicator(active, true);
+  });
+
+  // hover glow tracking
+  drawer.addEventListener("mousemove", (e) => {
+    const rect = drawer.getBoundingClientRect();
+    drawer.style.setProperty("--mx", `${e.clientX - rect.left}px`);
+    drawer.style.setProperty("--my", `${e.clientY - rect.top}px`);
+  });
+
+  // headroom: hide drawer on scroll down, show on scroll up
+  let lastScroll = window.scrollY;
+  window.addEventListener("scroll", () => {
+    const current = window.scrollY;
+    if (current > lastScroll && current > 80){
+      drawer.classList.add("hidden-headroom");
+    } else {
+      drawer.classList.remove("hidden-headroom");
+    }
+    lastScroll = current;
+  }, { passive: true });
+
+  // staggered section reveal
+  const staggerEls = document.querySelectorAll(".stagger");
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) entry.target.classList.add("in-view");
+    });
+  }, { threshold: 0.3 });
+  staggerEls.forEach(el => io.observe(el));
+
+  // contact modal
+  const modalBackdrop = document.getElementById("modalBackdrop");
+  const menuTrigger = document.getElementById("menuTrigger");
+  menuTrigger.addEventListener("click", (e) => {
+    e.preventDefault();
+    modalBackdrop.classList.add("open");
+  });
+  modalBackdrop.addEventListener("click", (e) => {
+    if (e.target === modalBackdrop) modalBackdrop.classList.remove("open");
+  });
+  document.querySelectorAll(".modal-list button").forEach(btn => {
+    if (btn.textContent.trim() === "Fechar"){
+      btn.addEventListener("click", () => modalBackdrop.classList.remove("open"));
+    }
+  });
+
+  // mobile hamburger
+  const hamburger = document.getElementById("hamburger");
+  const mobileMenu = document.getElementById("mobileMenu");
+  hamburger.addEventListener("click", () => {
+    hamburger.classList.toggle("open");
+    mobileMenu.classList.toggle("open");
+  });
+  mobileMenu.querySelectorAll("a[data-target]").forEach(link => {
+    link.addEventListener("click", () => {
+      const el = document.getElementById(link.dataset.target);
+      hamburger.classList.remove("open");
+      mobileMenu.classList.remove("open");
+      if (el) el.scrollIntoView({ behavior: "smooth" });
+    });
+  });
+  document.getElementById("mobileContact").addEventListener("click", () => {
+    hamburger.classList.remove("open");
+    mobileMenu.classList.remove("open");
+    modalBackdrop.classList.add("open");
+  });
+})();
+</script>
+</body>
+</html>

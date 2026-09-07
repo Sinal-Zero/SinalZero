@@ -12,6 +12,7 @@ import {
   Solutions,
   Faq,
 } from "@/components/site/Sections";
+import { EbookOffer } from "@/components/site/EbookOffer";
 import { ContactCta } from "@/components/site/ContactCta";
 import { Footer } from "@/components/site/Footer";
 import { SectionRail } from "@/components/site/SectionRail";
@@ -60,6 +61,7 @@ function Index() {
         <WhoItsFor />
         <Differentials />
         <Solutions />
+        <EbookOffer />
         <Faq />
         <ContactCta />
       </main>

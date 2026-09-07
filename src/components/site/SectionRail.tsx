@@ -158,6 +158,7 @@ export function SectionRail() {
         className="dock-outer"
         onMouseMove={(event) => mouseY.set(event.pageY)}
         onMouseLeave={() => mouseY.set(Number.POSITIVE_INFINITY)}
+        style={{ pointerEvents: "auto" }}
       >
         <motion.div className="dock-panel" role="toolbar" aria-label="Navegação do site">
           {SECTIONS.map((item) => (

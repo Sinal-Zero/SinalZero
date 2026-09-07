@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { CheckCircle2, Clock3, Mail, ShieldCheck } from "lucide-react";
+import { CheckCircle2, Clock3, Download, ShieldCheck } from "lucide-react";
 
 export const Route = createFileRoute("/compra-concluida")({
   validateSearch: (search: Record<string, unknown>) => ({
@@ -42,6 +42,9 @@ function PurchaseComplete() {
   }, [sessionId]);
 
   const paid = state === "paid";
+  const downloadUrl = sessionId
+    ? `/api/ebook/download?session_id=${encodeURIComponent(sessionId)}`
+    : "";
 
   return (
     <main className="relative flex min-h-screen items-center overflow-hidden bg-background px-5 py-16 sm:px-8">
@@ -72,27 +75,36 @@ function PurchaseComplete() {
 
         <p className="mx-auto mt-4 max-w-md text-pretty leading-relaxed text-muted-foreground">
           {paid
-            ? "Seu pagamento foi confirmado pela Stripe. A entrega automática do e-book será vinculada a esta compra na próxima etapa da configuração."
+            ? "Seu pagamento foi confirmado pela Stripe. Seu e-book já está liberado para download."
             : state === "checking"
               ? "Estamos consultando o status da sua compra diretamente na Stripe."
               : "Se você acabou de pagar, aguarde alguns instantes. Em métodos que não confirmam na hora, a aprovação pode acontecer depois."}
         </p>
 
         {paid ? (
-          <div className="mx-auto mt-6 flex max-w-sm items-start gap-3 rounded-xl border border-border bg-surface/55 p-4 text-left">
-            <Mail className="mt-0.5 h-5 w-5 shrink-0 text-accent" aria-hidden="true" />
-            <p className="text-sm leading-relaxed text-muted-foreground">
-              Não feche seus comprovantes. Assim que a automação de entrega estiver ativada, o acesso será liberado somente após confirmação real do pagamento.
-            </p>
-          </div>
+          <a
+            href={downloadUrl}
+            className="mx-auto mt-7 inline-flex min-h-12 items-center justify-center gap-2 rounded-xl bg-accent px-6 py-3 text-sm font-semibold text-accent-foreground shadow-[0_16px_34px_-20px_rgba(245,124,0,.9)] transition-[transform,filter] duration-200 hover:-translate-y-0.5 hover:brightness-105"
+          >
+            <Download className="h-4 w-4" aria-hidden="true" />
+            Baixar e-book
+          </a>
         ) : null}
 
-        <Link
-          to="/"
-          className="mt-7 inline-flex min-h-11 items-center justify-center rounded-xl border border-border bg-surface/60 px-5 py-2.5 text-sm font-semibold text-foreground transition-[background-color,border-color,transform] duration-200 hover:-translate-y-0.5 hover:border-accent/30 hover:bg-surface"
-        >
-          Voltar para a SinalZero
-        </Link>
+        {paid ? (
+          <p className="mx-auto mt-4 max-w-sm text-xs leading-relaxed text-muted-foreground">
+            O download só é liberado depois que o servidor confirma esta sessão diretamente com a Stripe.
+          </p>
+        ) : null}
+
+        <div className="mt-7">
+          <Link
+            to="/"
+            className="inline-flex min-h-11 items-center justify-center rounded-xl border border-border bg-surface/60 px-5 py-2.5 text-sm font-semibold text-foreground transition-[background-color,border-color,transform] duration-200 hover:-translate-y-0.5 hover:border-accent/30 hover:bg-surface"
+          >
+            Voltar para a SinalZero
+          </Link>
+        </div>
       </section>
     </main>
   );

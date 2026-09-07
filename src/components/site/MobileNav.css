@@ -15,9 +15,9 @@
   background: currentColor;
   transform-origin: center;
   transition:
-    transform 260ms cubic-bezier(0.16, 1, 0.3, 1),
-    opacity 180ms ease,
-    width 220ms cubic-bezier(0.16, 1, 0.3, 1);
+    transform 320ms cubic-bezier(0.16, 1, 0.3, 1),
+    opacity 220ms ease,
+    width 260ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .hamburger-icon > span:nth-child(1) {
@@ -35,37 +35,38 @@
 .hamburger-button[aria-expanded="true"] {
   opacity: 0;
   pointer-events: none;
-  transform: scale(0.95);
+  transform: scale(0.92) rotate(2deg);
 }
 
 .mobile-drawer-overlay {
   opacity: 0;
-  backdrop-filter: blur(0px);
+  backdrop-filter: blur(0px) saturate(1);
   transition:
-    opacity 360ms cubic-bezier(0.16, 1, 0.3, 1),
-    backdrop-filter 420ms cubic-bezier(0.16, 1, 0.3, 1);
+    opacity 440ms cubic-bezier(0.16, 1, 0.3, 1),
+    backdrop-filter 560ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .mobile-drawer-overlay[data-state="open"] {
   opacity: 1;
-  backdrop-filter: blur(7px);
+  backdrop-filter: blur(10px) saturate(0.9);
 }
 
 .mobile-drawer-overlay[data-state="closed"] {
   opacity: 0;
-  backdrop-filter: blur(0px);
+  backdrop-filter: blur(0px) saturate(1);
 }
 
 .mobile-drawer-panel {
   opacity: 0;
-  filter: blur(8px);
-  transform: translateX(24px) scale(0.975);
+  filter: blur(12px);
+  transform: translateX(34px) scale(0.958);
   transform-origin: right center;
   transition:
-    opacity 340ms cubic-bezier(0.16, 1, 0.3, 1),
-    transform 460ms cubic-bezier(0.16, 1, 0.3, 1),
-    filter 380ms cubic-bezier(0.16, 1, 0.3, 1),
-    box-shadow 360ms cubic-bezier(0.16, 1, 0.3, 1);
+    opacity 400ms cubic-bezier(0.16, 1, 0.3, 1),
+    transform 560ms cubic-bezier(0.16, 1, 0.3, 1),
+    filter 460ms cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 420ms cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform, opacity, filter;
 }
 
 .mobile-drawer-panel[data-state="open"] {
@@ -76,42 +77,42 @@
 
 .mobile-drawer-panel[data-state="closed"] {
   opacity: 0;
-  filter: blur(5px);
-  transform: translateX(18px) scale(0.985);
+  filter: blur(7px);
+  transform: translateX(22px) scale(0.978);
 }
 
 .drawer-close-button {
   opacity: 0;
-  filter: blur(3px);
-  transform: scale(0.9) rotate(-14deg);
+  filter: blur(5px);
+  transform: scale(0.86) rotate(-18deg);
   transition:
-    opacity 240ms ease,
-    transform 360ms cubic-bezier(0.16, 1, 0.3, 1),
-    filter 300ms cubic-bezier(0.16, 1, 0.3, 1),
-    background-color 180ms ease,
-    border-color 180ms ease,
-    box-shadow 220ms ease;
+    opacity 280ms ease,
+    transform 420ms cubic-bezier(0.16, 1, 0.3, 1),
+    filter 360ms cubic-bezier(0.16, 1, 0.3, 1),
+    background-color 220ms ease,
+    border-color 220ms ease,
+    box-shadow 260ms ease;
 }
 
 [data-state="open"] .drawer-close-button {
   opacity: 1;
   filter: blur(0);
   transform: scale(1) rotate(0deg);
-  transition-delay: 90ms;
+  transition-delay: 115ms;
 }
 
 .mobile-drawer-stagger > * {
   opacity: 0;
-  filter: blur(5px);
-  transform: translateX(10px) translateY(4px) scale(0.99);
+  filter: blur(7px);
+  transform: translateX(14px) translateY(8px) scale(0.982);
   transition:
-    opacity 360ms cubic-bezier(0.16, 1, 0.3, 1),
-    transform 430ms cubic-bezier(0.16, 1, 0.3, 1),
-    filter 360ms cubic-bezier(0.16, 1, 0.3, 1),
-    background-color 170ms ease,
-    border-color 170ms ease,
-    box-shadow 220ms ease;
-  transition-delay: calc(var(--stagger-index, 0) * 55ms + 105ms);
+    opacity 420ms cubic-bezier(0.16, 1, 0.3, 1),
+    transform 500ms cubic-bezier(0.16, 1, 0.3, 1),
+    filter 430ms cubic-bezier(0.16, 1, 0.3, 1),
+    background-color 200ms ease,
+    border-color 200ms ease,
+    box-shadow 260ms ease;
+  transition-delay: calc(var(--stagger-index, 0) * 70ms + 125ms);
 }
 
 [data-state="open"] .mobile-drawer-stagger > * {
@@ -121,25 +122,28 @@
 }
 
 body.nav-open #page-shell.page-shell {
-  transform: scale(0.984) translateY(2px);
-  border-radius: 20px;
+  transform: scale(0.966) translateY(7px);
+  border-radius: 26px;
   overflow: hidden;
-  filter: saturate(0.94) brightness(0.94) blur(0.2px);
+  filter: saturate(0.9) brightness(0.91) blur(0.45px);
   transition:
-    transform 470ms cubic-bezier(0.16, 1, 0.3, 1),
-    border-radius 420ms cubic-bezier(0.16, 1, 0.3, 1),
-    filter 360ms cubic-bezier(0.16, 1, 0.3, 1);
+    transform 560ms cubic-bezier(0.16, 1, 0.3, 1),
+    border-radius 500ms cubic-bezier(0.16, 1, 0.3, 1),
+    filter 430ms cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform, filter;
 }
 
 @media (min-width: 640px) {
   body.nav-open #page-shell.page-shell {
-    transform: scale(0.987) translateX(-5px);
+    transform: scale(0.974) translateX(-8px) translateY(4px);
+    border-radius: 28px;
   }
 }
 
 @media (min-width: 1024px) {
   body.nav-open #page-shell.page-shell {
-    transform: scale(0.99) translateX(-10px);
+    transform: scale(0.982) translateX(-14px);
+    border-radius: 30px;
   }
 }
 

@@ -75,7 +75,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
       { title: "SinalZero" },
-      { name: "description", content: "Prospecção inteligente de leads e produtos digitais." },
+      { name: "description", content: "E-book e SaaS de presença digital e sinal de mercado." },
       { name: "author", content: "SinalZero" },
       { name: "theme-color", content: "#0A1424" },
       { property: "og:type", content: "website" },

@@ -7,16 +7,26 @@ import {
   useTransform,
 } from "motion/react";
 import { useRef, useState } from "react";
-import { CircleDot, Compass, Crosshair, HelpCircle, Radar, Users, Workflow } from "lucide-react";
+import {
+  BookOpen,
+  CircleDot,
+  Compass,
+  Crosshair,
+  HelpCircle,
+  Radar,
+  Users,
+  Workflow,
+} from "lucide-react";
 import { useActiveSection } from "@/hooks/use-active-section";
 
 export const SECTIONS = [
   { href: "#topo", label: "Início", icon: Radar },
   { href: "#sobre", label: "Sobre", icon: CircleDot },
-  { href: "#servicos", label: "Serviços", icon: Compass },
-  { href: "#processo", label: "Processo", icon: Workflow },
+  { href: "#servicos", label: "Produtos", icon: Compass },
+  { href: "#processo", label: "Como funciona", icon: Workflow },
   { href: "#para-quem", label: "Para quem", icon: Users },
-  { href: "#solucoes", label: "Soluções", icon: Crosshair },
+  { href: "#ebook", label: "E-book", icon: BookOpen },
+  { href: "#solucoes", label: "Formatos", icon: Crosshair },
   { href: "#faq", label: "FAQ", icon: HelpCircle },
 ];
 

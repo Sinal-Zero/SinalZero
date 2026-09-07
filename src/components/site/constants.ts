@@ -9,10 +9,10 @@ export const KIWIFY_EBOOK_URL = "https://pay.kiwify.com.br/cGxs0JI";
 /** Seções navegáveis do site. */
 export const NAV = [
   { href: "#sobre", label: "Sobre" },
-  { href: "#servicos", label: "Serviços" },
-  { href: "#processo", label: "Processo" },
+  { href: "#servicos", label: "Produtos" },
+  { href: "#processo", label: "Como funciona" },
   { href: "#para-quem", label: "Para quem" },
-  { href: "#solucoes", label: "Soluções" },
   { href: "#ebook", label: "E-book" },
+  { href: "#solucoes", label: "Formatos" },
   { href: "#faq", label: "FAQ" },
 ];

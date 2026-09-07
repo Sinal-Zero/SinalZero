@@ -1,10 +1,10 @@
 import {
+  BookOpen,
   Radar,
-  MonitorSmartphone,
-  Target,
   LineChart,
-  ShieldCheck,
+  Target,
   Gauge,
+  ShieldCheck,
   Clock3,
   EyeOff,
   WalletCards,
@@ -39,7 +39,7 @@ export function About() {
     <section id="sobre" className="mx-auto max-w-6xl px-5 py-20 sm:px-8 sm:py-24">
       <SectionTitle
         title="Sinal claro no meio do ruído."
-        description="A SinalZero é uma startup de prospecção inteligente de leads e construção de produtos digitais. Trabalhamos como um radar: varremos o mercado, identificamos quem realmente tem interesse no seu serviço e entregamos essas oportunidades prontas para o contato — junto com o site ou produto que sustenta a conversa."
+        description="A SinalZero ajuda empresas a construir presença digital de verdade e a entender o próprio sinal de mercado. Ensinamos o caminho no e-book Fora do Balcão e sustentamos o crescimento contínuo com um SaaS que projeta sua empresa para mais clientes e aumenta o fluxo do negócio."
       />
     </section>
   );
@@ -48,8 +48,8 @@ export function About() {
 const CLIENT_PAINS = [
   {
     icon: Clock3,
-    title: "Seu time vende no escuro",
-    text: "Horas são gastas procurando contatos que nunca pediram uma conversa. O problema não é esforço: é falta de sinal.",
+    title: "Seu negócio decide no escuro",
+    text: "Sem sinal claro sobre o próprio mercado, cada decisão de crescimento vira tentativa e erro.",
   },
   {
     icon: EyeOff,
@@ -58,8 +58,8 @@ const CLIENT_PAINS = [
   },
   {
     icon: WalletCards,
-    title: "Oportunidades escapam",
-    text: "Cada lead mal qualificado custa tempo, dinheiro e confiança. Você precisa saber onde vale insistir.",
+    title: "Crescimento fica no acaso",
+    text: "Sem ferramenta e sem direção, cada tentativa de atrair cliente novo custa tempo sem previsibilidade.",
   },
 ];
 
@@ -69,14 +69,17 @@ export function ClientPains() {
       <div className="mx-auto max-w-6xl px-5 text-center sm:px-8">
         <SectionTitle
           title="O problema não é falta de clientes. É excesso de ruído."
-          description="A SinalZero existe para encurtar a distância entre quem precisa do que você vende e o momento certo de iniciar uma conversa."
+          description="A SinalZero existe para trazer clareza sobre o seu mercado e colocar a máquina de crescimento para rodar sozinha."
         />
 
         <ul className="grid-rise mx-auto mt-12 grid max-w-5xl gap-5 md:grid-cols-3">
           {CLIENT_PAINS.map((item, i) => (
             <Reveal as="li" key={item.title} delay={i * 70}>
-              <article className="interactive-panel h-full rounded-lg border border-border bg-card/70 p-7 text-center">
-                <item.icon className="mx-auto h-6 w-6 text-ember" aria-hidden="true" />
+              <article className="interactive-panel group h-full rounded-lg border border-border bg-card/70 p-7 text-center">
+                <item.icon
+                  className="mx-auto h-6 w-6 text-ember transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:scale-110"
+                  aria-hidden="true"
+                />
                 <BlurText
                   as="h3"
                   text={item.title}
@@ -94,21 +97,21 @@ export function ClientPains() {
   );
 }
 
-const SERVICES = [
+const PRODUCTS = [
   {
-    icon: Radar,
-    title: "Prospecção inteligente de leads",
-    text: "Identificação e qualificação de empresas e pessoas com perfil real de compra, entregues de forma organizada para o seu time.",
+    icon: BookOpen,
+    title: "E-book Fora do Balcão",
+    text: "Guia direto para entender seu sinal de mercado e estruturar a presença digital do seu negócio, sem enrolação.",
   },
   {
-    icon: MonitorSmartphone,
-    title: "Criação de sites e produtos digitais",
-    text: "Sites institucionais, páginas de conversão e produtos web construídos do zero, rápidos, acessíveis e prontos para receber tráfego.",
+    icon: Radar,
+    title: "SaaS SinalZero",
+    text: "Plataforma que projeta sua empresa para mais clientes e aumenta o fluxo de oportunidades de forma contínua.",
   },
   {
     icon: LineChart,
-    title: "Evolução contínua",
-    text: "Melhorias sobre o que já existe: performance, SEO, novas funcionalidades e ajustes guiados pelo comportamento de quem usa.",
+    title: "Acompanhamento contínuo",
+    text: "Resultados medidos e ajustes guiados pelo uso real da plataforma — não um produto estático.",
   },
 ];
 
@@ -119,22 +122,20 @@ export function Services() {
         <SectionTitle title="O que a SinalZero entrega." />
 
         <ul className="grid-rise mx-auto mt-12 grid max-w-5xl gap-5 md:grid-cols-3">
-          {SERVICES.map((service, i) => (
-            <Reveal as="li" key={service.title} delay={i * 70}>
+          {PRODUCTS.map((product, i) => (
+            <Reveal as="li" key={product.title} delay={i * 70}>
               <article className="interactive-panel group h-full rounded-lg border border-border bg-card/70 p-7 text-center">
-                <span className="mx-auto inline-flex h-11 w-11 items-center justify-center rounded-md bg-primary/15 text-accent transition-colors duration-300 group-hover:bg-primary/25">
-                  <service.icon className="h-5 w-5" aria-hidden="true" />
+                <span className="mx-auto inline-flex h-11 w-11 items-center justify-center rounded-md bg-primary/15 text-accent transition-all duration-300 group-hover:scale-110 group-hover:bg-primary/25">
+                  <product.icon className="h-5 w-5" aria-hidden="true" />
                 </span>
                 <BlurText
                   as="h3"
-                  text={service.title}
+                  text={product.title}
                   delay={35}
                   stepDuration={0.325}
                   className="mt-6 font-display text-lg font-semibold"
                 />
-                <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
-                  {service.text}
-                </p>
+                <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{product.text}</p>
               </article>
             </Reveal>
           ))}
@@ -147,37 +148,37 @@ export function Services() {
 const STEPS = [
   {
     step: "01",
-    title: "Calibragem",
-    text: "Entendemos o objetivo, o público e os critérios do que é um bom cliente para você.",
+    title: "Diagnóstico",
+    text: "Entendemos o momento do seu negócio e o que falta para gerar mais sinal de mercado.",
   },
   {
     step: "02",
-    title: "Varredura",
-    text: "Mapeamos o mercado e filtramos apenas os sinais com potencial real de negócio.",
+    title: "Fundamentos",
+    text: "Você aplica o e-book Fora do Balcão para estruturar a base da presença digital.",
   },
   {
     step: "03",
-    title: "Construção",
-    text: "Criamos ou ajustamos o site e o produto que recebem essas oportunidades.",
+    title: "Ativação do SaaS",
+    text: "Configuramos a plataforma para projetar sua empresa e captar fluxo de clientes continuamente.",
   },
   {
     step: "04",
-    title: "Ajuste fino",
-    text: "Medimos, testamos e refinamos — a operação segue viva depois da entrega.",
+    title: "Acompanhamento",
+    text: "Medimos resultados e ajustamos a operação com o tempo.",
   },
 ];
 
 export function Process() {
   return (
     <section id="processo" className="mx-auto max-w-6xl px-5 py-20 sm:px-8 sm:py-24">
-      <SectionTitle title="Da descoberta ao contato, em quatro passos." />
+      <SectionTitle title="Do diagnóstico ao fluxo contínuo, em quatro passos." />
 
       <ol className="grid-rise mx-auto mt-12 grid max-w-5xl gap-5 text-center sm:grid-cols-2 lg:grid-cols-4">
         {STEPS.map((item, i) => (
           <Reveal as="li" key={item.step} delay={i * 60}>
-            <div className="interactive-panel relative h-full rounded-lg border border-border bg-card/50 p-6 text-center">
+            <div className="interactive-panel group relative h-full rounded-lg border border-border bg-card/50 p-6 text-center">
               <span
-                className="process-step-number font-display text-4xl font-semibold text-primary/35 transition-colors duration-500"
+                className="process-step-number font-display text-4xl font-semibold text-primary/35 transition-colors duration-500 group-hover:text-accent"
                 aria-hidden="true"
               >
                 {item.step}
@@ -201,8 +202,8 @@ export function Process() {
 const DIFFERENTIALS = [
   {
     icon: Target,
-    title: "Foco em oportunidade real",
-    text: "Preferimos poucos contatos certos a uma lista grande e fria.",
+    title: "Foco em sinal real",
+    text: "Preferimos decisões guiadas por sinal de mercado a apostas genéricas de marketing.",
   },
   {
     icon: Gauge,
@@ -226,7 +227,7 @@ export function Differentials() {
           {DIFFERENTIALS.map((item, i) => (
             <Reveal key={item.title} delay={i * 70}>
               <div className="group text-center">
-                <span className="mx-auto inline-flex h-11 w-11 items-center justify-center rounded-md bg-gold/12 text-gold transition-transform duration-300 group-hover:-translate-y-0.5 motion-reduce:transition-none">
+                <span className="mx-auto inline-flex h-11 w-11 items-center justify-center rounded-md bg-gold/12 text-gold transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:scale-110 motion-reduce:transition-none">
                   <item.icon className="h-5 w-5" aria-hidden="true" />
                 </span>
                 <BlurText
@@ -249,13 +250,13 @@ export function Differentials() {
 const WHO_FOR = [
   {
     icon: Building2,
-    title: "Pequenas e médias empresas B2B",
-    text: "Times comerciais enxutos que precisam de leads qualificados sem inflar a equipe de vendas.",
+    title: "Pequenas e médias empresas",
+    text: "Negócios que precisam estruturar a presença digital antes de escalar o crescimento.",
   },
   {
     icon: Handshake,
     title: "Prestadores de serviço de ticket alto",
-    text: "Consultorias, agências e especialistas que vendem por relacionamento e precisam de conversas certas, não de volume.",
+    text: "Consultorias, agências e especialistas que precisam de fluxo constante de clientes qualificados.",
   },
   {
     icon: Globe,
@@ -275,8 +276,11 @@ export function WhoItsFor() {
       <ul className="grid-rise mx-auto mt-12 grid max-w-5xl gap-5 md:grid-cols-3">
         {WHO_FOR.map((item, i) => (
           <Reveal as="li" key={item.title} delay={i * 70}>
-            <article className="interactive-panel h-full rounded-lg border border-border bg-card/70 p-7 text-center">
-              <item.icon className="mx-auto h-6 w-6 text-accent" aria-hidden="true" />
+            <article className="interactive-panel group h-full rounded-lg border border-border bg-card/70 p-7 text-center">
+              <item.icon
+                className="mx-auto h-6 w-6 text-accent transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:scale-110"
+                aria-hidden="true"
+              />
               <BlurText
                 as="h3"
                 text={item.title}
@@ -295,29 +299,29 @@ export function WhoItsFor() {
 
 const FAQ = [
   {
-    question: "Como vocês encontram os leads?",
+    question: "O que é o e-book Fora do Balcão?",
     answer:
-      "Cruzamos sinais públicos de intenção e comportamento com o perfil de cliente que você define na Calibragem, e qualificamos manualmente antes de entregar.",
+      "Um guia direto para estruturar a presença digital do seu negócio e entender seu sinal de mercado, sem enrolação.",
   },
   {
-    question: "Preciso já ter um site pronto para começar?",
+    question: "O que o SaaS da SinalZero faz?",
     answer:
-      "Não. Podemos iniciar pela prospecção, pelo site, ou pelos dois juntos — depende do que fizer mais sentido para o seu momento.",
+      "Projeta sua empresa para mais clientes e aumenta o fluxo de oportunidades de forma contínua, com acompanhamento real.",
   },
   {
-    question: "Como funciona a cobrança?",
+    question: "Preciso comprar o e-book e o SaaS juntos?",
     answer:
-      "Cada operação é dimensionada em conversa com o cliente: escopo, volume de leads e prazo definem o formato antes de fechar.",
+      "Não. O e-book funciona sozinho para quem quer aprender e aplicar por conta própria. O SaaS é para quem quer a ferramenta rodando continuamente.",
   },
   {
-    question: "Vocês têm cases de outros clientes?",
+    question: "Como funciona o acesso ao e-book depois da compra?",
     answer:
-      "Somos uma operação nova. Preferimos mostrar exatamente o que entregamos hoje a inflar isso com cases genéricos.",
+      "O pagamento é processado pela Kiwify, que libera o acesso digital. Se algo falhar, as instruções também chegam por e-mail.",
   },
   {
-    question: "Em quanto tempo aparecem os primeiros sinais?",
+    question: "Em quanto tempo vejo resultado com o SaaS?",
     answer:
-      "Depende do mercado e do volume definido na Calibragem. O objetivo é entregar sinais reais o quanto antes — não prometer um prazo fixo.",
+      "Depende do ponto de partida do seu negócio. O diagnóstico inicial define uma expectativa real, sem prazo genérico.",
   },
 ];
 
@@ -346,16 +350,16 @@ export function Faq() {
 
 const SOLUTIONS = [
   {
-    title: "Listas de leads qualificados",
-    text: "Oportunidades filtradas pelo perfil que você definiu, prontas para abordagem.",
+    title: "E-book Fora do Balcão",
+    text: "Aprenda no seu ritmo a estruturar presença digital e entender seu sinal de mercado.",
   },
   {
-    title: "Sites institucionais e páginas de conversão",
-    text: "Presença digital clara, rápida e feita para gerar contato.",
+    title: "SaaS SinalZero",
+    text: "Plataforma contínua que projeta sua empresa e aumenta o fluxo de clientes.",
   },
   {
-    title: "Produtos web sob medida",
-    text: "Ferramentas internas e produtos digitais construídos e mantidos com o time.",
+    title: "E-book + SaaS",
+    text: "Combine aprendizado e ferramenta para sair do zero e manter o crescimento contínuo.",
   },
 ];
 

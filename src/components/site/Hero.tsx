@@ -40,9 +40,8 @@ export function Hero() {
           delay={145}
           className="mx-auto mt-5 max-w-xl text-pretty px-1 text-[0.98rem] leading-7 text-muted-foreground sm:mt-6 sm:px-0 sm:text-lg sm:leading-relaxed"
         >
-          Enquanto você perde tempo com listas frias e uma presença digital que não converte, a
-          SinalZero encontra quem já demonstra interesse, qualifica o sinal e transforma atenção em
-          conversa.
+          Enquanto sua presença digital não converte, a SinalZero ensina o caminho no e-book Fora do
+          Balcão e sustenta o crescimento com um SaaS que projeta sua empresa para mais clientes.
         </Reveal>
 
         <Reveal delay={250}>

@@ -29,10 +29,13 @@ export function Footer() {
               Sobre
             </a>
             <a href="#servicos" className="transition-colors hover:text-foreground">
-              Serviços
+              Produtos
             </a>
             <a href="#processo" className="transition-colors hover:text-foreground">
-              Metodologia
+              Como funciona
+            </a>
+            <a href="#ebook" className="transition-colors hover:text-foreground">
+              E-book
             </a>
             <a href="#faq" className="transition-colors hover:text-foreground">
               FAQ

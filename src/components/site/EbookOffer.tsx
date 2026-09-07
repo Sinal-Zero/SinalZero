@@ -24,7 +24,10 @@ const benefits = [
 
 export function EbookOffer() {
   return (
-    <section id="ebook" className="relative overflow-hidden border-y border-border/70 py-20 sm:py-24">
+    <section
+      id="ebook"
+      className="relative overflow-hidden border-y border-border/70 py-20 sm:py-24"
+    >
       <div
         aria-hidden="true"
         className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_76%_35%,color-mix(in_oklab,var(--color-accent)_10%,transparent),transparent_30%)]"
@@ -33,7 +36,9 @@ export function EbookOffer() {
       <div className="relative mx-auto grid w-full max-w-6xl gap-10 px-5 sm:px-8 lg:grid-cols-[1.05fr_.95fr] lg:items-center lg:gap-14">
         <div>
           <Reveal>
-            <p className="text-[0.68rem] font-semibold uppercase tracking-[0.2em] text-accent">Produto digital</p>
+            <p className="text-[0.68rem] font-semibold uppercase tracking-[0.2em] text-accent">
+              Produto digital
+            </p>
           </Reveal>
 
           <Reveal delay={50}>
@@ -44,15 +49,19 @@ export function EbookOffer() {
 
           <Reveal delay={90}>
             <p className="mt-5 max-w-2xl text-pretty text-base leading-7 text-muted-foreground sm:text-lg sm:leading-8">
-              Um guia objetivo para pequenas e médias empresas que querem estruturar melhor a presença digital, ganhar clareza e começar a agir sem complicação.
+              Um guia objetivo para pequenas e médias empresas que querem estruturar melhor a
+              presença digital, ganhar clareza e começar a agir sem complicação.
             </p>
           </Reveal>
 
           <div className="mt-8 grid gap-3 sm:grid-cols-3 lg:grid-cols-1 xl:grid-cols-3">
             {benefits.map(({ icon: Icon, title, text }, index) => (
               <Reveal key={title} delay={70 + index * 35}>
-                <div className="h-full rounded-2xl border border-border/80 bg-surface/45 p-4 backdrop-blur-sm transition-[transform,border-color,background-color,box-shadow] duration-300 ease-[cubic-bezier(.16,1,.3,1)] hover:-translate-y-1 hover:border-accent/25 hover:bg-surface/65 hover:shadow-[0_18px_48px_-30px_rgba(245,124,0,.55)]">
-                  <Icon className="h-5 w-5 text-accent" aria-hidden="true" />
+                <div className="group h-full rounded-2xl border border-border/80 bg-surface/45 p-4 backdrop-blur-sm transition-[transform,border-color,background-color,box-shadow] duration-300 ease-[cubic-bezier(.16,1,.3,1)] hover:-translate-y-1 hover:border-accent/25 hover:bg-surface/65 hover:shadow-[0_18px_48px_-30px_rgba(245,124,0,.55)]">
+                  <Icon
+                    className="h-5 w-5 text-accent transition-transform duration-300 ease-[cubic-bezier(.16,1,.3,1)] group-hover:scale-110 group-hover:-rotate-6"
+                    aria-hidden="true"
+                  />
                   <h3 className="mt-3 text-sm font-semibold text-foreground">{title}</h3>
                   <p className="mt-2 text-sm leading-6 text-muted-foreground">{text}</p>
                 </div>
@@ -79,7 +88,9 @@ export function EbookOffer() {
               </h3>
 
               <p className="mt-4 text-sm leading-7 text-muted-foreground sm:text-base">
-                O pagamento e a liberação do acesso são processados pela Kiwify. O arquivo original também permanece preservado no armazenamento privado da SinalZero como cópia de segurança.
+                O pagamento e a liberação do acesso são processados pela Kiwify. O arquivo original
+                também permanece preservado no armazenamento privado da SinalZero como cópia de
+                segurança.
               </p>
 
               <RedirectConfirm
@@ -101,7 +112,8 @@ export function EbookOffer() {
               </RedirectConfirm>
 
               <p className="mt-3 text-center text-xs leading-5 text-muted-foreground">
-                Após a compra, guarde o e-mail usado no checkout: ele é a sua rota alternativa de acesso ao produto.
+                Após a compra, guarde o e-mail usado no checkout: ele é a sua rota alternativa de
+                acesso ao produto.
               </p>
             </div>
           </div>

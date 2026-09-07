@@ -18,9 +18,9 @@ import { Footer } from "@/components/site/Footer";
 import { SectionRail } from "@/components/site/SectionRail";
 import { MobileTabBar } from "@/components/site/MobileTabBar";
 
-const TITLE = "SinalZero — Prospecção inteligente de leads e produtos digitais";
+const TITLE = "SinalZero — E-book e SaaS de presença digital e sinal de mercado";
 const DESCRIPTION =
-  "A SinalZero encontra e qualifica leads para empresas que querem vender mais, e cria os sites e produtos digitais que transformam interesse em contato.";
+  "A SinalZero ensina presença digital e sinal de mercado no e-book Fora do Balcão e sustenta o crescimento contínuo com um SaaS que projeta sua empresa para mais clientes.";
 
 export const Route = createFileRoute("/")({
   head: () => ({

@@ -3,7 +3,7 @@ import { MobileNav } from "./MobileNav";
 
 /**
  * Navegação desktop vive só na SectionRail (esquerda). Header aqui é
- * só o gatilho de menu (mobile/tablet, topo-direita) e a barra de progresso.
+ * o gatilho do menu mobile/tablet e a barra de progresso.
  */
 export function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -50,7 +50,7 @@ export function Header() {
         />
       </div>
 
-      <div className="hidden lg:flex top-4 right-4 z-50">
+      <div className="lg:hidden">
         <MobileNav open={menuOpen} onOpenChange={setMenuOpen} />
       </div>
     </>

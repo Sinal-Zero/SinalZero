@@ -3,6 +3,7 @@ import * as DialogPrimitive from "@radix-ui/react-dialog";
 import { ArrowUpRight, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { LINKTREE_URL } from "./constants";
+import { RedirectConfirm } from "./RedirectConfirm";
 import "./MobileNav.css";
 
 export function MobileNav({ open, onOpenChange }: { open: boolean; onOpenChange: (open: boolean) => void }) {
@@ -69,19 +70,23 @@ export function MobileNav({ open, onOpenChange }: { open: boolean; onOpenChange:
               </div>
 
               <div className="mt-7" style={{ "--stagger-index": 1 } as CSSProperties}>
-                <a
+                <RedirectConfirm
                   href={LINKTREE_URL}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  onClick={() => onOpenChange(false)}
-                  className="group flex min-h-12 w-full items-center justify-between rounded-xl border border-accent/25 bg-accent/10 px-4 py-3.5 text-left text-base font-semibold text-foreground shadow-[0_14px_34px_-26px_rgba(245,124,0,.9)] transition-[background-color,border-color,box-shadow,transform] duration-200 ease-[cubic-bezier(.22,1,.36,1)] hover:-translate-y-0.5 hover:border-accent/45 hover:bg-accent/15 hover:shadow-[0_18px_38px_-24px_rgba(245,124,0,.95)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/70"
+                  title="Vamos para o Linktree"
+                  description="Você será direcionado para o Linktree da SinalZero, com todos os canais de contato reunidos em um só lugar."
+                  onTriggerClick={() => onOpenChange(false)}
                 >
-                  <span>Entrar em contato</span>
-                  <ArrowUpRight
-                    className="h-4 w-4 text-accent transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
-                    aria-hidden="true"
-                  />
-                </a>
+                  <button
+                    type="button"
+                    className="group flex min-h-12 w-full items-center justify-between rounded-xl border border-accent/25 bg-accent/10 px-4 py-3.5 text-left text-base font-semibold text-foreground shadow-[0_14px_34px_-26px_rgba(245,124,0,.9)] transition-[background-color,border-color,box-shadow,transform] duration-200 ease-[cubic-bezier(.22,1,.36,1)] hover:-translate-y-0.5 hover:border-accent/45 hover:bg-accent/15 hover:shadow-[0_18px_38px_-24px_rgba(245,124,0,.95)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/70"
+                  >
+                    <span>Entrar em contato</span>
+                    <ArrowUpRight
+                      className="h-4 w-4 text-accent transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+                      aria-hidden="true"
+                    />
+                  </button>
+                </RedirectConfirm>
               </div>
             </div>
           </div>

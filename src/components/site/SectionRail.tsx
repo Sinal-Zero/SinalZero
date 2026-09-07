@@ -26,9 +26,10 @@ type DockItemProps = {
   active: boolean;
   icon: typeof Radar;
   mouseY: ReturnType<typeof useMotionValue<number>>;
+  onNavigate: (href: string) => void;
 };
 
-function DockItem({ href, label, active, icon: Icon, mouseY }: DockItemProps) {
+function DockItem({ href, label, active, icon: Icon, mouseY, onNavigate }: DockItemProps) {
   const ref = useRef<HTMLAnchorElement | null>(null);
   const hovered = useMotionValue(0);
   const [isHovered, setIsHovered] = useState(false);
@@ -68,6 +69,10 @@ function DockItem({ href, label, active, icon: Icon, mouseY }: DockItemProps) {
       onMouseLeave={() => hovered.set(0)}
       onFocus={() => hovered.set(1)}
       onBlur={() => hovered.set(0)}
+      onClick={(event) => {
+        event.preventDefault();
+        onNavigate(href);
+      }}
     >
       {active ? (
         <motion.span
@@ -117,11 +122,35 @@ export function SectionRail() {
   const mouseY = useMotionValue(Number.POSITIVE_INFINITY);
   const reducedMotion = useReducedMotion();
 
+  const navigateToSection = (href: string) => {
+    const target = document.querySelector(href);
+    if (!target) return;
+
+    setActive(href);
+    target.scrollIntoView({
+      behavior: reducedMotion ? "auto" : "smooth",
+      block: "start",
+    });
+
+    const cleanUrl = `${window.location.pathname}${window.location.search}`;
+    window.history.replaceState(window.history.state, "", cleanUrl);
+  };
+
   useEffect(() => {
     const nodes = SECTIONS.map(({ href }) => document.querySelector(href)).filter(
       (node): node is Element => Boolean(node),
     );
     if (!nodes.length) return;
+
+    if (window.location.hash) {
+      const initialHash = window.location.hash;
+      const hashTarget = document.querySelector(initialHash);
+      if (hashTarget) {
+        setActive(initialHash);
+      }
+      const cleanUrl = `${window.location.pathname}${window.location.search}`;
+      window.history.replaceState(window.history.state, "", cleanUrl);
+    }
 
     let frame = 0;
     const updateActive = () => {
@@ -175,6 +204,7 @@ export function SectionRail() {
               {...item}
               active={item.href === active}
               mouseY={mouseY}
+              onNavigate={navigateToSection}
             />
           ))}
         </motion.div>

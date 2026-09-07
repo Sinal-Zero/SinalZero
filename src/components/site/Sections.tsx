@@ -177,7 +177,7 @@ export function Process() {
           <Reveal as="li" key={item.step} delay={i * 60}>
             <div className="interactive-panel relative h-full rounded-lg border border-border bg-card/50 p-6 text-center">
               <span
-                className="font-display text-4xl font-semibold text-primary/35"
+                className="process-step-number font-display text-4xl font-semibold text-primary/35 transition-colors duration-500"
                 aria-hidden="true"
               >
                 {item.step}

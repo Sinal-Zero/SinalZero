@@ -574,6 +574,10 @@ body.nav-open .page-shell {
 
 }
 
+[data-reveal-state="visible"] .process-step-number {
+  color: color-mix(in oklab, var(--color-accent) 70%, transparent);
+}
+
 [data-reveal-state="visible"] {
   opacity: 1;
   transform: translateY(0) scale(1);

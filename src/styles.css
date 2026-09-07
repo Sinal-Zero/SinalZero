@@ -593,6 +593,9 @@ body.nav-open .page-shell {
 }
 
 @media (hover: hover) and (pointer: fine) {
+  .dock-item:hover {
+    transform: translateY(-1px) scale(1.04);
+  }
   .interactive-panel:hover {
     transform: translateY(-4px);
     border-color: color-mix(in oklab, var(--color-accent) 40%, transparent);

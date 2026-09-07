@@ -15,9 +15,9 @@
   background: currentColor;
   transform-origin: center;
   transition:
-    transform 200ms cubic-bezier(0.22, 1, 0.36, 1),
-    opacity 140ms ease,
-    width 180ms cubic-bezier(0.22, 1, 0.36, 1);
+    transform 260ms cubic-bezier(0.16, 1, 0.3, 1),
+    opacity 180ms ease,
+    width 220ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .hamburger-icon > span:nth-child(1) {
@@ -35,96 +35,111 @@
 .hamburger-button[aria-expanded="true"] {
   opacity: 0;
   pointer-events: none;
-  transform: scale(0.94);
+  transform: scale(0.95);
 }
 
 .mobile-drawer-overlay {
   opacity: 0;
-  transition: opacity 220ms cubic-bezier(0.22, 1, 0.36, 1);
+  backdrop-filter: blur(0px);
+  transition:
+    opacity 360ms cubic-bezier(0.16, 1, 0.3, 1),
+    backdrop-filter 420ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .mobile-drawer-overlay[data-state="open"] {
   opacity: 1;
+  backdrop-filter: blur(7px);
 }
 
 .mobile-drawer-overlay[data-state="closed"] {
   opacity: 0;
+  backdrop-filter: blur(0px);
 }
 
 .mobile-drawer-panel {
   opacity: 0;
-  transform: translateX(34px) scale(0.985);
+  filter: blur(8px);
+  transform: translateX(24px) scale(0.975);
   transform-origin: right center;
   transition:
-    opacity 210ms cubic-bezier(0.22, 1, 0.36, 1),
-    transform 300ms cubic-bezier(0.22, 1, 0.36, 1),
-    box-shadow 260ms cubic-bezier(0.22, 1, 0.36, 1);
+    opacity 340ms cubic-bezier(0.16, 1, 0.3, 1),
+    transform 460ms cubic-bezier(0.16, 1, 0.3, 1),
+    filter 380ms cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 360ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .mobile-drawer-panel[data-state="open"] {
   opacity: 1;
+  filter: blur(0);
   transform: translateX(0) scale(1);
 }
 
 .mobile-drawer-panel[data-state="closed"] {
   opacity: 0;
-  transform: translateX(22px) scale(0.99);
+  filter: blur(5px);
+  transform: translateX(18px) scale(0.985);
 }
 
 .drawer-close-button {
   opacity: 0;
-  transform: scale(0.9) rotate(-20deg);
+  filter: blur(3px);
+  transform: scale(0.9) rotate(-14deg);
   transition:
-    opacity 180ms ease,
-    transform 260ms cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 240ms ease,
+    transform 360ms cubic-bezier(0.16, 1, 0.3, 1),
+    filter 300ms cubic-bezier(0.16, 1, 0.3, 1),
     background-color 180ms ease,
     border-color 180ms ease,
-    box-shadow 180ms ease;
+    box-shadow 220ms ease;
 }
 
 [data-state="open"] .drawer-close-button {
   opacity: 1;
+  filter: blur(0);
   transform: scale(1) rotate(0deg);
-  transition-delay: 70ms;
+  transition-delay: 90ms;
 }
 
 .mobile-drawer-stagger > * {
   opacity: 0;
-  transform: translateX(12px) scale(0.99);
+  filter: blur(5px);
+  transform: translateX(10px) translateY(4px) scale(0.99);
   transition:
-    opacity 180ms cubic-bezier(0.22, 1, 0.36, 1),
-    transform 230ms cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 360ms cubic-bezier(0.16, 1, 0.3, 1),
+    transform 430ms cubic-bezier(0.16, 1, 0.3, 1),
+    filter 360ms cubic-bezier(0.16, 1, 0.3, 1),
     background-color 170ms ease,
     border-color 170ms ease,
-    box-shadow 190ms ease;
-  transition-delay: calc(var(--stagger-index, 0) * 32ms + 54ms);
+    box-shadow 220ms ease;
+  transition-delay: calc(var(--stagger-index, 0) * 55ms + 105ms);
 }
 
 [data-state="open"] .mobile-drawer-stagger > * {
   opacity: 1;
-  transform: translateX(0) scale(1);
+  filter: blur(0);
+  transform: translateX(0) translateY(0) scale(1);
 }
 
 body.nav-open #page-shell.page-shell {
-  transform: scale(0.982) translateY(2px);
+  transform: scale(0.984) translateY(2px);
   border-radius: 20px;
   overflow: hidden;
-  filter: saturate(0.96) brightness(0.96);
+  filter: saturate(0.94) brightness(0.94) blur(0.2px);
   transition:
-    transform 290ms cubic-bezier(0.22, 1, 0.36, 1),
-    border-radius 290ms cubic-bezier(0.22, 1, 0.36, 1),
-    filter 220ms ease;
+    transform 470ms cubic-bezier(0.16, 1, 0.3, 1),
+    border-radius 420ms cubic-bezier(0.16, 1, 0.3, 1),
+    filter 360ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 @media (min-width: 640px) {
   body.nav-open #page-shell.page-shell {
-    transform: scale(0.986) translateX(-5px);
+    transform: scale(0.987) translateX(-5px);
   }
 }
 
 @media (min-width: 1024px) {
   body.nav-open #page-shell.page-shell {
-    transform: scale(0.989) translateX(-10px);
+    transform: scale(0.99) translateX(-10px);
   }
 }
 
@@ -157,6 +172,14 @@ body.nav-open #page-shell.page-shell {
     transform: none;
   }
 
+  .mobile-drawer-overlay,
+  .mobile-drawer-panel,
+  .mobile-drawer-stagger > *,
+  .drawer-close-button,
+  body.nav-open #page-shell.page-shell {
+    filter: none;
+  }
+
   .mobile-drawer-stagger > *,
   .drawer-close-button {
     opacity: 1;
@@ -166,6 +189,5 @@ body.nav-open #page-shell.page-shell {
   .mobile-drawer-panel[data-state="open"],
   body.nav-open #page-shell.page-shell {
     transform: none;
-    filter: none;
   }
 }

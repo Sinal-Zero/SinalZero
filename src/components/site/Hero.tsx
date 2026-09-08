@@ -1,3 +1,4 @@
+import { motion } from "framer-motion";
 import { Reveal } from "./Reveal";
 import { BlurText } from "./BlurText";
 import { ContactConfirm } from "./ContactConfirm";
@@ -53,3 +54,11 @@ export function Hero() {
     </section>
   );
 }
+<motion.div
+  initial={{ opacity: 0, y: 20 }}
+  whileInView={{ opacity: 1, y: 0 }}
+  viewport={{ once: true }}
+  transition={{ duration: 0.7, ease: "easeOut" }}
+>
+  Hero scroll reveal active
+</motion.div>;

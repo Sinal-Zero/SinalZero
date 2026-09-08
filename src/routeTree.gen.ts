@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AnalisarSinalRouteImport } from './routes/analisar-sinal'
+import { Route as ContatoRouteImport } from './routes/contato'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -22,31 +23,40 @@ const AnalisarSinalRoute = AnalisarSinalRouteImport.update({
   path: '/analisar-sinal',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ContatoRoute = ContatoRouteImport.update({
+  id: '/contato',
+  path: '/contato',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/analisar-sinal': typeof AnalisarSinalRoute
+  '/contato': typeof ContatoRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/analisar-sinal': typeof AnalisarSinalRoute
+  '/contato': typeof ContatoRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/analisar-sinal': typeof AnalisarSinalRoute
+  '/contato': typeof ContatoRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/analisar-sinal'
+  fullPaths: '/' | '/analisar-sinal' | '/contato'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/analisar-sinal'
-  id: '__root__' | '/' | '/analisar-sinal'
+  to: '/' | '/analisar-sinal' | '/contato'
+  id: '__root__' | '/' | '/analisar-sinal' | '/contato'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AnalisarSinalRoute: typeof AnalisarSinalRoute
+  ContatoRoute: typeof ContatoRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -65,12 +75,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AnalisarSinalRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/contato': {
+      id: '/contato'
+      path: '/contato'
+      fullPath: '/contato'
+      preLoaderRoute: typeof ContatoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AnalisarSinalRoute: AnalisarSinalRoute,
+  ContatoRoute: ContatoRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

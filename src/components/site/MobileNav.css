@@ -38,118 +38,150 @@
   transform: scale(0.92) rotate(2deg);
 }
 
-.mobile-drawer-overlay {
-  opacity: 0;
-  backdrop-filter: blur(0px) saturate(1);
-  transition:
-    opacity 440ms cubic-bezier(0.16, 1, 0.3, 1),
-    backdrop-filter 560ms cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.mobile-drawer-overlay[data-state="open"] {
-  opacity: 1;
-  backdrop-filter: blur(10px) saturate(0.9);
-}
-
-.mobile-drawer-overlay[data-state="closed"] {
-  opacity: 0;
-  backdrop-filter: blur(0px) saturate(1);
-}
-
-.mobile-drawer-panel {
-  opacity: 0;
-  filter: blur(12px);
-  transform: translateX(34px) scale(0.958);
-  transform-origin: right center;
-  transition:
-    opacity 400ms cubic-bezier(0.16, 1, 0.3, 1),
-    transform 560ms cubic-bezier(0.16, 1, 0.3, 1),
-    filter 460ms cubic-bezier(0.16, 1, 0.3, 1),
-    box-shadow 420ms cubic-bezier(0.16, 1, 0.3, 1);
-  will-change: transform, opacity, filter;
-}
-
-.mobile-drawer-panel[data-state="open"] {
-  opacity: 1;
-  filter: blur(0);
-  transform: translateX(0) scale(1);
-}
-
-.mobile-drawer-panel[data-state="closed"] {
-  opacity: 0;
-  filter: blur(7px);
-  transform: translateX(22px) scale(0.978);
-}
-
-.drawer-close-button {
-  opacity: 0;
-  filter: blur(5px);
-  transform: scale(0.86) rotate(-18deg);
-  transition:
-    opacity 280ms ease,
-    transform 420ms cubic-bezier(0.16, 1, 0.3, 1),
-    filter 360ms cubic-bezier(0.16, 1, 0.3, 1),
-    background-color 220ms ease,
-    border-color 220ms ease,
-    box-shadow 260ms ease;
-}
-
-[data-state="open"] .drawer-close-button {
-  opacity: 1;
-  filter: blur(0);
-  transform: scale(1) rotate(0deg);
-  transition-delay: 115ms;
-}
-
-.mobile-drawer-stagger > * {
-  opacity: 0;
-  filter: blur(7px);
-  transform: translateX(14px) translateY(8px) scale(0.982);
-  transition:
-    opacity 420ms cubic-bezier(0.16, 1, 0.3, 1),
-    transform 500ms cubic-bezier(0.16, 1, 0.3, 1),
-    filter 430ms cubic-bezier(0.16, 1, 0.3, 1),
-    background-color 200ms ease,
-    border-color 200ms ease,
-    box-shadow 260ms ease;
-  transition-delay: calc(var(--stagger-index, 0) * 70ms + 125ms);
-}
-
-[data-state="open"] .mobile-drawer-stagger > * {
-  opacity: 1;
-  filter: blur(0);
-  transform: translateX(0) translateY(0) scale(1);
-}
-
 /*
- * Radix monta o Portal já com data-state="open" na primeira renderização —
- * sem @starting-style, o navegador nunca vê o quadro "fechado" antes do
- * "aberto" e a transição de entrada não roda (só a saída, que já existia
- * no DOM antes de fechar). Isso dá o quadro inicial que falta.
+ * Radix Presence só sabe esperar a saída do DOM quando o nó tem uma
+ * @keyframes animation rodando (ouve "animationend") -- transition comum
+ * não é detectada, então o Portal era removido na hora ao fechar, sem
+ * nenhuma chance de a transição de saída tocar. Por isso entrada e saída
+ * usam animation aqui, não transition.
  */
-@starting-style {
-  .mobile-drawer-overlay[data-state="open"] {
+@keyframes sz-drawer-overlay-in {
+  from {
     opacity: 0;
     backdrop-filter: blur(0px) saturate(1);
   }
+  to {
+    opacity: 1;
+    backdrop-filter: blur(10px) saturate(0.9);
+  }
+}
 
-  .mobile-drawer-panel[data-state="open"] {
+@keyframes sz-drawer-overlay-out {
+  from {
+    opacity: 1;
+    backdrop-filter: blur(10px) saturate(0.9);
+  }
+  to {
+    opacity: 0;
+    backdrop-filter: blur(0px) saturate(1);
+  }
+}
+
+.mobile-drawer-overlay[data-state="open"] {
+  animation: sz-drawer-overlay-in 440ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.mobile-drawer-overlay[data-state="closed"] {
+  animation: sz-drawer-overlay-out 260ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes sz-drawer-panel-in {
+  from {
     opacity: 0;
     filter: blur(12px);
     transform: translateX(34px) scale(0.958);
   }
+  to {
+    opacity: 1;
+    filter: blur(0);
+    transform: translateX(0) scale(1);
+  }
+}
 
-  [data-state="open"] .drawer-close-button {
+@keyframes sz-drawer-panel-out {
+  from {
+    opacity: 1;
+    filter: blur(0);
+    transform: translateX(0) scale(1);
+  }
+  to {
+    opacity: 0;
+    filter: blur(7px);
+    transform: translateX(22px) scale(0.978);
+  }
+}
+
+.mobile-drawer-panel {
+  transform-origin: right center;
+  will-change: transform, opacity, filter;
+}
+
+.mobile-drawer-panel[data-state="open"] {
+  animation: sz-drawer-panel-in 480ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.mobile-drawer-panel[data-state="closed"] {
+  animation: sz-drawer-panel-out 280ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes sz-close-btn-in {
+  from {
     opacity: 0;
     filter: blur(5px);
     transform: scale(0.86) rotate(-18deg);
   }
+  to {
+    opacity: 1;
+    filter: blur(0);
+    transform: scale(1) rotate(0deg);
+  }
+}
 
-  [data-state="open"] .mobile-drawer-stagger > * {
+@keyframes sz-close-btn-out {
+  from {
+    opacity: 1;
+    filter: blur(0);
+    transform: scale(1) rotate(0deg);
+  }
+  to {
+    opacity: 0;
+    filter: blur(4px);
+    transform: scale(0.9) rotate(-10deg);
+  }
+}
+
+[data-state="open"] .drawer-close-button {
+  animation: sz-close-btn-in 380ms cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation-delay: 115ms;
+}
+
+[data-state="closed"] .drawer-close-button {
+  animation: sz-close-btn-out 180ms ease both;
+}
+
+@keyframes sz-stagger-in {
+  from {
     opacity: 0;
     filter: blur(7px);
     transform: translateX(14px) translateY(8px) scale(0.982);
   }
+  to {
+    opacity: 1;
+    filter: blur(0);
+    transform: translateX(0) translateY(0) scale(1);
+  }
+}
+
+@keyframes sz-stagger-out {
+  from {
+    opacity: 1;
+    filter: blur(0);
+    transform: translateX(0) translateY(0) scale(1);
+  }
+  to {
+    opacity: 0;
+    filter: blur(5px);
+    transform: translateX(10px) scale(0.99);
+  }
+}
+
+[data-state="open"] .mobile-drawer-stagger > * {
+  animation: sz-stagger-in 420ms cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation-delay: calc(var(--stagger-index, 0) * 70ms + 125ms);
+}
+
+[data-state="closed"] .mobile-drawer-stagger > * {
+  animation: sz-stagger-out 180ms ease both;
 }
 
 body.nav-open #page-shell.page-shell {
@@ -195,10 +227,6 @@ body.nav-open #page-shell.page-shell {
 @media (prefers-reduced-motion: reduce) {
   .hamburger-icon > span,
   .hamburger-button,
-  .mobile-drawer-overlay,
-  .mobile-drawer-panel,
-  .drawer-close-button,
-  .mobile-drawer-stagger > *,
   body.nav-open #page-shell.page-shell {
     transition: none;
   }
@@ -210,19 +238,15 @@ body.nav-open #page-shell.page-shell {
   .mobile-drawer-overlay,
   .mobile-drawer-panel,
   .mobile-drawer-stagger > *,
-  .drawer-close-button,
-  body.nav-open #page-shell.page-shell {
-    filter: none;
-  }
-
-  .mobile-drawer-stagger > *,
   .drawer-close-button {
+    animation: none !important;
+    filter: none;
     opacity: 1;
     transform: none;
   }
 
-  .mobile-drawer-panel[data-state="open"],
   body.nav-open #page-shell.page-shell {
+    filter: none;
     transform: none;
   }
 }

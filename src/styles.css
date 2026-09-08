@@ -535,7 +535,7 @@
 /* Reserva espaço para a barra fixa não cobrir o rodapé em telas < lg */
 @media (max-width: 1023.98px) {
   #page-shell {
-    padding-bottom: calc(3.75rem + env(safe-area-inset-bottom));
+    padding-bottom: calc(4.5rem + env(safe-area-inset-bottom));
   }
 }
 

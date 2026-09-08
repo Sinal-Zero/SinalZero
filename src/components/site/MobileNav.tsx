@@ -8,13 +8,13 @@ import { RedirectConfirm } from "./RedirectConfirm";
 import "./MobileNav.css";
 
 export function MobileNav({
-  const navigate = useNavigate();
   open,
   onOpenChange,
 }: {
   open: boolean;
   onOpenChange: (open: boolean) => void;
 }) {
+  const navigate = useNavigate();
   const [contactConfirmOpen, setContactConfirmOpen] = useState(false);
 
   useEffect(() => {

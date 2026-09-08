@@ -121,6 +121,37 @@
   transform: translateX(0) translateY(0) scale(1);
 }
 
+/*
+ * Radix monta o Portal já com data-state="open" na primeira renderização —
+ * sem @starting-style, o navegador nunca vê o quadro "fechado" antes do
+ * "aberto" e a transição de entrada não roda (só a saída, que já existia
+ * no DOM antes de fechar). Isso dá o quadro inicial que falta.
+ */
+@starting-style {
+  .mobile-drawer-overlay[data-state="open"] {
+    opacity: 0;
+    backdrop-filter: blur(0px) saturate(1);
+  }
+
+  .mobile-drawer-panel[data-state="open"] {
+    opacity: 0;
+    filter: blur(12px);
+    transform: translateX(34px) scale(0.958);
+  }
+
+  [data-state="open"] .drawer-close-button {
+    opacity: 0;
+    filter: blur(5px);
+    transform: scale(0.86) rotate(-18deg);
+  }
+
+  [data-state="open"] .mobile-drawer-stagger > * {
+    opacity: 0;
+    filter: blur(7px);
+    transform: translateX(14px) translateY(8px) scale(0.982);
+  }
+}
+
 body.nav-open #page-shell.page-shell {
   transform: scale(0.966) translateY(7px);
   border-radius: 26px;

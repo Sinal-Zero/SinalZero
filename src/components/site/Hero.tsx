@@ -1,4 +1,3 @@
-import { motion } from "framer-motion";
 import { Reveal } from "./Reveal";
 import { BlurText } from "./BlurText";
 import { ContactConfirm } from "./ContactConfirm";
@@ -8,7 +7,7 @@ export function Hero() {
   return (
     <section
       id="topo"
-      className="relative flex min-h-[86svh] items-center overflow-hidden pb-16 pt-24 sm:min-h-[88svh] sm:pb-20 sm:pt-28 lg:min-h-[92svh]"
+      className="relative flex min-h-[84svh] items-center overflow-hidden pb-12 pt-20 sm:min-h-[86svh] sm:pb-16 sm:pt-24 lg:min-h-[90svh]"
     >
       <div className="relative z-10 mx-auto w-full max-w-3xl px-4 text-center sm:px-8">
         <Reveal>
@@ -20,7 +19,7 @@ export function Hero() {
           />
         </Reveal>
 
-        <h1 className="mx-auto mt-6 max-w-[12ch] text-balance font-display text-[clamp(2.35rem,9vw,4rem)] font-semibold leading-[1.02] sm:mt-7 sm:max-w-none sm:text-5xl lg:text-6xl">
+        <h1 className="mx-auto mt-4 max-w-[12ch] text-balance font-display text-[clamp(2.2rem,8vw,3.5rem)] font-semibold leading-[1.0] sm:mt-5 sm:max-w-none sm:text-4xl lg:text-5xl">
           <BlurText
             as="span"
             text="Pare de perseguir o"
@@ -39,10 +38,9 @@ export function Hero() {
         <Reveal
           as="p"
           delay={145}
-          className="mx-auto mt-5 max-w-xl text-pretty px-1 text-[0.98rem] leading-7 text-muted-foreground sm:mt-6 sm:px-0 sm:text-lg sm:leading-relaxed"
+          className="mx-auto mt-5 max-w-xl text-pretty px-1 text-[0.98rem] leading-6 text-muted-foreground sm:mt-6 sm:px-0 sm:text-lg sm:leading-relaxed"
         >
-          Enquanto sua presença digital não converte, a SinalZero ensina o caminho no e-book Fora do
-          Balcão e sustenta o crescimento com um SaaS que projeta sua empresa para mais clientes.
+          A SinalZero ensina o caminho no e-book Fora do Balcão e sustenta o crescimento com um SaaS que projeta sua empresa.
         </Reveal>
 
         <Reveal delay={250}>
@@ -54,11 +52,3 @@ export function Hero() {
     </section>
   );
 }
-<motion.div
-  initial={{ opacity: 0, y: 20 }}
-  whileInView={{ opacity: 1, y: 0 }}
-  viewport={{ once: true }}
-  transition={{ duration: 0.7, ease: "easeOut" }}
->
-  Hero scroll reveal active
-</motion.div>;

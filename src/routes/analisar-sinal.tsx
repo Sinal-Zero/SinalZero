@@ -529,7 +529,7 @@ function AnalisarSinal() {
         </section>
 
         <section className="flex flex-1 items-center justify-center">
-          <SignalDial intensity={intensity} rings={activeRings} label={level?.label} />
+          <SignalDial intensity={intensity} rings={activeRings} label={level?.label} answerPending={pendingIndex !== null} />
         </section>
       </div>
 
@@ -548,10 +548,12 @@ function SignalDial({
   intensity,
   rings,
   label,
+  answerPending = false,
 }: {
   intensity: number;
   rings: number;
   label?: string;
+  answerPending?: boolean;
 }) {
   const glow = 0.25 + intensity * 0.6;
   const orbitDots = [
@@ -584,6 +586,7 @@ function SignalDial({
             "radial-gradient(circle, transparent 90%, black 91%, black 96%, transparent 97%)",
           maskImage:
             "radial-gradient(circle, transparent 90%, black 91%, black 96%, transparent 97%)",
+          animation: answerPending ? 'sz-pulse-soft 1.5s ease-in-out infinite' : 'none',
         }}
       />
 

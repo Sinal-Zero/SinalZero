@@ -72,8 +72,12 @@ export function RadarBackdrop({ className }: { className?: string }) {
 
         <div className="radar-sweep absolute inset-[8%] rounded-full bg-[conic-gradient(from_0deg,transparent_0deg,color-mix(in_oklab,var(--color-accent)_22%,transparent)_28deg,transparent_60deg)] motion-reduce:animate-none" />
 
+        <div className="absolute inset-[8%] rounded-full bg-[repeating-conic-gradient(from_0deg,color-mix(in_oklab,var(--color-accent)_16%,transparent)_0deg_1deg,transparent_1deg_15deg)] opacity-30" />
+
         <span className="radar-ping absolute left-[62%] top-[38%] h-24 w-24 rounded-full border border-gold/40 motion-reduce:animate-none" />
         <span className="absolute left-[62%] top-[38%] h-3 w-3 translate-x-[42px] translate-y-[42px] rounded-full bg-gold shadow-[0_0_24px_6px_color-mix(in_oklab,var(--color-gold)_55%,transparent)]" />
+
+        <span className="signal-particle absolute left-[30%] top-[64%] h-2 w-2 rounded-full bg-accent shadow-[0_0_16px_4px_color-mix(in_oklab,var(--color-accent)_50%,transparent)] motion-reduce:animate-none" />
       </div>
     </div>
   );

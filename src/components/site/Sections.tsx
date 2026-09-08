@@ -18,7 +18,7 @@ import { BlurText } from "./BlurText";
 function SectionTitle({ title, description }: { title: string; description?: string }) {
   return (
     <div className="mx-auto max-w-2xl text-center">
-      <h2 className="text-balance font-display text-3xl font-semibold sm:text-4xl">
+      <h2 className="text-balance font-display text-2xl font-semibold sm:text-3xl">
         <BlurText as="span" text={title} delay={45} stepDuration={0.325} />
       </h2>
       {description ? (

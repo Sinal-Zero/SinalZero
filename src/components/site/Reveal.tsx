@@ -67,7 +67,7 @@ export function Reveal({
       style={revealStyle}
       data-reveal-state={visible ? "visible" : "pending"}
       className={cn(
-        "opacity-0 translate-y-5 scale-[0.988] blur-[7px] transition-[opacity,transform,filter] duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] [transition-delay:var(--reveal-delay)] data-[reveal-state=visible]:translate-y-0 data-[reveal-state=visible]:scale-100 data-[reveal-state=visible]:opacity-100 data-[reveal-state=visible]:blur-0 motion-reduce:transform-none motion-reduce:opacity-100 motion-reduce:blur-0 motion-reduce:transition-none",
+        "opacity-0 translate-y-4 scale-[0.985] blur-[6px] transition-[opacity,transform,filter] duration-600 ease-[cubic-bezier(0.16,1,0.3,1)] [transition-delay:var(--reveal-delay)] data-[reveal-state=visible]:translate-y-0 data-[reveal-state=visible]:scale-100 data-[reveal-state=visible]:opacity-100 data-[reveal-state=visible]:blur-0 motion-reduce:transform-none motion-reduce:opacity-100 motion-reduce:blur-0 motion-reduce:transition-none",
         className,
       )}
     >

@@ -17,7 +17,7 @@ const buttonVariants = cva(
         ghost: "hover:bg-accent hover:text-accent-foreground",
         link: "text-primary underline-offset-4 hover:underline",
         signal:
-          "rounded-full bg-primary text-primary-foreground shadow-[0_12px_30px_-18px_color-mix(in_oklab,var(--color-primary)_80%,transparent)] hover:-translate-y-0.5 hover:bg-accent hover:shadow-[0_18px_38px_-18px_color-mix(in_oklab,var(--color-accent)_80%,transparent)] active:translate-y-0 active:scale-[0.98]",
+          "rounded-full bg-primary text-primary-foreground shadow-[0_8px_20px_-12px_color-mix(in_oklab,var(--color-primary)_60%,transparent)] hover:-translate-y-0.25 hover:bg-accent/90 hover:shadow-[0_12px_28px_-12px_color-mix(in_oklab,var(--color-accent)_60%,transparent)] active:translate-y-0 active:scale-[0.99]",
       },
       size: {
         default: "h-9 px-4 py-2",

@@ -1,8 +1,9 @@
 import { useMemo, useState, type CSSProperties } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { ArrowLeft, ArrowUpRight, RotateCcw } from "lucide-react";
+import { ArrowLeft, ArrowUpRight, BookOpen, Globe, RotateCcw } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { RadarBackdrop } from "@/components/site/RadarBackdrop";
+import { KIWIFY_EBOOK_URL, LINKTREE_URL } from "@/components/site/constants";
 
 export const Route = createFileRoute("/analisar-sinal")({
   component: AnalisarSinal,
@@ -32,7 +33,12 @@ const QUESTIONS: Question[] = [
   {
     prompt: "Quando alguém procura sua empresa, o que normalmente encontra?",
     dimension: "visibilidade",
-    options: ["Pouco ou nada", "Redes sociais", "Site e redes sociais", "Uma presença digital completa"],
+    options: [
+      "Pouco ou nada",
+      "Redes sociais",
+      "Site e redes sociais",
+      "Uma presença digital completa",
+    ],
   },
   {
     prompt: "Hoje você sabe de onde vêm seus melhores clientes?",
@@ -74,7 +80,19 @@ const QUESTIONS: Question[] = [
       "Temos um processo estruturado de métricas",
     ],
   },
+  {
+    prompt: "Sua empresa possui um site próprio hoje?",
+    dimension: "presenca",
+    options: [
+      "Não temos site",
+      "Temos, mas está desatualizado",
+      "Temos um site básico",
+      "Sim, e ele funciona bem para o negócio",
+    ],
+  },
 ];
+
+const WEBSITE_QUESTION_INDEX = QUESTIONS.length - 1;
 
 const MAX_SCORE = QUESTIONS.length * 3;
 
@@ -170,6 +188,29 @@ function AnalisarSinal() {
     return totals;
   }, [answers]);
 
+  const websiteAnswer = answers[WEBSITE_QUESTION_INDEX];
+  const websiteQuality = typeof websiteAnswer === "number" ? websiteAnswer : null;
+
+  const weakest = useMemo(() => {
+    let dimension: Dimension = "presenca";
+    let ratio = Infinity;
+    (Object.keys(dimensionScores) as Dimension[]).forEach((dim) => {
+      const { score: dScore, max } = dimensionScores[dim];
+      const dRatio = max ? dScore / max : 0;
+      if (dRatio < ratio) {
+        ratio = dRatio;
+        dimension = dim;
+      }
+    });
+    return { dimension, ratio };
+  }, [dimensionScores]);
+
+  const showEbook =
+    level !== null &&
+    (level.label === "Baixo" ||
+      level.label === "Em desenvolvimento" ||
+      (level.label === "Estável" && weakest.ratio < 0.6));
+
   function selectAnswer(value: number) {
     setPendingIndex(value);
     window.setTimeout(() => {
@@ -231,8 +272,8 @@ function AnalisarSinal() {
                 className="mt-3 max-w-[44ch] text-sm leading-relaxed text-muted-foreground sm:text-base"
                 style={{ "--sz-i": 2 } as CSSProperties}
               >
-                Descubra o sinal do seu negócio em {QUESTIONS.length} perguntas rápidas — leva menos de
-                um minuto.
+                Descubra o sinal do seu negócio em {QUESTIONS.length} perguntas rápidas — leva menos
+                de um minuto.
               </p>
             )}
           </div>
@@ -322,13 +363,18 @@ function AnalisarSinal() {
                     <div
                       key={dimension}
                       className="analisar-fade rounded-xl border border-border/90 bg-surface/50 px-4 py-3.5"
-                      style={{ "--reveal-delay": `${index * 90}ms`, animationDelay: `${index * 90}ms` }}
+                      style={{
+                        "--reveal-delay": `${index * 90}ms`,
+                        animationDelay: `${index * 90}ms`,
+                      }}
                     >
                       <dt className="text-[0.65rem] font-semibold uppercase tracking-[0.15em] text-muted-foreground">
                         {DIMENSION_LABEL[dimension]}
                       </dt>
                       <dd className="mt-1.5 flex items-center gap-2">
-                        <span className="text-sm font-semibold text-foreground">{statusFor(ratio)}</span>
+                        <span className="text-sm font-semibold text-foreground">
+                          {statusFor(ratio)}
+                        </span>
                         <span className="flex flex-1 gap-1" role="presentation">
                           {[0, 1, 2, 3].map((segment) => (
                             <span
@@ -345,6 +391,100 @@ function AnalisarSinal() {
                   );
                 })}
               </dl>
+
+              {websiteQuality !== null && websiteQuality < 3 && (
+                <div
+                  className="analisar-fade mt-8 rounded-2xl border border-accent/25 bg-accent/5 p-5 sm:p-6"
+                  style={{ animationDelay: "260ms" }}
+                >
+                  <p className="flex items-center gap-2 text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-accent">
+                    <Globe className="h-3.5 w-3.5" aria-hidden="true" />
+                    {websiteQuality === 2 ? "Próximo passo" : "Ponto de oportunidade"}
+                  </p>
+                  <h3 className="mt-2.5 max-w-[38ch] font-display text-lg font-semibold text-foreground sm:text-xl">
+                    {websiteQuality === 0 && "Sua empresa ainda não tem um site."}
+                    {websiteQuality === 1 && "Seu site atual pode estar te atrapalhando."}
+                    {websiteQuality === 2 && "Seu site já existe — e pode evoluir."}
+                  </h3>
+                  <p className="mt-2 max-w-[46ch] text-sm leading-relaxed text-muted-foreground">
+                    {websiteQuality === 0 &&
+                      "Sem um site, boa parte de quem procura por você não encontra nada consistente. O próximo ganho pode estar em ter uma base digital própria."}
+                    {websiteQuality === 1 &&
+                      "Um site desatualizado passa uma impressão que não representa o momento atual do seu negócio."}
+                    {websiteQuality === 2 &&
+                      "Seu site cumpre o básico, mas ainda existe espaço para evoluir conversão, clareza e identidade."}
+                  </p>
+                  {websiteQuality === 0 && (
+                    <p className="mt-1.5 text-sm leading-relaxed text-muted-foreground/80">
+                      A SinalZero pode ajudar nessa etapa, criando um site alinhado à sua marca.
+                    </p>
+                  )}
+                  <a
+                    href={LINKTREE_URL}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="group mt-4 inline-flex min-h-11 items-center gap-2 rounded-xl border border-accent/30 bg-accent/10 px-4 py-2.5 text-sm font-semibold text-foreground transition-[background-color,border-color,transform] duration-200 ease-[cubic-bezier(.22,1,.36,1)] hover:-translate-y-0.5 hover:border-accent/50 hover:bg-accent/15 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/70"
+                  >
+                    {websiteQuality === 0 && "Quero criar meu site"}
+                    {websiteQuality === 1 && "Quero melhorar meu site"}
+                    {websiteQuality === 2 && "Evoluir meu site"}
+                    <ArrowUpRight
+                      className="h-4 w-4 text-accent transition-transform duration-200 ease-[cubic-bezier(.22,1,.36,1)] group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+                      aria-hidden="true"
+                    />
+                  </a>
+                </div>
+              )}
+
+              {websiteQuality === 3 && (
+                <div
+                  className="analisar-fade mt-8 rounded-2xl border border-border/90 bg-surface/50 p-5 sm:p-6"
+                  style={{ animationDelay: "260ms" }}
+                >
+                  <p className="text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-accent">
+                    Próximo passo
+                  </p>
+                  <h3 className="mt-2.5 max-w-[38ch] font-display text-lg font-semibold text-foreground sm:text-xl">
+                    Seu próximo ganho pode estar em{" "}
+                    {DIMENSION_LABEL[weakest.dimension].toLowerCase()}.
+                  </h3>
+                  <p className="mt-2 max-w-[46ch] text-sm leading-relaxed text-muted-foreground">
+                    Seu site já funciona bem para o negócio. O espaço de melhoria agora está em
+                    fortalecer {DIMENSION_LABEL[weakest.dimension].toLowerCase()}.
+                  </p>
+                </div>
+              )}
+
+              {showEbook && (
+                <div
+                  className="analisar-fade mt-5 rounded-2xl border border-border/90 bg-surface/50 p-5 sm:p-6"
+                  style={{ animationDelay: "340ms" }}
+                >
+                  <p className="flex items-center gap-2 text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-muted-foreground">
+                    <BookOpen className="h-3.5 w-3.5" aria-hidden="true" />
+                    Recomendação
+                  </p>
+                  <h3 className="mt-2.5 max-w-[38ch] font-display text-lg font-semibold text-foreground sm:text-xl">
+                    Fortaleça seu sinal digital.
+                  </h3>
+                  <p className="mt-2 max-w-[46ch] text-sm leading-relaxed text-muted-foreground">
+                    O e-book Fora do Balcão traz um passo a passo prático para estruturar sua
+                    presença digital, mesmo com pouco tempo ou equipe.
+                  </p>
+                  <a
+                    href={KIWIFY_EBOOK_URL}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="group mt-4 inline-flex min-h-11 items-center gap-2 rounded-xl border border-border/90 bg-background/60 px-4 py-2.5 text-sm font-semibold text-foreground transition-[background-color,border-color,transform] duration-200 ease-[cubic-bezier(.22,1,.36,1)] hover:-translate-y-0.5 hover:border-accent/40 hover:bg-accent/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/70"
+                  >
+                    Conhecer o e-book
+                    <ArrowUpRight
+                      className="h-4 w-4 text-accent transition-transform duration-200 ease-[cubic-bezier(.22,1,.36,1)] group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+                      aria-hidden="true"
+                    />
+                  </a>
+                </div>
+              )}
 
               <div className="mt-8 flex flex-wrap items-center gap-3">
                 <Link
@@ -413,7 +553,8 @@ function SignalDial({
             "repeating-conic-gradient(from 0deg, color-mix(in oklab, var(--color-accent) 55%, transparent) 0deg 1.4deg, transparent 1.4deg 30deg)",
           WebkitMaskImage:
             "radial-gradient(circle, transparent 90%, black 91%, black 96%, transparent 97%)",
-          maskImage: "radial-gradient(circle, transparent 90%, black 91%, black 96%, transparent 97%)",
+          maskImage:
+            "radial-gradient(circle, transparent 90%, black 91%, black 96%, transparent 97%)",
         }}
       />
 

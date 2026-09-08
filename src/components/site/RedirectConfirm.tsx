@@ -19,6 +19,8 @@ export function RedirectConfirm({
   title,
   description,
   continueLabel = "Continuar",
+  eyebrow = "Link externo",
+  destination,
   onTriggerClick,
   open,
   onOpenChange,
@@ -28,6 +30,8 @@ export function RedirectConfirm({
   title: string;
   description: string;
   continueLabel?: string;
+  eyebrow?: string;
+  destination?: string;
   onTriggerClick?: () => void;
   open?: boolean;
   onOpenChange?: (open: boolean) => void;
@@ -48,10 +52,18 @@ export function RedirectConfirm({
         </div>
 
         <DialogHeader className="text-center sm:text-center">
+          <p className="text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-accent">
+            {eyebrow}
+          </p>
           <DialogTitle className="font-display text-xl leading-tight">{title}</DialogTitle>
           <DialogDescription className="mx-auto max-w-[32ch] text-pretty leading-6">
             {description}
           </DialogDescription>
+          {destination ? (
+            <span className="mx-auto inline-flex items-center gap-1.5 rounded-full border border-border/90 bg-surface/70 px-3 py-1 text-xs font-medium text-muted-foreground">
+              Destino · {destination}
+            </span>
+          ) : null}
         </DialogHeader>
 
         <DialogFooter className="sm:flex-col sm:items-center sm:gap-3 sm:space-x-0">

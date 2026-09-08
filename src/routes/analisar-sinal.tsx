@@ -3,7 +3,29 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowLeft, ArrowUpRight, BookOpen, Globe, RotateCcw } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { RadarBackdrop } from "@/components/site/RadarBackdrop";
+import { RedirectConfirm } from "@/components/site/RedirectConfirm";
 import { KIWIFY_EBOOK_URL, LINKTREE_URL } from "@/components/site/constants";
+
+const EXTERNAL_CONFIRM_CONTENT = {
+  contact: {
+    href: LINKTREE_URL,
+    eyebrow: "Link externo",
+    title: "Você será direcionado para a página de contato da SinalZero.",
+    description: "Lá você poderá escolher o melhor canal para falar com a SinalZero.",
+    destination: "linktr.ee/SinalZero",
+    continueLabel: "Continuar",
+  },
+  ebook: {
+    href: KIWIFY_EBOOK_URL,
+    eyebrow: "Link externo",
+    title: "Você será direcionado para a página do e-book.",
+    description: "A compra e o acesso ao material são realizados pela plataforma Kiwify.",
+    destination: "Kiwify",
+    continueLabel: "Continuar para a Kiwify",
+  },
+} as const;
+
+type ExternalConfirmType = keyof typeof EXTERNAL_CONFIRM_CONTENT;
 
 export const Route = createFileRoute("/analisar-sinal")({
   component: AnalisarSinal,
@@ -165,6 +187,7 @@ function AnalisarSinal() {
   const [step, setStep] = useState(0);
   const [answers, setAnswers] = useState<number[]>([]);
   const [pendingIndex, setPendingIndex] = useState<number | null>(null);
+  const [externalConfirm, setExternalConfirm] = useState<ExternalConfirmType | null>(null);
 
   const isResult = step >= QUESTIONS.length;
   const score = useMemo(() => answers.reduce((sum, value) => sum + value, 0), [answers]);
@@ -419,10 +442,9 @@ function AnalisarSinal() {
                       A SinalZero pode ajudar nessa etapa, criando um site alinhado à sua marca.
                     </p>
                   )}
-                  <a
-                    href={LINKTREE_URL}
-                    target="_blank"
-                    rel="noopener noreferrer"
+                  <button
+                    type="button"
+                    onClick={() => setExternalConfirm("contact")}
                     className="group mt-4 inline-flex min-h-11 items-center gap-2 rounded-xl border border-accent/30 bg-accent/10 px-4 py-2.5 text-sm font-semibold text-foreground transition-[background-color,border-color,transform] duration-200 ease-[cubic-bezier(.22,1,.36,1)] hover:-translate-y-0.5 hover:border-accent/50 hover:bg-accent/15 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/70"
                   >
                     {websiteQuality === 0 && "Quero criar meu site"}
@@ -432,7 +454,7 @@ function AnalisarSinal() {
                       className="h-4 w-4 text-accent transition-transform duration-200 ease-[cubic-bezier(.22,1,.36,1)] group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
                       aria-hidden="true"
                     />
-                  </a>
+                  </button>
                 </div>
               )}
 
@@ -471,10 +493,9 @@ function AnalisarSinal() {
                     O e-book Fora do Balcão traz um passo a passo prático para estruturar sua
                     presença digital, mesmo com pouco tempo ou equipe.
                   </p>
-                  <a
-                    href={KIWIFY_EBOOK_URL}
-                    target="_blank"
-                    rel="noopener noreferrer"
+                  <button
+                    type="button"
+                    onClick={() => setExternalConfirm("ebook")}
                     className="group mt-4 inline-flex min-h-11 items-center gap-2 rounded-xl border border-border/90 bg-background/60 px-4 py-2.5 text-sm font-semibold text-foreground transition-[background-color,border-color,transform] duration-200 ease-[cubic-bezier(.22,1,.36,1)] hover:-translate-y-0.5 hover:border-accent/40 hover:bg-accent/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/70"
                   >
                     Conhecer o e-book
@@ -482,7 +503,7 @@ function AnalisarSinal() {
                       className="h-4 w-4 text-accent transition-transform duration-200 ease-[cubic-bezier(.22,1,.36,1)] group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
                       aria-hidden="true"
                     />
-                  </a>
+                  </button>
                 </div>
               )}
 
@@ -511,6 +532,14 @@ function AnalisarSinal() {
           <SignalDial intensity={intensity} rings={activeRings} label={level?.label} />
         </section>
       </div>
+
+      {externalConfirm ? (
+        <RedirectConfirm
+          open={externalConfirm !== null}
+          onOpenChange={(next) => setExternalConfirm(next ? externalConfirm : null)}
+          {...EXTERNAL_CONFIRM_CONTENT[externalConfirm]}
+        />
+      ) : null}
     </main>
   );
 }

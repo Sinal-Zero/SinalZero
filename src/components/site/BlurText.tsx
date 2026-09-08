@@ -125,7 +125,7 @@ export function BlurText({
                 );
               })}
             </span>
-            {wordIndex < words.length - 1 ? <span className="inline-block"> </span> : null}
+            {wordIndex < words.length - 1 ? <span aria-hidden="true">{"\u00A0"}</span> : null}
           </Fragment>
         ))}
       </Tag>

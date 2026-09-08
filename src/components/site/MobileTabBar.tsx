@@ -1,4 +1,5 @@
 import { useReducedMotion } from "motion/react";
+import { useRouterState } from "@tanstack/react-router";
 import { useActiveSection } from "@/hooks/use-active-section";
 import { SECTIONS } from "./SectionRail";
 import { cn } from "@/lib/utils";
@@ -9,6 +10,8 @@ import { cn } from "@/lib/utils";
  * horizontal fixo no rodapé, com scroll interno para caber todos os itens.
  */
 export function MobileTabBar() {
+  const router = useRouterState({ select: s => s.location.pathname });
+  if (router === "/analisar-sinal") return null;
   const reducedMotion = useReducedMotion();
   const { active, navigateToSection } = useActiveSection(
     SECTIONS.map((s) => s.href),

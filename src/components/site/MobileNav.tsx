@@ -84,10 +84,10 @@ export function MobileNav({
                 <div className="mt-7" style={{ "--stagger-index": 1 } as CSSProperties}>
                   <button
                     type="button"
-                    onClick={handleContactClick}
+                    onClick={() => { onOpenChange(false); window.location.href = "/analisar-sinal"; }}
                     className="group flex min-h-12 w-full items-center justify-between rounded-xl border border-accent/25 bg-accent/10 px-4 py-3.5 text-left text-base font-semibold text-foreground shadow-[0_14px_34px_-26px_rgba(245,124,0,.9)] transition-[background-color,border-color,box-shadow,transform,filter] duration-250 ease-[cubic-bezier(.22,1,.36,1)] hover:-translate-y-0.5 hover:border-accent/45 hover:bg-accent/15 hover:shadow-[0_20px_44px_-24px_rgba(245,124,0,.95)] hover:brightness-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/70"
                   >
-                    <span>Entrar em contato</span>
+                    <span>Analisar sinal</span>
                     <ArrowUpRight
                       className="h-4 w-4 text-accent transition-transform duration-250 ease-[cubic-bezier(.22,1,.36,1)] group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
                       aria-hidden="true"

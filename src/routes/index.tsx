@@ -40,7 +40,7 @@ export const Route = createFileRoute("/")({
           "@type": "Organization",
           name: "SinalZero",
           description: DESCRIPTION,
-          url: "https://linktr.ee/SinalZero",
+          url: "https://sinalzero.vercel.app",
         }),
       },
     ],

@@ -1,6 +1,6 @@
 import { useState, type CSSProperties } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { ArrowUpRight, Instagram, MessageCircle } from "lucide-react";
+import { ArrowLeft, ArrowUpRight, Instagram, MessageCircle } from "lucide-react";
 import { RadarBackdrop } from "@/components/site/RadarBackdrop";
 import { RedirectConfirm } from "@/components/site/RedirectConfirm";
 
@@ -59,8 +59,19 @@ function Contato() {
           aria-hidden="true"
         />
 
+        {/* Top nav */}
+        <div className="relative flex items-center justify-start">
+          <Link
+            to="/"
+            className="inline-flex items-center gap-1.5 rounded-md px-1.5 py-1 text-xs text-muted-foreground transition-colors duration-200 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/60"
+          >
+            <ArrowLeft className="h-3.5 w-3.5" aria-hidden="true" />
+            Voltar ao site
+          </Link>
+        </div>
+
         {/* Header */}
-        <div className="relative flex flex-col items-center text-center">
+        <div className="relative mt-6 flex flex-col items-center text-center">
           <img
             src={RADAR_LOGO_SRC}
             alt="SinalZero"
@@ -114,13 +125,7 @@ function Contato() {
         <div className="flex-1" />
 
         {/* Footer */}
-        <div className="relative mt-8 flex w-full items-center justify-between text-xs text-muted-foreground">
-          <Link
-            to="/"
-            className="rounded-md px-2 py-1 transition-colors duration-200 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/60"
-          >
-            Voltar para o site
-          </Link>
+        <div className="relative mt-8 flex w-full items-center justify-center text-xs text-muted-foreground">
           <span>© SinalZero</span>
         </div>
       </div>

@@ -313,11 +313,11 @@ function AnalisarSinal() {
                 </div>
               </div>
 
-              <h2 className="mt-4 max-w-[34ch] font-display text-xl font-semibold leading-snug text-foreground sm:text-2xl">
+              <h2 className="mt-4 min-h-[3.5rem] max-w-[34ch] text-balance font-display text-xl font-semibold leading-snug text-foreground sm:min-h-[4rem] sm:text-2xl">
                 {QUESTIONS[step]?.prompt}
               </h2>
 
-              <div className="mt-6 grid gap-3 sm:grid-cols-2">
+              <div className="mt-6 grid grid-cols-1 grid-rows-4 gap-3 sm:grid-cols-2 sm:grid-rows-2">
                 {QUESTIONS[step]?.options.map((option, index) => {
                   const selected = pendingIndex === index;
                   return (
@@ -327,12 +327,12 @@ function AnalisarSinal() {
                       disabled={pendingIndex !== null}
                       onClick={() => selectAnswer(index)}
                       className={cn(
-                        "group flex min-h-14 items-center justify-between rounded-xl border border-border/90 bg-surface/60 px-4 py-3.5 text-left text-sm font-medium text-foreground shadow-sm transition-[background-color,border-color,box-shadow,transform] duration-200 ease-[cubic-bezier(.22,1,.36,1)] hover:-translate-y-0.5 hover:border-accent/45 hover:bg-accent/10 hover:shadow-[0_18px_40px_-26px_rgba(245,124,0,.9)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent disabled:cursor-default",
+                        "group flex min-h-[4.75rem] items-start justify-between gap-3 rounded-xl border border-border/90 bg-surface/60 px-4 py-3.5 text-left text-sm font-medium text-foreground shadow-sm transition-[background-color,border-color,box-shadow,transform] duration-200 ease-[cubic-bezier(.22,1,.36,1)] hover:-translate-y-0.5 hover:border-accent/45 hover:bg-accent/10 hover:shadow-[0_18px_40px_-26px_rgba(245,124,0,.9)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent disabled:cursor-default sm:min-h-[5.25rem]",
                         selected &&
                           "-translate-y-0.5 border-accent/70 bg-accent/15 shadow-[0_18px_40px_-24px_rgba(245,124,0,.95)]",
                       )}
                     >
-                      <span className="flex items-center gap-3">
+                      <span className="flex items-start gap-3">
                         <span
                           className={cn(
                             "flex h-6 w-6 shrink-0 items-center justify-center rounded-full border border-border/80 text-[0.65rem] font-semibold text-muted-foreground transition-colors duration-200",
@@ -341,11 +341,11 @@ function AnalisarSinal() {
                         >
                           {String.fromCharCode(65 + index)}
                         </span>
-                        {option}
+                        <span className="leading-snug">{option}</span>
                       </span>
                       <ArrowUpRight
                         className={cn(
-                          "h-4 w-4 shrink-0 text-accent opacity-0 transition-[opacity,transform] duration-200 group-hover:opacity-100",
+                          "mt-0.5 h-4 w-4 shrink-0 text-accent opacity-0 transition-[opacity,transform] duration-200 group-hover:opacity-100",
                           selected && "opacity-100",
                         )}
                         aria-hidden="true"
@@ -436,7 +436,7 @@ function AnalisarSinal() {
                   )}
                   <Link
                     to="/contato"
-                    className="group mt-4 inline-flex min-h-11 items-center gap-2 rounded-xl border border-accent/30 bg-accent/10 px-4 py-2.5 text-sm font-semibold text-foreground transition-[background-color,border-color,transform] duration-200 ease-[cubic-bezier(.22,1,.36,1)] hover:-translate-y-0.5 hover:border-accent/50 hover:bg-accent/15 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/70"
+                    className="group mt-4 inline-flex h-12 items-center gap-2 rounded-xl border border-accent/30 bg-accent/10 px-7 py-3.5 text-sm font-semibold text-foreground transition-[background-color,border-color,transform] duration-200 ease-[cubic-bezier(.22,1,.36,1)] hover:-translate-y-0.5 hover:border-accent/50 hover:bg-accent/15 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/70 focus-visible:-translate-y-0.5"
                   >
                     {websiteQuality === 0 && "Quero criar meu site"}
                     {websiteQuality === 1 && "Quero melhorar meu site"}
@@ -487,7 +487,7 @@ function AnalisarSinal() {
                   <button
                     type="button"
                     onClick={() => setExternalConfirm("ebook")}
-                    className="group mt-4 inline-flex min-h-11 items-center gap-2 rounded-xl border border-border/90 bg-background/60 px-4 py-2.5 text-sm font-semibold text-foreground transition-[background-color,border-color,transform] duration-200 ease-[cubic-bezier(.22,1,.36,1)] hover:-translate-y-0.5 hover:border-accent/40 hover:bg-accent/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/70"
+                    className="group mt-4 inline-flex h-12 items-center gap-2 rounded-xl border border-border/90 bg-background/60 px-7 py-3.5 text-sm font-semibold text-foreground transition-[background-color,border-color,transform] duration-200 ease-[cubic-bezier(.22,1,.36,1)] hover:-translate-y-0.5 hover:border-accent/40 hover:bg-accent/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/70 focus-visible:-translate-y-0.5"
                   >
                     Conhecer o e-book
                     <ArrowUpRight
@@ -520,7 +520,12 @@ function AnalisarSinal() {
         </section>
 
         <section className="flex flex-1 items-center justify-center">
-          <SignalDial intensity={intensity} rings={activeRings} label={level?.label} answerPending={pendingIndex !== null} />
+          <SignalDial
+            intensity={intensity}
+            rings={activeRings}
+            label={level?.label}
+            answerPending={pendingIndex !== null}
+          />
         </section>
       </div>
 
@@ -577,7 +582,7 @@ function SignalDial({
             "radial-gradient(circle, transparent 90%, black 91%, black 96%, transparent 97%)",
           maskImage:
             "radial-gradient(circle, transparent 90%, black 91%, black 96%, transparent 97%)",
-          animation: answerPending ? 'sz-pulse-soft 1.5s ease-in-out infinite' : 'none',
+          animation: answerPending ? "sz-pulse-soft 1.5s ease-in-out infinite" : "none",
         }}
       />
 

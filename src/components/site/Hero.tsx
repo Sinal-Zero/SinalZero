@@ -19,7 +19,7 @@ export function Hero() {
           />
         </Reveal>
 
-        <h1 className="mx-auto mt-4 max-w-[12ch] text-balance font-display text-[clamp(2.2rem,8vw,3.5rem)] font-semibold leading-[1.0] sm:mt-5 sm:max-w-none sm:text-4xl lg:text-5xl">
+        <h1 className="mx-auto mt-4 max-w-[13ch] text-balance font-display text-[clamp(2.2rem,7vw,3.75rem)] font-semibold leading-[1.05] sm:mt-5 sm:max-w-none">
           <BlurText
             as="span"
             text="Pare de perseguir o"
@@ -38,7 +38,7 @@ export function Hero() {
         <Reveal
           as="p"
           delay={145}
-          className="mx-auto mt-5 max-w-xl text-pretty px-1 text-[0.98rem] leading-6 text-muted-foreground sm:mt-6 sm:px-0 sm:text-lg sm:leading-relaxed"
+          className="mx-auto mt-4 max-w-[42ch] text-pretty px-2 text-[clamp(0.95rem,2.5vw,1.125rem)] leading-relaxed text-muted-foreground sm:mt-5 sm:px-4"
         >
           A SinalZero ensina o caminho no e-book Fora do Balcão e sustenta o crescimento com um SaaS que projeta sua empresa.
         </Reveal>

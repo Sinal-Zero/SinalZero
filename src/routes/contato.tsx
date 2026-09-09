@@ -51,10 +51,10 @@ function Contato() {
   const active = LINKS.find((link) => link.id === confirmId) ?? null;
 
   return (
-    <main className="relative isolate flex min-h-dvh flex-col items-center overflow-hidden bg-background px-5 py-14 sm:px-8">
+    <main className="relative isolate flex min-h-dvh flex-col items-center justify-center overflow-hidden bg-background px-5 py-14 sm:px-8">
       <RadarBackdrop className="opacity-70" />
 
-      <div className="relative z-10 flex w-full max-w-[520px] flex-col items-center justify-center px-6 sm:px-8 py-12 min-h-[680px] sm:min-h-[70vh]">
+      <div className="relative z-10 flex w-full max-w-[520px] flex-col items-center px-6 sm:px-8 py-12 min-h-[80svh]">
         <div className="analisar-fade relative w-full overflow-hidden rounded-[1.75rem] border border-border/80 bg-[linear-gradient(175deg,color-mix(in_oklab,var(--color-surface)_90%,transparent),color-mix(in_oklab,var(--color-card)_85%,transparent))] px-8 py-16 shadow-[0_50px_150px_-50px_rgba(0,0,0,.6)] backdrop-blur-lg sm:px-10 sm:py-20">
           <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-accent/40 to-transparent" />
           <div className="pointer-events-none absolute -right-16 -top-16 h-48 w-48 rounded-full bg-[radial-gradient(circle,color-mix(in_oklab,var(--color-gold)_22%,transparent),transparent_70%)] blur-2xl" />
@@ -113,7 +113,7 @@ function Contato() {
                     <span className="block font-display text-base font-semibold text-foreground">
                       {link.label}
                     </span>
-                    <span className="block truncate text-sm text-muted-foreground">
+                    <span className="block text-sm text-muted-foreground">
                       {link.description}
                     </span>
                   </span>

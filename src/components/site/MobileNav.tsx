@@ -3,8 +3,6 @@ import * as DialogPrimitive from "@radix-ui/react-dialog";
 import { ArrowUpRight, X } from "lucide-react";
 import { useNavigate } from "@tanstack/react-router";
 import { cn } from "@/lib/utils";
-import { LINKTREE_URL } from "./constants";
-import { RedirectConfirm } from "./RedirectConfirm";
 import "./MobileNav.css";
 
 export function MobileNav({
@@ -15,17 +13,11 @@ export function MobileNav({
   onOpenChange: (open: boolean) => void;
 }) {
   const navigate = useNavigate();
-  const [contactConfirmOpen, setContactConfirmOpen] = useState(false);
 
   useEffect(() => {
     document.body.classList.toggle("nav-open", open);
     return () => document.body.classList.remove("nav-open");
   }, [open]);
-
-  const handleContactClick = () => {
-    onOpenChange(false);
-    window.setTimeout(() => setContactConfirmOpen(true), 180);
-  };
 
   return (
     <>
@@ -101,14 +93,6 @@ export function MobileNav({
           </DialogPrimitive.Content>
         </DialogPrimitive.Portal>
       </DialogPrimitive.Root>
-
-      <RedirectConfirm
-        open={contactConfirmOpen}
-        onOpenChange={setContactConfirmOpen}
-        href={LINKTREE_URL}
-        title="Vamos para o Linktree"
-        description="Você será direcionado para o Linktree da SinalZero, com todos os canais de contato reunidos em um só lugar."
-      />
     </>
   );
 }

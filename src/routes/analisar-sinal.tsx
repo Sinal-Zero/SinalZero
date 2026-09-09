@@ -4,17 +4,9 @@ import { ArrowLeft, ArrowUpRight, BookOpen, Globe, RotateCcw } from "lucide-reac
 import { cn } from "@/lib/utils";
 import { RadarBackdrop } from "@/components/site/RadarBackdrop";
 import { RedirectConfirm } from "@/components/site/RedirectConfirm";
-import { KIWIFY_EBOOK_URL, LINKTREE_URL } from "@/components/site/constants";
+import { KIWIFY_EBOOK_URL } from "@/components/site/constants";
 
 const EXTERNAL_CONFIRM_CONTENT = {
-  contact: {
-    href: LINKTREE_URL,
-    eyebrow: "Link externo",
-    title: "Você será direcionado para a página de contato da SinalZero.",
-    description: "Lá você poderá escolher o melhor canal para falar com a SinalZero.",
-    destination: "linktr.ee/SinalZero",
-    continueLabel: "Continuar",
-  },
   ebook: {
     href: KIWIFY_EBOOK_URL,
     eyebrow: "Link externo",
@@ -442,9 +434,8 @@ function AnalisarSinal() {
                       A SinalZero pode ajudar nessa etapa, criando um site alinhado à sua marca.
                     </p>
                   )}
-                  <button
-                    type="button"
-                    onClick={() => setExternalConfirm("contact")}
+                  <Link
+                    to="/contato"
                     className="group mt-4 inline-flex min-h-11 items-center gap-2 rounded-xl border border-accent/30 bg-accent/10 px-4 py-2.5 text-sm font-semibold text-foreground transition-[background-color,border-color,transform] duration-200 ease-[cubic-bezier(.22,1,.36,1)] hover:-translate-y-0.5 hover:border-accent/50 hover:bg-accent/15 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/70"
                   >
                     {websiteQuality === 0 && "Quero criar meu site"}
@@ -454,7 +445,7 @@ function AnalisarSinal() {
                       className="h-4 w-4 text-accent transition-transform duration-200 ease-[cubic-bezier(.22,1,.36,1)] group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
                       aria-hidden="true"
                     />
-                  </button>
+                  </Link>
                 </div>
               )}
 

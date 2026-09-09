@@ -1,4 +1,4 @@
-import { LINKTREE_URL } from "./constants";
+import { Link } from "@tanstack/react-router";
 
 const RADAR_LOGO_SRC = "/radar-logo.svg";
 
@@ -40,14 +40,12 @@ export function Footer() {
             <a href="#faq" className="transition-colors hover:text-foreground">
               FAQ
             </a>
-            <a
-              href={LINKTREE_URL}
-              target="_blank"
-              rel="noopener noreferrer"
+            <Link
+              to="/contato"
               className="font-semibold text-accent transition-colors hover:text-gold"
             >
               Canais Oficiais
-            </a>
+            </Link>
           </div>
 
           <div className="inline-flex items-center gap-2 rounded-full border border-emerald-500/20 bg-emerald-500/10 px-3 py-1 text-[11px] font-semibold text-emerald-400">

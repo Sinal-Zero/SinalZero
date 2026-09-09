@@ -54,8 +54,8 @@ function Contato() {
     <main className="relative isolate flex min-h-dvh flex-col items-center overflow-hidden bg-background px-5 py-14 sm:px-8">
       <RadarBackdrop className="opacity-70" />
 
-      <div className="relative z-10 flex w-full max-w-[600px] flex-1 flex-col items-center justify-center">
-        <div className="analisar-fade relative w-full overflow-hidden rounded-[1.75rem] border border-border/80 bg-[linear-gradient(175deg,color-mix(in_oklab,var(--color-surface)_92%,transparent),color-mix(in_oklab,var(--color-card)_88%,transparent))] px-6 py-9 shadow-[0_40px_120px_-48px_rgba(0,0,0,.95)] backdrop-blur-md sm:px-9 sm:py-11">
+      <div className="relative z-10 flex w-full max-w-[860px] flex-1 flex-col items-center justify-center px-6 sm:px-8">
+        <div className="analisar-fade relative w-full overflow-hidden rounded-[1.75rem] border border-border/80 bg-[linear-gradient(175deg,color-mix(in_oklab,var(--color-surface)_90%,transparent),color-mix(in_oklab,var(--color-card)_85%,transparent))] px-8 py-12 shadow-[0_50px_150px_-50px_rgba(0,0,0,.6)] backdrop-blur-lg sm:px-10 sm:py-14">
           <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-accent/40 to-transparent" />
           <div className="pointer-events-none absolute -right-16 -top-16 h-48 w-48 rounded-full bg-[radial-gradient(circle,color-mix(in_oklab,var(--color-gold)_22%,transparent),transparent_70%)] blur-2xl" />
 

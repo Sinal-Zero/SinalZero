@@ -1,7 +1,6 @@
 import { useState, type CSSProperties } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowUpRight, Instagram, MessageCircle } from "lucide-react";
-import { cn } from "@/lib/utils";
 import { RadarBackdrop } from "@/components/site/RadarBackdrop";
 import { RedirectConfirm } from "@/components/site/RedirectConfirm";
 
@@ -40,48 +39,66 @@ function Contato() {
   const active = LINKS.find(link => link.id === confirmId) ?? null;
 
   return (
-    <main className="min-h-[100svh] flex flex-col items-center justify-start px-4 sm:px-6 bg-background relative">
-      <RadarBackdrop className="absolute inset-0 pointer-events-none opacity-20" />
-      <div className="flex-1 flex-col w-full max-w-[560px] items-center py-12">
-        {/* Logo */}
-        <img
-          src={RADAR_LOGO_SRC}
-          alt="SinalZero"
-          className="h-10 w-10 mb-2"
+    <main className="relative flex min-h-[100svh] items-center justify-center overflow-hidden bg-background px-4 py-4 sm:px-6">
+      <RadarBackdrop className="pointer-events-none absolute inset-0 opacity-20" />
+
+      <div
+        className="relative flex w-full flex-col overflow-hidden rounded-[28px] border border-border/80 bg-[linear-gradient(180deg,color-mix(in_oklab,var(--color-surface)_92%,transparent),color-mix(in_oklab,var(--color-card)_88%,transparent))] px-6 py-9 shadow-[0_30px_80px_-30px_rgba(0,0,0,0.65)] sm:px-8 sm:py-11"
+        style={{
+          width: "min(calc(100vw - 32px), 600px)",
+          minHeight: "calc(100svh - 32px)",
+        }}
+      >
+        {/* Faint inner highlight */}
+        <div
+          className="pointer-events-none absolute inset-0 rounded-[28px] opacity-60"
+          style={{
+            background:
+              "radial-gradient(120% 60% at 50% 0%, color-mix(in oklab, var(--color-accent) 10%, transparent), transparent 60%)",
+          }}
+          aria-hidden="true"
         />
-        {/* Brand */}
-        <span className="font-display text-2xl font-bold tracking-tight">
-          Sinal<span className="text-accent">Zero</span>
-        </span>
-        {/* Description */}
-        <p className="mt-2 max-w-[38ch] text-center text-sm text-muted-foreground">
-          Presença digital mais clara, profissional e fácil de encontrar.
-        </p>
-        {/* Status */}
-        <p className="mt-1 inline-flex items-center gap-2 rounded-full border border-emerald-500/25 bg-emerald-500/10 px-3 py-1 text-[11px] font-semibold text-emerald-400">
-          <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" aria-hidden="true"></span>
-          Canais ativos
-        </p>
-        {/* Spacer */}
-        <div className="mt-8 flex-1 w-full"></div>
+
+        {/* Header */}
+        <div className="relative flex flex-col items-center text-center">
+          <img
+            src={RADAR_LOGO_SRC}
+            alt="SinalZero"
+            className="h-20 w-20 sm:h-24 sm:w-24"
+          />
+          <span className="mt-3 font-display text-2xl font-bold tracking-tight sm:text-[28px]">
+            Sinal<span className="text-accent">Zero</span>
+          </span>
+          <p className="mt-3 max-w-[36ch] text-sm text-muted-foreground">
+            Presença digital mais clara, profissional e fácil de encontrar.
+          </p>
+          <p className="mt-1 max-w-[36ch] text-sm text-muted-foreground/80">
+            Escolha como deseja falar com a SinalZero.
+          </p>
+          <p className="mt-4 inline-flex items-center gap-2 rounded-full border border-emerald-500/25 bg-emerald-500/10 px-3 py-1 text-[11px] font-semibold text-emerald-400">
+            <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" aria-hidden="true"></span>
+            Canais ativos
+          </p>
+        </div>
+
         {/* Links */}
-        <div className="w-full space-y-4">
+        <div className="relative mt-9 w-full space-y-3.5 sm:mt-10">
           {LINKS.map((link, index) => (
             <button
               key={link.id}
               type="button"
               style={{ "--sz-i": index + 5 } as CSSProperties}
               onClick={() => setConfirmId(link.id)}
-              className="group flex h-12 w-full items-center px-5 py-3 rounded-xl border border-border/90 bg-background/50 text-left transition-[border-color,background-color,transform] duration-200 ease-[cubic-bezier(.22,1,.36,1)] hover:-translate-y-0.5 hover:border-accent/45 hover:bg-accent/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/70 focus-visible:-translate-y-0.5"
+              className="group flex h-[76px] w-full items-center gap-4 rounded-[20px] border border-border/90 bg-background/50 px-5 text-left transition-[border-color,background-color,transform] duration-200 ease-[cubic-bezier(.22,1,.36,1)] hover:-translate-y-0.5 hover:border-accent/45 hover:bg-accent/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/70 focus-visible:-translate-y-0.5"
             >
-              <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-accent/15 bg-primary/12 text-accent transition-colors duration-200 group-hover:border-accent/35">
-                <link.icon className="h-4 w-4" aria-hidden="true" />
+              <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-accent/15 bg-primary/12 text-accent transition-colors duration-200 group-hover:border-accent/35">
+                <link.icon className="h-[18px] w-[18px]" aria-hidden="true" />
               </span>
               <div className="min-w-0 flex-1">
                 <div className="block font-display text-base font-semibold text-foreground">
                   {link.label}
                 </div>
-                <div className="block text-sm text-muted-foreground">
+                <div className="block truncate text-sm text-muted-foreground">
                   {link.description}
                 </div>
               </div>
@@ -92,14 +109,22 @@ function Contato() {
             </button>
           ))}
         </div>
+
+        {/* Flexible spacer pushes footer down, like reference layout */}
+        <div className="flex-1" />
+
         {/* Footer */}
-        <div className="mt-6 flex w-full items-center justify-between text-xs text-muted-foreground">
-          <Link to="/" className="rounded-md px-2 py-1 transition-colors duration-200 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/60">
-            Voltar ao site
+        <div className="relative mt-8 flex w-full items-center justify-between text-xs text-muted-foreground">
+          <Link
+            to="/"
+            className="rounded-md px-2 py-1 transition-colors duration-200 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/60"
+          >
+            Voltar para o site
           </Link>
           <span>© SinalZero</span>
         </div>
       </div>
+
       {active ? (
         <RedirectConfirm
           open={confirmId !== null}

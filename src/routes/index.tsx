@@ -53,8 +53,7 @@ function Index() {
     <div id="page-shell" className="page-shell min-h-screen bg-background">
       <Header />
       <SectionRail />
-      <MobileTabBar />
-      <main>
+            <main>
         <Hero />
         <About />
         <ClientPains />
@@ -67,6 +66,7 @@ function Index() {
         <Faq />
         <ContactCta />
       </main>
+      <MobileTabBar />
       <Footer />
     </div>
   );

@@ -85,9 +85,11 @@ export function BlurText({
       return;
     }
 
+    const fallback = window.setTimeout(() => setInView(true), 900);
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (!entry?.isIntersecting) return;
+        window.clearTimeout(fallback);
         setInView(true);
         observer.disconnect();
       },
@@ -95,7 +97,10 @@ export function BlurText({
     );
 
     observer.observe(node);
-    return () => observer.disconnect();
+    return () => {
+      window.clearTimeout(fallback);
+      observer.disconnect();
+    };
   }, []);
 
   if (animateBy === "letters") {

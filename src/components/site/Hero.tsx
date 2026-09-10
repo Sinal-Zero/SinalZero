@@ -29,7 +29,7 @@ export function Hero() {
             className="inline-flex"
           />{" "}
           <Reveal as="span" delay={120} className="inline-block">
-            <GradientText className="inline-block block" animationSpeed={9}>
+            <GradientText className="block" animationSpeed={9}>
               cliente errado.
             </GradientText>
           </Reveal>

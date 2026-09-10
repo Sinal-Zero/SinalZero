@@ -10,13 +10,14 @@ import { cn } from "@/lib/utils";
  * horizontal fixo no rodapé, com scroll interno para caber todos os itens.
  */
 export function MobileTabBar() {
-  const router = useRouterState({ select: s => s.location.pathname });
-  if (router === "/analisar-sinal") return null;
+  const pathname = useRouterState({ select: s => s.location.pathname });
   const reducedMotion = useReducedMotion();
   const { active, navigateToSection } = useActiveSection(
     SECTIONS.map((s) => s.href),
     reducedMotion,
   );
+
+  if (pathname === "/analisar-sinal") return null;
 
   return (
     <nav

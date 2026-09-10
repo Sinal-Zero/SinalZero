@@ -20,8 +20,7 @@ export function MobileNav({
   }, [open]);
 
   return (
-    <>
-      <DialogPrimitive.Root open={open} onOpenChange={onOpenChange}>
+    <DialogPrimitive.Root open={open} onOpenChange={onOpenChange}>
         <DialogPrimitive.Trigger asChild>
           <button
             type="button"
@@ -92,7 +91,6 @@ export function MobileNav({
             </div>
           </DialogPrimitive.Content>
         </DialogPrimitive.Portal>
-      </DialogPrimitive.Root>
-    </>
+    </DialogPrimitive.Root>
   );
 }

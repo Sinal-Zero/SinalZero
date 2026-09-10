@@ -34,8 +34,14 @@ export function Footer() {
             <a href="#processo" className="transition-colors hover:text-foreground">
               Como funciona
             </a>
+            <a href="#para-quem" className="transition-colors hover:text-foreground">
+              Para quem
+            </a>
             <a href="#ebook" className="transition-colors hover:text-foreground">
               E-book
+            </a>
+            <a href="#solucoes" className="transition-colors hover:text-foreground">
+              Formatos
             </a>
             <a href="#faq" className="transition-colors hover:text-foreground">
               FAQ

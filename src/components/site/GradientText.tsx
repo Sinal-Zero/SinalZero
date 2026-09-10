@@ -1,5 +1,11 @@
 import { useCallback, useEffect, useRef, useState, type ReactNode } from "react";
-import { motion, useAnimationFrame, useMotionValue, useTransform } from "motion/react";
+import {
+  motion,
+  useAnimationFrame,
+  useMotionValue,
+  useReducedMotion,
+  useTransform,
+} from "motion/react";
 import { cn } from "@/lib/utils";
 
 const DEFAULT_COLORS = ["#F57C00", "#FFA726", "#FFD166", "#F57C00"];
@@ -24,13 +30,14 @@ export function GradientText({
   yoyo?: boolean;
 }) {
   const [isPaused, setIsPaused] = useState(false);
+  const reducedMotion = useReducedMotion();
   const progress = useMotionValue(0);
   const elapsedRef = useRef(0);
   const lastTimeRef = useRef<number | null>(null);
   const animationDuration = Math.max(animationSpeed, 0.1) * 1000;
 
   useAnimationFrame((time) => {
-    if (isPaused) {
+    if (isPaused || reducedMotion) {
       lastTimeRef.current = null;
       return;
     }
